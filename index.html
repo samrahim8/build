@@ -561,6 +561,14 @@
             margin-bottom: 0;
         }
 
+        .form-success {
+            font-size: 0.9375rem;
+            color: var(--walnut);
+            font-weight: 500;
+            margin-top: 20px;
+            margin-bottom: 0;
+        }
+
         .cta-button {
             display: inline-block;
             font-family: 'IBM Plex Mono', monospace;
@@ -724,7 +732,7 @@
             <div class="section-label">Work Together</div>
             <p>I take a few partners at a time. If you move fast and have ideas worth building—reach out. I'll reply if there's a fit.</p>
             
-            <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+            <form class="contact-form" id="contactForm">
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" id="name" name="name" required>
@@ -738,8 +746,9 @@
                     <textarea id="idea" name="idea" rows="3"></textarea>
                 </div>
                 <button type="submit" class="cta-button">Let's Talk</button>
+                <p class="form-note">I'll reply within 48 hours if there's a fit.</p>
+                <p class="form-success" id="formSuccess" style="display:none;">Thanks! I'll be in touch ASAP.</p>
             </form>
-            <p class="form-note">I'll reply within 48 hours if there's a fit.</p>
 
             <div class="who-not">
                 <h4>Not a fit</h4>
@@ -814,6 +823,35 @@
             if (e.key === 'Escape') {
                 closeModal();
             }
+        });
+
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var form = this;
+            var submitBtn = form.querySelector('.cta-button');
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+
+            fetch('https://script.google.com/macros/s/AKfycbwzSejv9Bof8FhlWIXhFebCCOoW3Q_8nFvVsBXxUZUSD5SgLblpT6u2Tib5botf_oTyuA/exec', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: form.querySelector('#name').value,
+                    email: form.querySelector('#email').value,
+                    idea: form.querySelector('#idea').value
+                })
+            }).then(function() {
+                form.reset();
+                submitBtn.textContent = "Let's Talk";
+                submitBtn.disabled = false;
+                document.getElementById('formSuccess').style.display = 'block';
+                form.querySelector('.form-note').style.display = 'none';
+            }).catch(function() {
+                submitBtn.textContent = "Let's Talk";
+                submitBtn.disabled = false;
+                alert('Something went wrong. Try again.');
+            });
         });
     </script>
 </body>
