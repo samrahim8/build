@@ -747,8 +747,8 @@
                 </div>
                 <button type="submit" class="cta-button">Let's Talk</button>
                 <p class="form-note">I'll reply within 48 hours if there's a fit.</p>
-                <p class="form-success" id="formSuccess" style="display:none;">Thanks! I'll be in touch ASAP.</p>
             </form>
+            <p class="form-success" id="formSuccess" style="display:none;">Thanks! I'll be in touch ASAP.</p>
 
             <div class="who-not">
                 <h4>Not a fit</h4>
@@ -828,9 +828,10 @@
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
             var form = this;
-            var submitBtn = form.querySelector('.cta-button');
-            submitBtn.textContent = 'Sending...';
-            submitBtn.disabled = true;
+
+            // Show success immediately, send in background
+            form.style.display = 'none';
+            document.getElementById('formSuccess').style.display = 'block';
 
             fetch('https://script.google.com/macros/s/AKfycbwzSejv9Bof8FhlWIXhFebCCOoW3Q_8nFvVsBXxUZUSD5SgLblpT6u2Tib5botf_oTyuA/exec', {
                 method: 'POST',
@@ -841,16 +842,6 @@
                     email: form.querySelector('#email').value,
                     idea: form.querySelector('#idea').value
                 })
-            }).then(function() {
-                form.reset();
-                submitBtn.textContent = "Let's Talk";
-                submitBtn.disabled = false;
-                document.getElementById('formSuccess').style.display = 'block';
-                form.querySelector('.form-note').style.display = 'none';
-            }).catch(function() {
-                submitBtn.textContent = "Let's Talk";
-                submitBtn.disabled = false;
-                alert('Something went wrong. Try again.');
             });
         });
     </script>
