@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Build Partner — Sam Rahim</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔨</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --parchment: #F5F1E8;
+            --walnut: #2C2416;
+            --brass: #8B7355;
+            --oxide: #A65D3F;
+            --graphite: #4A4A4A;
+            --grid-line: rgba(44, 36, 22, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background-color: var(--parchment);
+            color: var(--walnut);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* Graph paper grid */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: 
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 24px 24px;
+            z-index: 0;
+        }
+
+        /* Aged paper texture */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.35;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 48px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Header */
+        header {
+            padding: 40px 0;
+            max-width: 800px;
+            margin: 0 auto;
+            padding-left: 48px;
+            padding-right: 48px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--brass);
+        }
+
+        .nav-cta {
+            font-size: 0.6875rem;
+            font-weight: 500;
+            color: var(--walnut);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 12px 20px;
+            border: 1.5px solid var(--walnut);
+            transition: all 0.25s ease;
+        }
+
+        .nav-cta:hover {
+            background-color: var(--walnut);
+            color: var(--parchment);
+            transform: translateY(-2px);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 80px 0 96px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 400;
+            line-height: 1.0;
+            letter-spacing: -0.02em;
+            margin-bottom: 32px;
+            white-space: nowrap;
+        }
+
+        .hero-sub {
+            font-size: 0.9375rem;
+            color: var(--graphite);
+            max-width: 540px;
+            line-height: 1.8;
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background-color: var(--walnut);
+            opacity: 0.15;
+            margin: 0;
+        }
+
+        /* Section */
+        section {
+            padding: 72px 0;
+        }
+
+        .section-label {
+            font-size: 0.6875rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--brass);
+            margin-bottom: 28px;
+        }
+
+        /* The Deal */
+        .deal p {
+            font-size: 0.9375rem;
+            color: var(--graphite);
+            margin-bottom: 20px;
+            line-height: 1.85;
+        }
+
+        .deal p:last-child {
+            margin-bottom: 0;
+        }
+
+        .deal strong {
+            color: var(--walnut);
+            font-weight: 500;
+        }
+
+        /* Sound Familiar */
+        .familiar ul {
+            list-style: none;
+        }
+
+        .familiar li {
+            font-size: 0.9375rem;
+            color: var(--graphite);
+            margin-bottom: 16px;
+            padding-left: 24px;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        .familiar li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: var(--brass);
+        }
+
+        .familiar li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* How */
+        .how ol {
+            list-style: none;
+            counter-reset: steps;
+        }
+
+        .how li {
+            font-size: 0.9375rem;
+            color: var(--graphite);
+            margin-bottom: 16px;
+            padding-left: 32px;
+            position: relative;
+            line-height: 1.8;
+            counter-increment: steps;
+        }
+
+        .how li::before {
+            content: counter(steps);
+            position: absolute;
+            left: 0;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1rem;
+            color: var(--brass);
+        }
+
+        .how li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Projects */
+        .projects p {
+            font-size: 0.9375rem;
+            color: var(--graphite);
+            margin-bottom: 20px;
+            line-height: 1.85;
+        }
+
+        .projects ul {
+            list-style: none;
+        }
+
+        .projects li {
+            font-size: 0.9375rem;
+            color: var(--graphite);
+            margin-bottom: 12px;
+            padding-left: 24px;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        .projects li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: var(--brass);
+        }
+
+        .see-more-btn {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--brass);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin-top: 24px;
+            transition: color 0.2s ease;
+        }
+
+        .see-more-btn:hover {
+            color: var(--oxide);
+        }
+
+        .see-more-btn span {
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+
+        .see-more-btn:hover span {
+            transform: translateX(4px);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(44, 36, 22, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal {
+            background: var(--parchment);
+            max-width: 500px;
+            width: 100%;
+            padding: 48px;
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: modalIn 0.3s ease forwards;
+        }
+
+        @keyframes modalIn {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            font-size: 1.5rem;
+            color: var(--brass);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--oxide);
+            transform: scale(1.1);
+        }
+
+        .modal-header {
+            margin-bottom: 32px;
+        }
+
+        .modal-header .section-label {
+            margin-bottom: 0;
+        }
+
+        .modal-ideas {
+            margin-bottom: 32px;
+        }
+
+        .modal-ideas ul {
+            list-style: none;
+        }
+
+        .modal-ideas li {
+            font-size: 0.9375rem;
+            color: var(--graphite);
+            margin-bottom: 16px;
+            padding-left: 24px;
+            position: relative;
+            line-height: 1.7;
+            opacity: 0;
+            transform: translateX(-10px);
+            animation: ideaIn 0.3s ease forwards;
+        }
+
+        .modal-ideas li:nth-child(1) { animation-delay: 0.1s; }
+        .modal-ideas li:nth-child(2) { animation-delay: 0.2s; }
+        .modal-ideas li:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes ideaIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .modal-ideas li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: var(--brass);
+        }
+
+        .generate-btn {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--parchment);
+            background-color: var(--walnut);
+            border: none;
+            padding: 16px 32px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .generate-btn:hover {
+            background-color: var(--oxide);
+        }
+
+        .generate-btn span {
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+
+        .generate-btn:hover span {
+            transform: translateX(4px);
+        }
+
+        /* Who */
+        .who-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.125rem;
+            font-weight: 400;
+            margin-bottom: 20px;
+            color: var(--walnut);
+        }
+
+        .who-for {
+            margin-bottom: 48px;
+        }
+
+        .who-for ul,
+        .who-not ul {
+            list-style: none;
+        }
+
+        .who-for li {
+            font-size: 0.9375rem;
+            color: var(--graphite);
+            margin-bottom: 12px;
+            padding-left: 24px;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        .who-for li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: var(--brass);
+        }
+
+        .who-not h4 {
+            font-size: 0.6875rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--brass);
+            margin-bottom: 20px;
+        }
+
+        .who-not li {
+            font-size: 0.8125rem;
+            color: var(--graphite);
+            opacity: 0.7;
+            margin-bottom: 10px;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .who-not li::before {
+            content: '×';
+            position: absolute;
+            left: 4px;
+            color: var(--graphite);
+            opacity: 0.4;
+        }
+
+        /* CTA */
+        .cta {
+            padding: 80px 0 120px;
+        }
+
+        .cta > p {
+            font-size: 0.9375rem;
+            color: var(--graphite);
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .cta .who-not {
+            margin-top: 48px;
+        }
+
+        /* Form */
+        .contact-form {
+            max-width: 450px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--walnut);
+            margin-bottom: 8px;
+        }
+
+        .form-group label .optional {
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 0;
+            color: var(--brass);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.9375rem;
+            color: var(--walnut);
+            background-color: rgba(44, 36, 22, 0.03);
+            border: 1.5px solid rgba(44, 36, 22, 0.2);
+            padding: 14px 16px;
+            transition: all 0.2s ease;
+        }
+
+        .form-group input:hover,
+        .form-group textarea:hover {
+            border-color: rgba(44, 36, 22, 0.4);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--oxide);
+            background-color: rgba(166, 93, 63, 0.05);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .contact-form .cta-button {
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .form-note {
+            font-size: 0.75rem;
+            color: var(--brass);
+            margin-top: 16px;
+            margin-bottom: 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.6875rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--parchment);
+            background-color: var(--walnut);
+            text-decoration: none;
+            padding: 18px 40px;
+            transition: all 0.25s ease;
+        }
+
+        .cta-button:hover {
+            background-color: var(--oxide);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            padding: 32px 0;
+            border-top: 1px solid rgba(44, 36, 22, 0.1);
+        }
+
+        footer p {
+            font-size: 0.6875rem;
+            color: var(--brass);
+            letter-spacing: 0.05em;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 0 24px;
+            }
+
+            header {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            .hero {
+                padding: 56px 0 72px;
+            }
+
+            .hero h1 {
+                white-space: normal;
+                font-size: 2.5rem;
+            }
+
+            section {
+                padding: 48px 0;
+            }
+
+            .cta {
+                padding: 56px 0 80px;
+            }
+
+            .contact-form {
+                max-width: 100%;
+            }
+        }
+
+        /* Fade in */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1, .hero-sub {
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .hero h1 { animation-delay: 0.05s; opacity: 0; }
+        .hero-sub { animation-delay: 0.1s; opacity: 0; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <div class="logo">Sam Rahim</div>
+            <a href="#apply" class="nav-cta">Get in Touch</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="hero">
+            <h1>Your build partner.</h1>
+            <p class="hero-sub">I partner with ambitious people to turn your ideas into businesses. You bring industry expertise + vision. I bring it to life. We own it together.</p>
+        </section>
+
+        <hr class="divider">
+
+        <section class="who">
+            <div class="section-label">Who This Is For</div>
+            <div class="who-for">
+                <ul>
+                    <li>High agency people who have more ideas than time</li>
+                    <li>Experts sitting on ideas they don't know how to build</li>
+                    <li>Investors who want to stop advising, and start creating</li>
+                    <li>Operators who keep saying "someone should build this"</li>
+                    <li>Anyone with a notes app full of projects that never go anywhere</li>
+                </ul>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <section class="deal">
+            <div class="section-label">The Studio</div>
+            <p><strong>I run a small studio.</strong> I take on a few partners at a time. You bring ideas, expertise and maybe an audience who'll buy them. I build your ideas, and advise on GTM.</p>
+            <p><strong>Monthly retainer + equity.</strong> You pay a monthly fee to keep me building. I take a stake in what we create together. If it works, we both win.</p>
+            <p><strong>I'm fast.</strong> Most builds take a week or two. I use AI tools that let me ship what used to take teams and months. That's the edge.</p>
+        </section>
+
+        <hr class="divider">
+
+        <section class="projects">
+            <div class="section-label">What We'd Build</div>
+            <p>Anything you can dream up. But, here are a few simple ideas:</p>
+            <ul>
+                <li>A lawn care AI that tells you exactly what to do, when, to have the best yard on the block</li>
+                <li>A full subscription box business—product, landing page, payments, fulfillment, all of it</li>
+                <li>A marketplace where your niche buys and sells to each other</li>
+                <li>The MVP you've been sketching on napkins for two years—actually built</li>
+            </ul>
+            <button class="see-more-btn" onclick="openModal()">See more ideas <span>→</span></button>
+        </section>
+
+        <!-- Ideas Modal -->
+        <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+            <div class="modal" onclick="event.stopPropagation()">
+                <button class="modal-close" onclick="closeModal()">×</button>
+                <div class="modal-header">
+                    <div class="section-label">More Ideas</div>
+                </div>
+                <div class="modal-ideas" id="modalIdeas">
+                    <!-- Ideas will be inserted here by JS -->
+                </div>
+                <button class="generate-btn" onclick="generateIdeas()">Show me 3 more <span>→</span></button>
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <section class="how">
+            <div class="section-label">How It Works</div>
+            <ol>
+                <li>You have an idea and expertise in a space.</li>
+                <li>We scope it together. I build it in a week or two.</li>
+                <li>We put it in front of real users. See what resonates.</li>
+                <li>Winners get more investment. Losers get killed fast.</li>
+                <li>Repeat. We build a portfolio of bets together.</li>
+            </ol>
+        </section>
+
+        <hr class="divider">
+
+        <section class="cta" id="apply">
+            <div class="section-label">Work Together</div>
+            <p>I take a few partners at a time. If you move fast and have ideas worth building—reach out. I'll reply if there's a fit.</p>
+            
+            <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="idea">What's the idea? <span class="optional">(optional)</span></label>
+                    <textarea id="idea" name="idea" rows="3"></textarea>
+                </div>
+                <button type="submit" class="cta-button">Let's Talk</button>
+            </form>
+            <p class="form-note">I'll reply within 48 hours if there's a fit.</p>
+
+            <div class="who-not">
+                <h4>Not a fit</h4>
+                <ul>
+                    <li>Need convincing this is worth it</li>
+                    <li>Just an idea, no expertise behind it</li>
+                    <li>Slow to decide, slow to respond</li>
+                </ul>
+            </div>
+        </section>
+
+        <footer>
+            <p>Orlando, Florida</p>
+        </footer>
+    </div>
+
+    <script>
+        const ideas = [
+            "A database of every taco truck in Texas, rated by locals",
+            "A wine cellar app that tells you what to open tonight based on what you're cooking",
+            "A map of the best omakase spots under $150 in every major city",
+            "A tool that tracks your espresso dial-in settings by bean",
+            "A carpool coordination app that actually works for travel sports",
+            "A personal CRM that reminds you to follow up with people you're losing touch with",
+            "A portfolio tracker for your angel investments that actually bugs founders for updates",
+            "A calculator that tells freelancers exactly what to charge",
+            "A self-serve version of your consulting process at 1/10th the price",
+            "A membership community with content, events, and a job board built in",
+            "A client portal that automates onboarding, delivery, and upsells",
+            "A platform that turns your audience into paying subscribers",
+            "A booking system for your family's lake house",
+            "A gift tracker so grandparents stop buying duplicate toys",
+            "A private list of restaurants that don't take reservations but are worth the wait"
+        ];
+
+        let availableIdeas = [...ideas];
+        
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function generateIdeas() {
+            if (availableIdeas.length < 3) {
+                availableIdeas = [...ideas];
+                shuffleArray(availableIdeas);
+            }
+            
+            const selectedIdeas = availableIdeas.splice(0, 3);
+            const modalIdeas = document.getElementById('modalIdeas');
+            
+            modalIdeas.innerHTML = '<ul>' + 
+                selectedIdeas.map(idea => `<li>${idea}</li>`).join('') + 
+                '</ul>';
+        }
+
+        function openModal() {
+            document.getElementById('modalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            generateIdeas();
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
