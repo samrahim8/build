@@ -735,6 +735,7 @@
         .testimonial-rotator {
             max-width: 560px;
             margin: 0 auto;
+            padding: 16px 0;
             text-align: center;
             position: relative;
             min-height: 120px;
@@ -778,13 +779,15 @@
         }
 
         .testimonial-dot {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             background: var(--brass);
             opacity: 0.25;
             cursor: pointer;
             transition: opacity 0.3s ease;
+            padding: 8px;
+            background-clip: content-box;
         }
 
         .testimonial-dot.active {
@@ -1164,7 +1167,7 @@
 
         setInterval(function() {
             goToTestimonial((currentTestimonial + 1) % testimonialSlides.length);
-        }, 5000);
+        }, 8000);
 
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
