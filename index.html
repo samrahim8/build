@@ -640,6 +640,47 @@
             }
         }
 
+        /* Portfolio */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .portfolio-card {
+            border: 1px solid rgba(44, 36, 22, 0.12);
+            padding: 24px;
+        }
+
+        .portfolio-role {
+            font-size: 0.6875rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--brass);
+            margin-bottom: 12px;
+        }
+
+        .portfolio-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.125rem;
+            font-weight: 400;
+            color: var(--walnut);
+            margin-bottom: 8px;
+        }
+
+        .portfolio-desc {
+            font-size: 0.8125rem;
+            color: var(--graphite);
+            line-height: 1.7;
+        }
+
+        @media (max-width: 600px) {
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         /* Fade in */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(8px); }
@@ -691,6 +732,34 @@
             <p><strong>I run a small studio.</strong> I take on a few partners at a time. You bring ideas + expertise. I build them and help you go to market. (Bonus if you have distribution!)</p>
             <p><strong>Monthly retainer + equity.</strong> We work together on a monthly basis, and we both take equity in the business. If it works, we both win.</p>
             <p><strong>Build, test, repeat.</strong> A build takes a week or two, depending on complexity. Speed lets us take more swings.</p>
+        </section>
+
+        <hr class="divider">
+
+        <section>
+            <div class="section-label">Portfolio</div>
+            <div class="portfolio-grid">
+                <div class="portfolio-card">
+                    <div class="portfolio-role">Founder</div>
+                    <div class="portfolio-name">Haul</div>
+                    <div class="portfolio-desc">Estate sale growth agency + newsletter.</div>
+                </div>
+                <div class="portfolio-card">
+                    <div class="portfolio-role">Partner</div>
+                    <div class="portfolio-name">LawnHQ</div>
+                    <div class="portfolio-desc">AI lawn care assistant. Zip-code specific, tailored to your grass.</div>
+                </div>
+                <div class="portfolio-card">
+                    <div class="portfolio-role">Partner</div>
+                    <div class="portfolio-name">Pickleball State</div>
+                    <div class="portfolio-desc">Pickleball tournament directory + newsletter. 20k audience.</div>
+                </div>
+                <div class="portfolio-card">
+                    <div class="portfolio-role">Partner</div>
+                    <div class="portfolio-name">JNKML Mailing Club</div>
+                    <div class="portfolio-desc">Junk journal materials delivered to your door each month.</div>
+                </div>
+            </div>
         </section>
 
         <hr class="divider">
