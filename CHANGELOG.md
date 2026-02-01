@@ -72,6 +72,11 @@ Core principles used throughout:
 - Updated descriptions (Haul: "Estate sale growth marketing + newsletter")
 - Removed audience size metrics from Pickleball State
 
+### 2026-02-01 — Modal Close Button Fix
+- Enlarged close button hit target with padding (12px vertical, 16px horizontal)
+- Added `z-index: 10` so it sits above the lever
+- Added `event.stopPropagation()` to prevent click from triggering the slot machine
+
 ### 2026-02-01 — Tab & Social Title
 - Changed page title from "Your Build Partner — Sam Rahim" to "Sam Rahim — Build Partner"
 - Updated OG and Twitter meta titles to match

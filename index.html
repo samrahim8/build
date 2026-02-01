@@ -361,14 +361,16 @@
 
         .modal-close {
             position: absolute;
-            top: 20px;
-            right: 24px;
+            top: 12px;
+            right: 16px;
             font-size: 1.5rem;
             color: var(--brass);
             background: transparent;
             border: none;
             cursor: pointer;
             transition: color 0.2s ease, transform 0.2s ease;
+            padding: 12px 16px;
+            z-index: 10;
         }
 
         .modal-close:hover {
@@ -961,7 +963,7 @@
         <!-- Ideas Modal -->
         <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
             <div class="modal" onclick="event.stopPropagation()">
-                <button class="modal-close" onclick="closeModal()">×</button>
+                <button class="modal-close" onclick="event.stopPropagation(); closeModal()">×</button>
                 <div class="modal-header">
                     <div class="section-label">More Ideas</div>
                 </div>
