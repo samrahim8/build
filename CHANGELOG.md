@@ -35,7 +35,7 @@ Core principles used throughout:
 
 ### 2026-02-01 — Added Calling Card to Portfolio
 - New portfolio card: Calling Card (Founder) — "Custom, one-page personal websites. Delivered in days, not weeks."
-- Portfolio now has 5 cards (2-2-1 grid layout)
+- Portfolio now has 5 cards — Calling Card spans full width under the 2x2 grid via `grid-column: 1 / -1`
 
 ### 2026-02-01 — Mobile Optimization
 - Added small-phone breakpoint at 400px (iPhone SE): tighter padding (16px), smaller hero (1.75rem), reduced section spacing
