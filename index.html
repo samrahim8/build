@@ -331,6 +331,7 @@
             width: 100%;
             padding: 48px;
             position: relative;
+            border: 1px solid rgba(166, 93, 63, 0.2);
             transform: translateY(20px);
             opacity: 0;
             animation: modalIn 0.3s ease forwards;
@@ -413,15 +414,15 @@
             letter-spacing: 0.1em;
             text-transform: uppercase;
             color: var(--parchment);
-            background-color: var(--walnut);
+            background-color: var(--oxide);
             border: none;
             padding: 16px 32px;
             cursor: pointer;
-            transition: background-color 0.2s ease;
+            transition: background-color 0.2s ease, transform 0.2s ease;
         }
 
         .generate-btn:hover {
-            background-color: var(--oxide);
+            background-color: #8B4A30;
         }
 
         .generate-btn span {
@@ -866,7 +867,9 @@
         ];
 
         let availableIdeas = [...ideas];
-        
+        let generateCount = 0;
+        const btnLabels = ['Show me 3 more', 'Another round', 'Keep going', 'What else?', 'One more time'];
+
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -880,18 +883,46 @@
                 availableIdeas = [...ideas];
                 shuffleArray(availableIdeas);
             }
-            
+
             const selectedIdeas = availableIdeas.splice(0, 3);
             const modalIdeas = document.getElementById('modalIdeas');
-            
-            modalIdeas.innerHTML = '<ul>' + 
-                selectedIdeas.map(idea => `<li>${idea}</li>`).join('') + 
+
+            modalIdeas.innerHTML = '<ul>' +
+                selectedIdeas.map(() => '<li style="opacity:0; transform: translateX(-10px);"></li>').join('') +
                 '</ul>';
+
+            const items = modalIdeas.querySelectorAll('li');
+            selectedIdeas.forEach(function(idea, i) {
+                setTimeout(function() {
+                    items[i].style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                    items[i].style.opacity = '1';
+                    items[i].style.transform = 'translateX(0)';
+                    typeWrite(items[i], idea, 20);
+                }, i * 200);
+            });
+
+            generateCount++;
+            var btn = document.querySelector('.generate-btn');
+            var label = btnLabels[generateCount % btnLabels.length];
+            btn.innerHTML = label + ' <span>\u2192</span>';
+        }
+
+        function typeWrite(el, text, speed) {
+            var i = 0;
+            function tick() {
+                if (i < text.length) {
+                    el.textContent += text[i];
+                    i++;
+                    setTimeout(tick, speed);
+                }
+            }
+            tick();
         }
 
         function openModal() {
             document.getElementById('modalOverlay').classList.add('active');
             document.body.style.overflow = 'hidden';
+            generateCount = 0;
             generateIdeas();
         }
 
