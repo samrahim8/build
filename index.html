@@ -724,7 +724,7 @@
             <div class="section-label">Work Together</div>
             <p>I take a few partners at a time. If you like to move fast, and are interested in building something - let's talk!</p>
             
-            <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+            <form class="contact-form" id="contactForm">
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" id="name" name="name" required>
@@ -814,6 +814,31 @@
             if (e.key === 'Escape') {
                 closeModal();
             }
+        });
+
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('.cta-button');
+            btn.textContent = 'Sending...';
+            btn.disabled = true;
+
+            const data = new FormData(this);
+            fetch('https://script.google.com/macros/s/AKfycbwzSejv9Bof8FhlWIXhFebCCOoW3Q_8nFvVsBXxUZUSD5SgLblpT6u2Tib5botf_oTyuA/exec', {
+                method: 'POST',
+                body: data
+            })
+            .then(() => {
+                btn.textContent = 'Sent!';
+                this.reset();
+                setTimeout(() => {
+                    btn.textContent = "Let's Talk";
+                    btn.disabled = false;
+                }, 3000);
+            })
+            .catch(() => {
+                btn.textContent = 'Error — try again';
+                btn.disabled = false;
+            });
         });
     </script>
 </body>
