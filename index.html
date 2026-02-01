@@ -818,29 +818,47 @@
 
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const btn = this.querySelector('.cta-button');
-            btn.textContent = 'Sending...';
-            btn.disabled = true;
 
             const json = JSON.stringify({
                 name: this.name.value,
                 email: this.email.value,
                 idea: this.idea.value
             });
+
+            // Fire and forget — don't wait for response
             fetch('https://script.google.com/macros/s/AKfycbzJC0Fuxx1O9w6SBkAhdUp7e9psW3B5VgGuOnPBC6FojAXrpYhdNw66fyblRXjKqugXzQ/exec', {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'text/plain' },
                 body: json
-            })
-            .then(() => {
-                this.reset();
-                this.innerHTML = '<div style="border: 1.5px solid var(--brass); padding: 32px; text-align: center;"><p style="font-family: Playfair Display, serif; font-size: 1.25rem; color: var(--walnut); margin-bottom: 8px;">Great to hear from you!</p><p style="font-size: 0.875rem; color: var(--graphite); line-height: 1.8;">I\'ll be in touch as soon as I can.</p></div>';
-            })
-            .catch(() => {
-                btn.textContent = 'Error — try again';
-                btn.disabled = false;
             });
+
+            // Show success immediately with typewriter effect
+            this.reset();
+            this.innerHTML = '<div style="border: 1.5px solid var(--brass); padding: 32px; text-align: center; opacity: 0; transform: translateY(8px); animation: fadeIn 0.4s ease forwards;"><p id="typewriter" style="font-family: Playfair Display, serif; font-size: 1.25rem; color: var(--walnut); margin-bottom: 8px; min-height: 1.5em;"></p><p id="typewriter-sub" style="font-size: 0.875rem; color: var(--graphite); line-height: 1.8; opacity: 0;"></p></div>';
+
+            function typeWrite(el, text, speed, callback) {
+                let i = 0;
+                function tick() {
+                    if (i < text.length) {
+                        el.textContent += text[i];
+                        i++;
+                        setTimeout(tick, speed);
+                    } else if (callback) {
+                        callback();
+                    }
+                }
+                tick();
+            }
+
+            setTimeout(function() {
+                typeWrite(document.getElementById('typewriter'), 'Great to hear from you!', 40, function() {
+                    var sub = document.getElementById('typewriter-sub');
+                    sub.style.opacity = '1';
+                    sub.style.transition = 'opacity 0.5s ease';
+                    typeWrite(sub, "I'll be in touch as soon as I can.", 30);
+                });
+            }, 400);
         });
     </script>
 </body>
