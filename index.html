@@ -822,10 +822,11 @@
             btn.textContent = 'Sending...';
             btn.disabled = true;
 
-            const data = new FormData(this);
+            const data = new URLSearchParams(new FormData(this));
             fetch('https://script.google.com/macros/s/AKfycbwzSejv9Bof8FhlWIXhFebCCOoW3Q_8nFvVsBXxUZUSD5SgLblpT6u2Tib5botf_oTyuA/exec', {
                 method: 'POST',
                 mode: 'no-cors',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: data
             })
             .then(() => {
