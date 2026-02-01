@@ -37,6 +37,21 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='10' cy='10' r='3' fill='none' stroke='%232C2416' stroke-width='1'/%3E%3Cline x1='10' y1='4' x2='10' y2='7' stroke='%232C2416' stroke-width='1'/%3E%3Cline x1='10' y1='13' x2='10' y2='16' stroke='%232C2416' stroke-width='1'/%3E%3Cline x1='4' y1='10' x2='7' y2='10' stroke='%232C2416' stroke-width='1'/%3E%3Cline x1='13' y1='10' x2='16' y2='10' stroke='%232C2416' stroke-width='1'/%3E%3C/svg%3E") 10 10, crosshair;
+        }
+
+        ::selection {
+            background: var(--oxide);
+            color: var(--parchment);
+        }
+
+        ::-moz-selection {
+            background: var(--oxide);
+            color: var(--parchment);
+        }
+
+        a, button, .slot-lever, .see-more-btn, .nav-cta, .cta-button, .generate-btn, .modal-close {
+            cursor: pointer;
         }
 
         html {
@@ -603,22 +618,23 @@
             font-family: 'IBM Plex Mono', monospace;
             font-size: 0.9375rem;
             color: var(--walnut);
-            background-color: rgba(44, 36, 22, 0.03);
-            border: 1.5px solid rgba(44, 36, 22, 0.2);
-            padding: 14px 16px;
-            transition: border-color 0.2s ease, background-color 0.2s ease;
+            background-color: transparent;
+            border: none;
+            border-bottom: 1.5px solid rgba(44, 36, 22, 0.2);
+            border-radius: 0;
+            padding: 14px 0;
+            transition: border-color 0.2s ease;
         }
 
         .form-group input:hover,
         .form-group textarea:hover {
-            border-color: rgba(44, 36, 22, 0.4);
+            border-bottom-color: rgba(44, 36, 22, 0.4);
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: var(--oxide);
-            background-color: rgba(166, 93, 63, 0.05);
+            border-bottom-color: var(--oxide);
         }
 
         .form-group textarea {
@@ -909,7 +925,8 @@
         </section>
 
         <footer>
-            <p>Orlando, Florida · <a href="https://www.linkedin.com/in/sam-rahim/" target="_blank" style="color: var(--brass); text-decoration: none; border-bottom: 1px solid rgba(139, 115, 85, 0.3); transition: border-color 0.2s ease;">LinkedIn</a></p>
+            <div style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.5rem; color: var(--walnut); margin-bottom: 16px; opacity: 0.15;">SR</div>
+            <p>Built by hand in Orlando, Florida · <a href="https://www.linkedin.com/in/sam-rahim/" target="_blank" style="color: var(--brass); text-decoration: none; border-bottom: 1px solid rgba(139, 115, 85, 0.3); transition: border-color 0.2s ease;">LinkedIn</a></p>
         </footer>
     </div>
 
