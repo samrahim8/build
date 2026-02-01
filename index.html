@@ -457,12 +457,18 @@
             left: 50%;
             top: 0;
             transform: translateX(-50%);
-            transition: top 0.15s ease;
+            transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 2px 4px rgba(44, 36, 22, 0.2);
         }
 
         .lever-knob.pulled {
             top: 60px;
+            transition: top 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .lever-knob.snap-back {
+            top: 0;
+            transition: top 0.15s cubic-bezier(0.6, 0, 0.4, 1.4);
         }
 
         .lever-label {
@@ -970,12 +976,18 @@
             isSpinning = true;
 
             var knob = document.getElementById('leverKnob');
+            knob.className = 'lever-knob';
+            void knob.offsetWidth;
             knob.classList.add('pulled');
 
             setTimeout(function() {
                 knob.classList.remove('pulled');
+                knob.classList.add('snap-back');
                 generateIdeas();
-            }, 300);
+                setTimeout(function() {
+                    knob.classList.remove('snap-back');
+                }, 200);
+            }, 350);
         }
 
         function openModal() {
