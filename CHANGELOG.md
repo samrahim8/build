@@ -72,6 +72,11 @@ Core principles used throughout:
 - Updated descriptions (Haul: "Estate sale growth marketing + newsletter")
 - Removed audience size metrics from Pickleball State
 
+### 2026-02-01 — Tab & Social Title
+- Changed page title from "Your Build Partner — Sam Rahim" to "Sam Rahim — Build Partner"
+- Updated OG and Twitter meta titles to match
+- Leads with name since visitors are warm intros/referrals
+
 ### 2026-02-01 — Copy Iterations
 - Hero headline: "The best ideas die in busy people's heads."
 - Sub-headline: "Turn your industry knowledge or interests into a real product..."
