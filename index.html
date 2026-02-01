@@ -888,35 +888,35 @@
             const modalIdeas = document.getElementById('modalIdeas');
 
             modalIdeas.innerHTML = '<ul>' +
-                selectedIdeas.map(() => '<li style="opacity:0; transform: translateX(-10px);"></li>').join('') +
+                selectedIdeas.map(() => '<li></li>').join('') +
                 '</ul>';
 
             const items = modalIdeas.querySelectorAll('li');
-            selectedIdeas.forEach(function(idea, i) {
-                setTimeout(function() {
-                    items[i].style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                    items[i].style.opacity = '1';
-                    items[i].style.transform = 'translateX(0)';
-                    typeWrite(items[i], idea, 20);
-                }, i * 200);
+            var shuffleDuration = 600;
+            var interval = 50;
+            var shuffled = [...ideas];
+
+            items.forEach(function(item, i) {
+                var ticks = 0;
+                var totalTicks = Math.floor((shuffleDuration + i * 150) / interval);
+                var ticker = setInterval(function() {
+                    shuffleArray(shuffled);
+                    item.textContent = shuffled[0];
+                    item.style.opacity = '0.4';
+                    ticks++;
+                    if (ticks >= totalTicks) {
+                        clearInterval(ticker);
+                        item.textContent = selectedIdeas[i];
+                        item.style.opacity = '1';
+                        item.style.transition = 'opacity 0.2s ease';
+                    }
+                }, interval);
             });
 
             generateCount++;
             var btn = document.querySelector('.generate-btn');
             var label = btnLabels[generateCount % btnLabels.length];
             btn.innerHTML = label + ' <span>\u2192</span>';
-        }
-
-        function typeWrite(el, text, speed) {
-            var i = 0;
-            function tick() {
-                if (i < text.length) {
-                    el.textContent += text[i];
-                    i++;
-                    setTimeout(tick, speed);
-                }
-            }
-            tick();
         }
 
         function openModal() {
