@@ -828,12 +828,8 @@
                 body: data
             })
             .then(() => {
-                btn.textContent = 'Sent!';
                 this.reset();
-                setTimeout(() => {
-                    btn.textContent = "Let's Talk";
-                    btn.disabled = false;
-                }, 3000);
+                this.innerHTML = '<p style="font-size: 0.9375rem; color: var(--graphite); line-height: 1.8;">Great to hear from you! I\'ll be in touch as soon as I can.</p>';
             })
             .catch(() => {
                 btn.textContent = 'Error — try again';
