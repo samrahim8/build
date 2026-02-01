@@ -33,6 +33,15 @@ Core principles used throughout:
 
 ## Changelog
 
+### 2026-02-01 — Mobile Optimization
+- Added small-phone breakpoint at 400px (iPhone SE): tighter padding (16px), smaller hero (1.75rem), reduced section spacing
+- Fixed touch targets to 44x44px minimum: nav CTA, modal close button, testimonial dots
+- Made modal scrollable on mobile (`max-height: 80vh`, `overflow-y: auto`, `-webkit-overflow-scrolling: touch`)
+- Fixed iOS form inputs: `-webkit-appearance: none`, `font-size: 16px` to prevent auto-zoom
+- Bumped section labels from 0.6875rem to 0.75rem on mobile
+- Increased lever label from 0.5rem to 0.625rem on mobile
+- Added `overflow-wrap: break-word` to container to prevent text clipping on narrow screens
+
 ### 2026-02-01 — Rotating Testimonials
 **Commits:** `6666fee`, `0cfb69e`, `51e9927`
 
