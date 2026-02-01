@@ -779,18 +779,27 @@
         }
 
         .testimonial-dot {
-            width: 8px;
-            height: 8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .testimonial-dot::after {
+            content: '';
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
             background: var(--brass);
             opacity: 0.25;
-            cursor: pointer;
             transition: opacity 0.3s ease;
-            padding: 8px;
-            background-clip: content-box;
         }
 
-        .testimonial-dot.active {
+        .testimonial-dot.active::after {
             opacity: 0.7;
         }
 
