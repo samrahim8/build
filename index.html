@@ -327,9 +327,9 @@
 
         .modal {
             background: var(--parchment);
-            max-width: 500px;
+            max-width: 560px;
             width: 100%;
-            padding: 48px;
+            padding: 48px 80px 48px 48px;
             position: relative;
             border: 1px solid rgba(166, 93, 63, 0.2);
             transform: translateY(20px);
@@ -384,20 +384,37 @@
             padding-left: 24px;
             position: relative;
             line-height: 1.7;
-            opacity: 0;
-            transform: translateX(-10px);
-            animation: ideaIn 0.3s ease forwards;
+            min-height: 1.7em;
         }
 
-        .modal-ideas li:nth-child(1) { animation-delay: 0.1s; }
-        .modal-ideas li:nth-child(2) { animation-delay: 0.2s; }
-        .modal-ideas li:nth-child(3) { animation-delay: 0.3s; }
+        .modal-ideas li.spinning {
+            color: transparent;
+        }
 
-        @keyframes ideaIn {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        .modal-ideas li.spinning::after {
+            content: '';
+            position: absolute;
+            left: 24px;
+            top: 50%;
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--brass), transparent);
+            animation: slotSpin 0.12s steps(2) infinite;
+            transform: translateY(-50%);
+        }
+
+        @keyframes slotSpin {
+            0% { opacity: 0.3; width: 40%; }
+            100% { opacity: 0.6; width: 70%; }
+        }
+
+        .modal-ideas li.landed {
+            animation: slotLand 0.3s ease forwards;
+        }
+
+        @keyframes slotLand {
+            0% { opacity: 0; transform: translateY(-4px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         .modal-ideas li::before {
@@ -407,31 +424,69 @@
             color: var(--brass);
         }
 
-        .generate-btn {
+        /* Lever */
+        .slot-lever {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 48px;
+            background: rgba(166, 93, 63, 0.06);
+            border-left: 1px solid rgba(166, 93, 63, 0.15);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lever-track {
+            width: 3px;
+            height: 80px;
+            background: var(--brass);
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .lever-knob {
+            width: 20px;
+            height: 20px;
+            background: var(--oxide);
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            transition: top 0.15s ease;
+            box-shadow: 0 2px 4px rgba(44, 36, 22, 0.2);
+        }
+
+        .lever-knob.pulled {
+            top: 60px;
+        }
+
+        .lever-label {
             font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.75rem;
+            font-size: 0.5rem;
             font-weight: 500;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: var(--parchment);
-            background-color: var(--oxide);
-            border: none;
-            padding: 16px 32px;
-            cursor: pointer;
-            transition: background-color 0.2s ease, transform 0.2s ease;
+            color: var(--brass);
+            writing-mode: vertical-rl;
+            margin-top: 16px;
         }
 
-        .generate-btn:hover {
-            background-color: #8B4A30;
+        .slot-lever:hover .lever-knob {
+            background: #8B4A30;
         }
 
-        .generate-btn span {
-            display: inline-block;
-            transition: transform 0.2s ease;
-        }
-
-        .generate-btn:hover span {
-            transform: translateX(4px);
+        @media (max-width: 600px) {
+            .modal {
+                padding: 36px 64px 36px 36px;
+            }
+            .slot-lever {
+                width: 40px;
+            }
         }
 
         /* Who */
@@ -800,7 +855,12 @@
                 <div class="modal-ideas" id="modalIdeas">
                     <!-- Ideas will be inserted here by JS -->
                 </div>
-                <button class="generate-btn" onclick="generateIdeas()">Show me 3 more <span>→</span></button>
+                <div class="slot-lever" onclick="pullLever()">
+                    <div class="lever-track">
+                        <div class="lever-knob" id="leverKnob"></div>
+                    </div>
+                    <div class="lever-label">Pull</div>
+                </div>
             </div>
         </div>
 
@@ -878,52 +938,51 @@
             return array;
         }
 
+        var isSpinning = false;
+
         function generateIdeas() {
             if (availableIdeas.length < 3) {
                 availableIdeas = [...ideas];
                 shuffleArray(availableIdeas);
             }
 
-            const selectedIdeas = availableIdeas.splice(0, 3);
-            const modalIdeas = document.getElementById('modalIdeas');
+            var selectedIdeas = availableIdeas.splice(0, 3);
+            var modalIdeas = document.getElementById('modalIdeas');
 
             modalIdeas.innerHTML = '<ul>' +
-                selectedIdeas.map(() => '<li></li>').join('') +
+                selectedIdeas.map(function() { return '<li class="spinning"></li>'; }).join('') +
                 '</ul>';
 
-            const items = modalIdeas.querySelectorAll('li');
-            var shuffleDuration = 600;
-            var interval = 50;
-            var shuffled = [...ideas];
+            var items = modalIdeas.querySelectorAll('li');
 
             items.forEach(function(item, i) {
-                var ticks = 0;
-                var totalTicks = Math.floor((shuffleDuration + i * 150) / interval);
-                var ticker = setInterval(function() {
-                    shuffleArray(shuffled);
-                    item.textContent = shuffled[0];
-                    item.style.opacity = '0.4';
-                    ticks++;
-                    if (ticks >= totalTicks) {
-                        clearInterval(ticker);
-                        item.textContent = selectedIdeas[i];
-                        item.style.opacity = '1';
-                        item.style.transition = 'opacity 0.2s ease';
-                    }
-                }, interval);
+                setTimeout(function() {
+                    item.className = 'landed';
+                    item.textContent = selectedIdeas[i];
+                }, 400 + i * 300);
             });
 
-            generateCount++;
-            var btn = document.querySelector('.generate-btn');
-            var label = btnLabels[generateCount % btnLabels.length];
-            btn.innerHTML = label + ' <span>\u2192</span>';
+            setTimeout(function() { isSpinning = false; }, 400 + 3 * 300);
+        }
+
+        function pullLever() {
+            if (isSpinning) return;
+            isSpinning = true;
+
+            var knob = document.getElementById('leverKnob');
+            knob.classList.add('pulled');
+
+            setTimeout(function() {
+                knob.classList.remove('pulled');
+                generateIdeas();
+            }, 300);
         }
 
         function openModal() {
             document.getElementById('modalOverlay').classList.add('active');
             document.body.style.overflow = 'hidden';
-            generateCount = 0;
-            generateIdeas();
+            isSpinning = false;
+            pullLever();
         }
 
         function closeModal() {
