@@ -76,7 +76,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            opacity: 0.35;
+            opacity: 0.45;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
             z-index: 1;
         }
@@ -109,7 +109,7 @@
         .logo {
             font-size: 0.75rem;
             font-weight: 500;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
             color: var(--brass);
         }
@@ -117,17 +117,19 @@
         .nav-cta {
             font-size: 0.6875rem;
             font-weight: 500;
-            color: var(--walnut);
+            color: var(--parchment);
             text-decoration: none;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.1em;
             padding: 12px 20px;
-            border: 1.5px solid var(--walnut);
-            transition: all 0.25s ease;
+            background-color: var(--oxide);
+            border: 1.5px solid var(--oxide);
+            transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
         }
 
         .nav-cta:hover {
             background-color: var(--walnut);
+            border-color: var(--walnut);
             color: var(--parchment);
             transform: translateY(-2px);
         }
@@ -156,8 +158,8 @@
         /* Divider */
         .divider {
             height: 1px;
-            background-color: var(--walnut);
-            opacity: 0.15;
+            background-color: var(--oxide);
+            opacity: 0.25;
             margin: 0;
         }
 
@@ -350,7 +352,7 @@
             background: transparent;
             border: none;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: color 0.2s ease, transform 0.2s ease;
         }
 
         .modal-close:hover {
@@ -408,7 +410,7 @@
             font-family: 'IBM Plex Mono', monospace;
             font-size: 0.75rem;
             font-weight: 500;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
             color: var(--parchment);
             background-color: var(--walnut);
@@ -468,7 +470,7 @@
         .who-not h4 {
             font-size: 0.6875rem;
             font-weight: 500;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
             color: var(--brass);
             margin-bottom: 20px;
@@ -520,7 +522,7 @@
             display: block;
             font-size: 0.75rem;
             font-weight: 500;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
             color: var(--walnut);
             margin-bottom: 8px;
@@ -542,7 +544,7 @@
             background-color: rgba(44, 36, 22, 0.03);
             border: 1.5px solid rgba(44, 36, 22, 0.2);
             padding: 14px 16px;
-            transition: all 0.2s ease;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
         }
 
         .form-group input:hover,
@@ -583,14 +585,14 @@
             letter-spacing: 0.1em;
             text-transform: uppercase;
             color: var(--parchment);
-            background-color: var(--walnut);
+            background-color: var(--oxide);
             text-decoration: none;
             padding: 18px 40px;
-            transition: all 0.25s ease;
+            transition: background-color 0.25s ease, transform 0.25s ease;
         }
 
         .cta-button:hover {
-            background-color: var(--oxide);
+            background-color: var(--walnut);
             transform: translateY(-2px);
         }
 
@@ -603,7 +605,7 @@
         footer p {
             font-size: 0.6875rem;
             color: var(--brass);
-            letter-spacing: 0.05em;
+            letter-spacing: 0.1em;
         }
 
         /* Responsive */
@@ -659,7 +661,7 @@
         }
 
         .portfolio-card {
-            border: 1px solid rgba(44, 36, 22, 0.12);
+            border: 1px solid rgba(166, 93, 63, 0.2);
             padding: 24px;
         }
 
