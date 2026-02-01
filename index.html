@@ -825,6 +825,7 @@
             const data = new FormData(this);
             fetch('https://script.google.com/macros/s/AKfycbwzSejv9Bof8FhlWIXhFebCCOoW3Q_8nFvVsBXxUZUSD5SgLblpT6u2Tib5botf_oTyuA/exec', {
                 method: 'POST',
+                mode: 'no-cors',
                 body: data
             })
             .then(() => {
