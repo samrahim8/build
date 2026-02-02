@@ -33,9 +33,10 @@ Core principles used throughout:
 
 ## Changelog
 
-### 2026-02-01 — Added Calling Card to Portfolio
-- New portfolio card: Calling Card (Founder) — "Custom, one-page personal websites. Delivered in days, not weeks."
-- Portfolio now has 5 cards — Calling Card spans full width under the 2x2 grid via `grid-column: 1 / -1`
+### 2026-02-01 — Portfolio Update: Calling Card In, LawnHQ Out
+- Added Calling Card (Founder) — "Custom, one-page personal websites. Delivered in days, not weeks."
+- Removed LawnHQ from portfolio
+- Back to clean 2x2 grid: Haul, Calling Card, Pickleball State, JNKML Mailing Club
 
 ### 2026-02-01 — Mobile Optimization
 - Added small-phone breakpoint at 400px (iPhone SE): tighter padding (16px), smaller hero (1.75rem), reduced section spacing
