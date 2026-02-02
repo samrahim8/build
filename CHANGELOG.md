@@ -37,7 +37,7 @@ Core principles used throughout:
 - Linked Calling Card portfolio card to callingcard.site (with ↗ indicator)
 - Collapsed How It Works from 5 steps to 3 (scope → build → iterate)
 - Reframed "Speed lets us take more swings" → "Speed means we learn faster and build smarter"
-- Added retainer hint: "A modest monthly retainer — not agency pricing"
+- Simplified retainer line: dropped pricing hint, let equity model speak for itself. Range too wide (1k-10k) to anchor in copy — let conversation handle it.
 
 ### 2026-02-02 — Bio Line Rewrite
 - Old: "I quit startup life to build a portfolio of businesses with ambitious people."
