@@ -33,6 +33,10 @@ Core principles used throughout:
 
 ## Changelog
 
+### 2026-02-02 — Haul Description Update
+- Old: "Estate sale growth marketing + newsletter."
+- New: "The social sharing tool for estate sale buyers."
+
 ### 2026-02-02 — Friction Audit: Remaining Items
 - Linked Calling Card portfolio card to callingcard.site (with ↗ indicator)
 - Collapsed How It Works from 5 steps to 3 (scope → build → iterate)
