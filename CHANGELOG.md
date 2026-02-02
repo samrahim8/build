@@ -33,6 +33,11 @@ Core principles used throughout:
 
 ## Changelog
 
+### 2026-02-02 — Landing Page Friction Audit: Quick Wins
+- Cut "Who This Is For" from 5 bullets to 3 (removed redundant investor/operator bullets)
+- Added "Like one of these? Let's talk →" CTA inside slot machine modal (conversion bridge)
+- Rewrote "Work Together" intro from generic to personal: "If something on this page made you think 'that's me'..."
+
 ### 2026-02-01 — Mobile Hero Text Bump
 - Hero h1: 2rem → 2.25rem on mobile
 - Subheadline: 0.875rem → 1rem on mobile
