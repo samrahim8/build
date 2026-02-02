@@ -97,8 +97,8 @@ Core principles used throughout:
 - Leads with name since visitors are warm intros/referrals
 
 ### 2026-02-01 — Copy Iterations
-- Hero headline: "The best ideas die in busy people's heads."
-- Sub-headline: "Turn your industry knowledge or interests into a real product..."
+- Hero headline: "Your best ideas are dying in your head."
+- Sub-headline: "Turn industry knowledge or hyper-niche interests into a real product..."
 - Bio line: "I quit startup life to build a portfolio of businesses with ambitious people."
 - Softened How It Works step 4 language
 - Removed "I'll reply if there's a fit" from form
