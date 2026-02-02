@@ -33,6 +33,11 @@ Core principles used throughout:
 
 ## Changelog
 
+### 2026-02-02 — Bio Line Rewrite
+- Old: "I quit startup life to build a portfolio of businesses with ambitious people."
+- New: "I've grown startups from thousands to millions in revenue. Yours could be next."
+- Credential + CTA in one line. Eliminates trust friction (no unexplained "quit") and makes it about the reader.
+
 ### 2026-02-02 — Landing Page Friction Audit: Quick Wins
 - Cut "Who This Is For" from 5 bullets to 3 (removed redundant investor/operator bullets)
 - Added "Like one of these? Let's talk →" CTA inside slot machine modal (conversion bridge)
