@@ -33,6 +33,12 @@ Core principles used throughout:
 
 ## Changelog
 
+### 2026-02-02 — Friction Audit: Remaining Items
+- Linked Calling Card portfolio card to callingcard.site (with ↗ indicator)
+- Collapsed How It Works from 5 steps to 3 (scope → build → iterate)
+- Reframed "Speed lets us take more swings" → "Speed means we learn faster and build smarter"
+- Added retainer hint: "A modest monthly retainer — not agency pricing"
+
 ### 2026-02-02 — Bio Line Rewrite
 - Old: "I quit startup life to build a portfolio of businesses with ambitious people."
 - New: "I've scaled venture-backed startups to millions in revenue. Now, I build niche businesses with ambitious people."
