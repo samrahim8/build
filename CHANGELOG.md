@@ -33,6 +33,26 @@ Core principles used throughout:
 
 ## Changelog
 
+### 2026-02-01 — Mobile Hero Text Bump
+- Hero h1: 2rem → 2.25rem on mobile
+- Subheadline: 0.875rem → 1rem on mobile
+- Bio line: 0.75rem → 0.875rem on mobile
+
+### 2026-02-01 — Mobile Hero Overflow Protection
+- Added `overflow-x: hidden` + `max-width: 100vw` on body
+- Added `overflow-x: hidden` on html
+- Hero h1 `max-width: 100%`, line-height 1.0 → 1.1
+- Fluid hero sizing on small phones: `clamp(1.25rem, 6.5vw, 1.75rem)`
+- Container padding on small phones: 16px → 20px
+
+### 2026-02-01 — Slot Machine CTA Copy
+- Changed "See more ideas →" to "Try your luck →"
+
+### 2026-02-01 — Copy Updates
+- Hero headline: "Your best ideas are dying in your head."
+- Subheadline: "Turn industry knowledge or hyper-niche interests into a real product..."
+- Updated in hero, meta description, OG, and Twitter tags
+
 ### 2026-02-01 — Portfolio Update: Calling Card In, LawnHQ Out
 - Added Calling Card (Founder) — "Custom, one-page personal websites. Delivered in days, not weeks."
 - Removed LawnHQ from portfolio
