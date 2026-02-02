@@ -35,8 +35,8 @@ Core principles used throughout:
 
 ### 2026-02-02 — Bio Line Rewrite
 - Old: "I quit startup life to build a portfolio of businesses with ambitious people."
-- New: "I've grown startups from thousands to millions in revenue. Yours could be next."
-- Credential + CTA in one line. Eliminates trust friction (no unexplained "quit") and makes it about the reader.
+- New: "I've scaled venture-backed startups to millions in revenue. Now, I build niche businesses with ambitious people."
+- Owns the contrast between VC startups and niche builds. Eliminates trust friction (no unexplained "quit"). "Businesses" not "products" — matches the retainer + equity model.
 
 ### 2026-02-02 — Landing Page Friction Audit: Quick Wins
 - Cut "Who This Is For" from 5 bullets to 3 (removed redundant investor/operator bullets)
