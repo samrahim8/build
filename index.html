@@ -31,6 +31,8 @@
             --oxide: #A65D3F;
             --graphite: #4A4A4A;
             --grid-line: rgba(44, 36, 22, 0.06);
+            --slate: #2D3A3A;
+            --chalk: #E8E4D9;
         }
 
         * {
@@ -198,12 +200,33 @@
             line-height: 1.8;
         }
 
-        /* Divider */
-        .divider {
-            height: 1px;
-            background-color: var(--oxide);
-            opacity: 0.25;
-            margin: 0;
+        /* Torn paper edge divider */
+        .torn-edge {
+            height: 24px;
+            margin: 0 -48px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .torn-edge::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 24px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 24' preserveAspectRatio='none'%3E%3Cpath d='M0,24 L0,12 Q15,8 30,14 T60,10 T90,16 T120,8 T150,14 T180,10 T210,16 T240,12 T270,18 T300,10 T330,14 T360,8 T390,16 T420,12 T450,18 T480,10 T510,14 T540,8 T570,16 T600,12 T630,18 T660,10 T690,14 T720,8 T750,16 T780,12 T810,18 T840,10 T870,14 T900,8 T930,16 T960,12 T990,18 T1020,10 T1050,14 T1080,8 T1110,16 T1140,12 T1170,18 T1200,12 L1200,24 Z' fill='%23F5F1E8'/%3E%3C/svg%3E");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+
+        .torn-edge-top {
+            transform: scaleY(-1);
+            margin-top: -1px;
+        }
+
+        .torn-edge-bottom {
+            margin-bottom: -1px;
         }
 
         /* Section */
@@ -295,11 +318,151 @@
             color: var(--brass);
         }
 
-        /* Pricing */
+        /* ========================================
+           CHALKBOARD MENU SECTION
+           ======================================== */
+        .menu-section {
+            background-color: var(--slate);
+            margin: 0 -48px;
+            padding: 0 48px;
+            position: relative;
+        }
+
+        .menu-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.08;
+            pointer-events: none;
+        }
+
+        .menu-section .section-inner {
+            padding: 72px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .menu-section .section-label {
+            color: var(--chalk);
+            opacity: 0.7;
+            margin-bottom: 12px;
+        }
+
+        .menu-section .menu-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 400;
+            font-style: italic;
+            color: var(--chalk);
+            margin-bottom: 40px;
+        }
+
+        .menu-board {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .menu-card {
+            background-color: var(--parchment);
+            padding: 20px 24px;
+            position: relative;
+            transform: rotate(-0.5deg);
+            box-shadow:
+                2px 3px 8px rgba(0,0,0,0.15),
+                0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .menu-card:nth-child(2) { transform: rotate(0.3deg); }
+        .menu-card:nth-child(3) { transform: rotate(-0.2deg); }
+        .menu-card:nth-child(4) { transform: rotate(0.4deg); }
+        .menu-card:nth-child(5) { transform: rotate(-0.3deg); }
+
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 24px;
+            background: radial-gradient(circle, #C9A86C 30%, #8B7355 31%, #8B7355 50%, transparent 51%);
+            border-radius: 50%;
+            opacity: 0.9;
+        }
+
+        .menu-card-content {
+            padding-top: 20px;
+        }
+
+        .menu-card-type {
+            font-size: 0.6875rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--oxide);
+            margin-bottom: 8px;
+        }
+
+        .menu-card-text {
+            font-size: 0.9375rem;
+            color: var(--walnut);
+            line-height: 1.6;
+        }
+
+        .menu-footer {
+            margin-top: 32px;
+            text-align: center;
+        }
+
+        .menu-footer p {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1rem;
+            color: var(--chalk);
+            opacity: 0.85;
+        }
+
+        /* ========================================
+           PRICING BOX - Hand-drawn style
+           ======================================== */
         .pricing-box {
-            border: 1.5px solid rgba(166, 93, 63, 0.3);
             padding: 40px;
             margin-top: 32px;
+            position: relative;
+            background: var(--parchment);
+        }
+
+        /* Hand-drawn sketchy border using SVG */
+        .pricing-box::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect x='2' y='2' width='calc(100%25 - 4px)' height='calc(100%25 - 4px)' fill='none' stroke='%23A65D3F' stroke-width='2' stroke-dasharray='8 4 2 4' stroke-linecap='round'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        /* Stamp seal */
+        .pricing-stamp {
+            position: absolute;
+            top: -20px;
+            right: 24px;
+            width: 72px;
+            height: 72px;
+            transform: rotate(12deg);
+        }
+
+        .pricing-stamp svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.1));
         }
 
         .pricing-box h3 {
@@ -317,8 +480,18 @@
             margin-bottom: 24px;
         }
 
+        .pricing-box > p {
+            font-size: 0.9375rem;
+            margin-bottom: 24px;
+        }
+
         .pricing-box ul {
             margin-bottom: 24px;
+        }
+
+        .pricing-box li::before {
+            content: '✓';
+            color: var(--oxide);
         }
 
         .pricing-note {
@@ -482,6 +655,39 @@
             .pricing-box {
                 padding: 28px;
             }
+
+            .pricing-stamp {
+                width: 56px;
+                height: 56px;
+                top: -16px;
+                right: 16px;
+            }
+
+            .torn-edge {
+                margin: 0 -24px;
+            }
+
+            .menu-section {
+                margin: 0 -24px;
+                padding: 0 24px;
+            }
+
+            .menu-section .section-inner {
+                padding: 48px 0;
+            }
+
+            .menu-section .menu-title {
+                font-size: 1.5rem;
+                margin-bottom: 32px;
+            }
+
+            .menu-card {
+                padding: 16px 20px;
+            }
+
+            .menu-card-content {
+                padding-top: 16px;
+            }
         }
 
         /* Small phones */
@@ -509,6 +715,19 @@
 
             .cta {
                 padding: 40px 0 64px;
+            }
+
+            .torn-edge {
+                margin: 0 -20px;
+            }
+
+            .menu-section {
+                margin: 0 -20px;
+                padding: 0 20px;
+            }
+
+            .menu-section .section-inner {
+                padding: 36px 0;
             }
         }
 
@@ -541,37 +760,33 @@
             <p class="hero-sub">I build pop-ups — small software tools that give your customers free value and bring them through the door.</p>
         </section>
 
-        <hr class="divider">
+        <div class="torn-edge torn-edge-bottom"></div>
+    </div>
 
-        <section>
-            <div class="section-label">The Situation</div>
+    <!-- Full-width section break -->
+    <div class="menu-section">
+        <div class="torn-edge torn-edge-top"></div>
 
-            <div class="sub-label">The Old Way</div>
-            <p>Everybody's lead magnet is a PDF. A checklist. A template. A "free guide."</p>
-            <p>Nobody opens them. You know this because you don't open them either.</p>
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div class="section-inner">
+                <div class="section-label">The Situation</div>
 
-            <div class="sub-label">The Shift</div>
-            <p>Software is easy to build now. What used to take a team and six months takes one person and a week.</p>
-            <p>Your lead magnet can be a real tool — something that actually does something. Scores a business. Audits a profile. Benchmarks pricing. Generates a plan.</p>
-            <p><strong>People don't share PDFs. They share tools.</strong></p>
+                <p style="color: var(--chalk); opacity: 0.9; margin-bottom: 20px; line-height: 1.85;">Everybody's lead magnet is a PDF. A checklist. A template. A "free guide."</p>
+                <p style="color: var(--chalk); opacity: 0.9; margin-bottom: 32px; line-height: 1.85;">Nobody opens them. You know this because you don't open them either.</p>
+
+                <p style="color: var(--chalk); opacity: 0.9; margin-bottom: 20px; line-height: 1.85;">Software is easy to build now. What used to take a team and six months takes one person and a week.</p>
+                <p style="color: var(--chalk); opacity: 0.9; margin-bottom: 20px; line-height: 1.85;">Your lead magnet can be a real tool — something that actually does something. Scores a business. Audits a profile. Benchmarks pricing. Generates a plan.</p>
+                <p style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.125rem; color: var(--chalk); margin-top: 32px;">People don't share PDFs. They share tools.</p>
+            </div>
+        </div>
+
+        <div class="torn-edge torn-edge-bottom"></div>
+    </div>
+
+    <div class="container">
+        <section style="padding-top: 0;">
+            <div class="torn-edge torn-edge-top" style="margin-top: -24px;"></div>
         </section>
-
-        <hr class="divider">
-
-        <section>
-            <div class="section-label">What We'd Pop Up</div>
-            <p><strong>The more niche, the better.</strong></p>
-            <ul>
-                <li>A free audit that scores a restaurant's Google presence and tells the owner exactly what to fix</li>
-                <li>A tool that reads a contractor's reviews and generates a prioritized reputation repair plan</li>
-                <li>A quiz that tells a homeowner which solar setup saves them the most based on their roof and zip code</li>
-                <li>A calculator that shows a med spa owner how much revenue they're losing from unanswered reviews</li>
-                <li>A benchmarking tool that compares a real estate agent's listing photos to top performers in their market</li>
-            </ul>
-            <p style="margin-top: 24px;">Each one is small, useful, and built to bring people to your door.</p>
-        </section>
-
-        <hr class="divider">
 
         <section>
             <div class="section-label">Why This Works</div>
@@ -580,7 +795,68 @@
             <p>A PDF captures an email. A tool captures an email <strong>and earns trust.</strong></p>
         </section>
 
-        <hr class="divider">
+        <div class="torn-edge torn-edge-bottom"></div>
+    </div>
+
+    <!-- Chalkboard Menu Section -->
+    <div class="menu-section">
+        <div class="torn-edge torn-edge-top"></div>
+
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div class="section-inner">
+                <div class="section-label">What We'd Pop Up</div>
+                <p class="menu-title">The more niche, the better.</p>
+
+                <div class="menu-board">
+                    <div class="menu-card">
+                        <div class="menu-card-content">
+                            <div class="menu-card-type">For Restaurants</div>
+                            <div class="menu-card-text">A free audit that scores a restaurant's Google presence and tells the owner exactly what to fix</div>
+                        </div>
+                    </div>
+
+                    <div class="menu-card">
+                        <div class="menu-card-content">
+                            <div class="menu-card-type">For Contractors</div>
+                            <div class="menu-card-text">A tool that reads a contractor's reviews and generates a prioritized reputation repair plan</div>
+                        </div>
+                    </div>
+
+                    <div class="menu-card">
+                        <div class="menu-card-content">
+                            <div class="menu-card-type">For Solar Companies</div>
+                            <div class="menu-card-text">A quiz that tells a homeowner which solar setup saves them the most based on their roof and zip code</div>
+                        </div>
+                    </div>
+
+                    <div class="menu-card">
+                        <div class="menu-card-content">
+                            <div class="menu-card-type">For Med Spas</div>
+                            <div class="menu-card-text">A calculator that shows a med spa owner how much revenue they're losing from unanswered reviews</div>
+                        </div>
+                    </div>
+
+                    <div class="menu-card">
+                        <div class="menu-card-content">
+                            <div class="menu-card-type">For Real Estate</div>
+                            <div class="menu-card-text">A benchmarking tool that compares a real estate agent's listing photos to top performers in their market</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-footer">
+                    <p>Each one is small, useful, and built to bring people to your door.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="torn-edge torn-edge-bottom"></div>
+    </div>
+
+    <div class="container">
+        <section style="padding-top: 0;">
+            <div class="torn-edge torn-edge-top" style="margin-top: -24px;"></div>
+        </section>
 
         <section>
             <div class="section-label">How It Works</div>
@@ -592,26 +868,35 @@
             </ol>
         </section>
 
-        <hr class="divider">
+        <div class="torn-edge torn-edge-bottom"></div>
 
         <section>
             <div class="section-label">The Proof</div>
-            <div class="sub-label">I Did This For Myself First</div>
             <p><strong><a href="https://usecurbappeal.com" target="_blank" style="color: var(--walnut); text-decoration: none; border-bottom: 1px solid var(--oxide);">Curb Appeal</a></strong> is a free Google Business Profile audit I built. Type in your business, get a score in 30 seconds, see exactly what to fix.</p>
             <p>It provides real value. It captures leads. And it proved demand for a bigger product behind it.</p>
             <p><strong>That's a pop-up.</strong></p>
         </section>
 
-        <hr class="divider">
+        <div class="torn-edge torn-edge-bottom"></div>
 
         <section>
             <div class="section-label">Pricing</div>
-            <div class="sub-label">You Already Know You Need This</div>
 
             <div class="pricing-box">
+                <!-- Hand-drawn stamp seal -->
+                <div class="pricing-stamp">
+                    <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="40" cy="40" r="36" fill="none" stroke="#A65D3F" stroke-width="3" stroke-dasharray="4 2"/>
+                        <circle cx="40" cy="40" r="28" fill="none" stroke="#A65D3F" stroke-width="1.5"/>
+                        <text x="40" y="36" text-anchor="middle" fill="#A65D3F" font-family="Playfair Display, serif" font-size="9" font-weight="400">POP</text>
+                        <text x="40" y="48" text-anchor="middle" fill="#A65D3F" font-family="Playfair Display, serif" font-size="9" font-weight="400">UP</text>
+                        <text x="40" y="60" text-anchor="middle" fill="#A65D3F" font-family="IBM Plex Mono, monospace" font-size="5" letter-spacing="0.5">EST. 2026</text>
+                    </svg>
+                </div>
+
                 <h3>The Pop-Up</h3>
                 <div class="price">$2,500</div>
-                <p style="margin-bottom: 24px;">One small software tool, designed and built for your business.</p>
+                <p>One small software tool, designed and built for your business.</p>
                 <ul>
                     <li>Custom-scoped to your niche and audience</li>
                     <li>Built and live in 1–2 weeks</li>
@@ -623,7 +908,7 @@
             </div>
         </section>
 
-        <hr class="divider">
+        <div class="torn-edge torn-edge-bottom"></div>
 
         <section class="cta" id="contact">
             <div class="section-label">Contact</div>
