@@ -219,22 +219,37 @@
         }
 
         /* Game list */
+        .game-section {
+            border-top: 2px solid var(--ink);
+            border-bottom: 2px solid var(--ink);
+            padding: 32px 0;
+            margin: 32px 0;
+            text-align: center;
+        }
+
         .game-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px 24px;
             margin: 0;
         }
 
         .game-title {
-            display: block;
             font-family: 'Rokkitt', 'Rockwell', serif;
-            font-size: 1.25rem;
+            font-size: 1.125rem;
             font-weight: 700;
             color: var(--ink);
-            margin-bottom: 12px;
-            line-height: 1.3;
+            white-space: nowrap;
         }
 
-        .game-title:last-child {
-            margin-bottom: 0;
+        .game-title::before {
+            content: "· ";
+            opacity: 0.4;
+        }
+
+        .game-title:first-child::before {
+            content: "";
         }
 
         /* Pull quote */
@@ -617,18 +632,20 @@
 
             <section>
                 <div class="section-header">What We'd Pop Up</div>
-                <p style="margin-bottom: 24px;">Every game is a "Can You ___?" They play. They struggle. They call you.</p>
+                <p>Every game is a "Can You ___?" They play. They struggle. They call you.</p>
 
-                <p class="game-list">
-                    <span class="game-title">"Can You Retire?"</span>
-                    <span class="game-title">"Can You Buy a House?"</span>
-                    <span class="game-title">"Can You Do Your Own Taxes?"</span>
-                    <span class="game-title">"Can You Fix Your Own Roof?"</span>
-                    <span class="game-title">"Can You Survive Summer Without AC?"</span>
-                    <span class="game-title">"Can You Diagnose Your Dog?"</span>
-                </p>
+                <div class="game-section">
+                    <p class="game-list">
+                        <span class="game-title">"Can You Retire?"</span>
+                        <span class="game-title">"Can You Buy a House?"</span>
+                        <span class="game-title">"Can You Do Your Own Taxes?"</span>
+                        <span class="game-title">"Can You Fix Your Own Roof?"</span>
+                        <span class="game-title">"Can You Survive Summer Without AC?"</span>
+                        <span class="game-title">"Can You Diagnose Your Dog?"</span>
+                    </p>
+                </div>
 
-                <p style="margin-top: 24px; font-style: italic;">The answer is always: technically yes, practically no.</p>
+                <p style="font-style: italic;">The answer is always: technically yes, practically no.</p>
             </section>
 
             <div class="divider">* * * * *</div>
