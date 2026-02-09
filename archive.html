@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pop-Up — Your Build Partner</title>
+    <meta name="description" content="Turn industry knowledge or hyper-niche interests into a real product — built, launched, and in front of customers in weeks, not months.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Pop-Up — Your Build Partner">
+    <meta property="og:description" content="Turn industry knowledge or hyper-niche interests into a real product — built, launched, and in front of customers in weeks, not months.">
+    <meta property="og:image" content="https://popup.samrahim.com/og-image.png">
+    <meta property="og:url" content="https://popup.samrahim.com">
+
+    <!-- Twitter/X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Pop-Up — Your Build Partner">
+    <meta name="twitter:description" content="Turn industry knowledge or hyper-niche interests into a real product — built, launched, and in front of customers in weeks, not months.">
+    <meta name="twitter:image" content="https://popup.samrahim.com/og-image.png">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23F5F1E8'/><polygon points='50,12 90,35 10,35' fill='%232C2416'/><rect x='12' y='35' width='76' height='8' fill='%232C2416'/><line x1='18' y1='43' x2='18' y2='85' stroke='%232C2416' stroke-width='4'/><line x1='82' y1='43' x2='82' y2='85' stroke='%232C2416' stroke-width='4'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --parchment: #F5F1E8;
+            --walnut: #2C2416;
+            --brass: #8B7355;
+            --oxide: #A65D3F;
+            --graphite: #4A4A4A;
+            --grid-line: rgba(44, 36, 22, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='10' cy='10' r='3' fill='none' stroke='%232C2416' stroke-width='1'/%3E%3Cline x1='10' y1='4' x2='10' y2='7' stroke='%232C2416' stroke-width='1'/%3E%3Cline x1='10' y1='13' x2='10' y2='16' stroke='%232C2416' stroke-width='1'/%3E%3Cline x1='4' y1='10' x2='7' y2='10' stroke='%232C2416' stroke-width='1'/%3E%3Cline x1='13' y1='10' x2='16' y2='10' stroke='%232C2416' stroke-width='1'/%3E%3C/svg%3E") 10 10, crosshair;
+        }
+
+        ::selection {
+            background: var(--oxide);
+            color: var(--parchment);
+        }
+
+        ::-moz-selection {
+            background: var(--oxide);
+            color: var(--parchment);
+        }
+
+        a, button, .slot-lever, .see-more-btn, .nav-cta, .cta-button, .generate-btn, .modal-close {
+            cursor: pointer;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background-color: var(--parchment);
+            color: var(--walnut);
+            line-height: 1.7;
+            font-size: 15px;
+            overflow-x: hidden;
+            max-width: 100vw;
+        }
+
+        /* Graph paper grid */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: 
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 24px 24px;
+            z-index: 0;
+        }
+
+        /* Aged paper texture */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.45;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 48px 0;
+            position: relative;
+            z-index: 2;
+            overflow-wrap: break-word;
+            width: 100%;
+        }
+
+        /* Header */
+        header {
+            padding: 24px 48px;
+            max-width: 800px;
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            z-index: 100;
+            background-color: transparent;
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--brass);
+        }
+
+        .nav-cta {
+            font-size: 0.6875rem;
+            font-weight: 500;
+            color: var(--parchment);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 12px 20px;
+            background-color: var(--oxide);
+            border: 1.5px solid var(--oxide);
+            transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+        }
+
+        .nav-cta:hover {
+            background-color: #8B4A30;
+            border-color: #8B4A30;
+            color: var(--parchment);
+            transform: translateY(-2px);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 80px 0 96px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 400;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 32px;
+            max-width: 100%;
+        }
+
+        .hero-sub {
+            font-size: 0.9375rem;
+            color: var(--graphite);
+            max-width: 540px;
+            line-height: 1.8;
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background-color: var(--oxide);
+            opacity: 0.25;
+            margin: 0;
+        }
+
+        /* Section */
+        section {
+            padding: 72px 0;
+        }
+
+        .section-label {
+            font-size: 0.6875rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--brass);
+            margin-bottom: 28px;
+        }
+
+        /* The Deal */
+        .deal p {
+            font-size: 0.9375rem;
+            color: var(--graphite);
+            margin-bottom: 20px;
+            line-height: 1.85;
+        }
+
+        .deal p:last-child {
+            margin-bottom: 0;
+        }
+
+        .deal strong {
+            color: var(--walnut);
+            font-weight: 500;
+        }
+
+        /* Sound Familiar */
+        .familiar ul {
+            list-style: none;
+        }
+
+        .familiar li {
+            font-size: 0.9375rem;
+            color: var(--graphite);
+            margin-bottom: 16px;
+            padding-left: 24px;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        .familiar li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: var(--brass);
+        }
+
+        .familiar li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* How */
+        .how ol {
+            list-style: none;
+            counter-reset: steps;
+        }
+
+        .how li {
+            font-size: 0.9375rem;
+            color: var(--graphite);
+            margin-bottom: 16px;
+            padding-left: 32px;
+            position: relative;
+            line-height: 1.8;
+            counter-increment: steps;
+        }
+
+        .how li::before {
+            content: counter(steps);
+            position: absolute;
+            left: 0;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1rem;
+            color: var(--brass);
+        }
+
+        .how li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Projects */
+        .projects p {
+            font-size: 0.9375rem;
+            color: var(--graphite);
+            margin-bottom: 20px;
+            line-height: 1.85;
+        }
+
+        .projects ul {
+            list-style: none;
+        }
+
+        .projects li {
+            font-size: 0.9375rem;
+            color: var(--graphite);
+            margin-bottom: 12px;
+            padding-left: 24px;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        .projects li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: var(--brass);
+        }
+
+        .see-more-btn {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--brass);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin-top: 24px;
+            transition: color 0.2s ease;
+        }
+
+        .see-more-btn:hover {
+            color: var(--oxide);
+        }
+
+        .see-more-btn span {
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+
+        .see-more-btn:hover span {
+            transform: translateX(4px);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(44, 36, 22, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal {
+            background: var(--parchment);
+            max-width: 560px;
+            width: 100%;
+            padding: 48px 80px 48px 48px;
+            position: relative;
+            border: 1px solid rgba(166, 93, 63, 0.2);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: modalIn 0.3s ease forwards;
+        }
+
+        @keyframes modalIn {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 1.5rem;
+            color: var(--brass);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: color 0.2s ease, transform 0.2s ease;
+            padding: 16px 20px;
+            z-index: 10;
+            min-width: 44px;
+            min-height: 44px;
+        }
+
+        .modal-close:hover {
+            color: var(--oxide);
+            transform: scale(1.1);
+        }
+
+        .modal-header {
+            margin-bottom: 32px;
+        }
+
+        .modal-header .section-label {
+            margin-bottom: 0;
+        }
+
+        .modal-ideas {
+            margin-bottom: 32px;
+        }
+
+        .modal-ideas ul {
+            list-style: none;
+        }
+
+        .modal-ideas li {
+            font-size: 0.9375rem;
+            color: var(--graphite);
+            margin-bottom: 16px;
+            padding-left: 24px;
+            position: relative;
+            line-height: 1.7;
+            min-height: 1.7em;
+        }
+
+        .modal-ideas li.spinning {
+            color: transparent;
+        }
+
+        .modal-ideas li.spinning::after {
+            content: '';
+            position: absolute;
+            left: 24px;
+            top: 50%;
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--brass), transparent);
+            animation: slotSpin 0.12s steps(2) infinite;
+            transform: translateY(-50%);
+        }
+
+        @keyframes slotSpin {
+            0% { opacity: 0.3; width: 40%; }
+            100% { opacity: 0.6; width: 70%; }
+        }
+
+        .modal-ideas li.landed {
+            animation: slotLand 0.3s ease forwards;
+        }
+
+        @keyframes slotLand {
+            0% { opacity: 0; transform: translateY(-4px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-ideas li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: var(--brass);
+        }
+
+        /* Lever */
+        .slot-lever {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 48px;
+            background: rgba(166, 93, 63, 0.06);
+            border-left: 1px solid rgba(166, 93, 63, 0.15);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lever-track {
+            width: 3px;
+            height: 80px;
+            background: var(--brass);
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .lever-knob {
+            width: 20px;
+            height: 20px;
+            background: var(--oxide);
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(44, 36, 22, 0.2);
+        }
+
+        .lever-knob.pulled {
+            top: 60px;
+            transition: top 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .lever-knob.snap-back {
+            top: 0;
+            transition: top 0.15s cubic-bezier(0.6, 0, 0.4, 1.4);
+        }
+
+        .lever-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.5rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--brass);
+            writing-mode: vertical-rl;
+            margin-top: 16px;
+        }
+
+        .slot-lever:hover .lever-knob {
+            background: #8B4A30;
+        }
+
+        @media (max-width: 600px) {
+            .modal {
+                padding: 36px 64px 36px 36px;
+                max-height: 80vh;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .slot-lever {
+                width: 40px;
+            }
+            .lever-label {
+                font-size: 0.625rem;
+            }
+        }
+
+        /* Who */
+        .who-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.125rem;
+            font-weight: 400;
+            margin-bottom: 20px;
+            color: var(--walnut);
+        }
+
+        .who-for {
+            margin-bottom: 48px;
+        }
+
+        .who-for ul,
+        .who-not ul {
+            list-style: none;
+        }
+
+        .who-for li {
+            font-size: 0.9375rem;
+            color: var(--graphite);
+            margin-bottom: 12px;
+            padding-left: 24px;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        .who-for li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: var(--brass);
+        }
+
+        .who-not h4 {
+            font-size: 0.6875rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--brass);
+            margin-bottom: 20px;
+        }
+
+        .who-not li {
+            font-size: 0.8125rem;
+            color: var(--graphite);
+            opacity: 0.7;
+            margin-bottom: 10px;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .who-not li::before {
+            content: '×';
+            position: absolute;
+            left: 4px;
+            color: var(--graphite);
+            opacity: 0.4;
+        }
+
+        /* CTA */
+        .cta {
+            padding: 80px 0 120px;
+        }
+
+        .cta > p {
+            font-size: 0.9375rem;
+            color: var(--graphite);
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .cta .who-not {
+            margin-top: 48px;
+        }
+
+        /* Form */
+        .contact-form {
+            max-width: 450px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--walnut);
+            margin-bottom: 8px;
+        }
+
+        .form-group label .optional {
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 0;
+            color: var(--brass);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 16px;
+            color: var(--walnut);
+            background-color: transparent;
+            border: none;
+            border-bottom: 1.5px solid rgba(44, 36, 22, 0.2);
+            border-radius: 0;
+            padding: 14px 0;
+            transition: border-color 0.2s ease;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .form-group input:hover,
+        .form-group textarea:hover {
+            border-bottom-color: rgba(44, 36, 22, 0.4);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-bottom-color: var(--oxide);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .contact-form .cta-button {
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .form-note {
+            font-size: 0.75rem;
+            color: var(--brass);
+            margin-top: 16px;
+            margin-bottom: 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.6875rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--parchment);
+            background-color: var(--oxide);
+            text-decoration: none;
+            padding: 18px 40px;
+            transition: background-color 0.25s ease, transform 0.25s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #8B4A30;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            padding: 32px 0;
+            border-top: 1px solid rgba(44, 36, 22, 0.1);
+        }
+
+        footer p {
+            font-size: 0.6875rem;
+            color: var(--brass);
+            letter-spacing: 0.1em;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 70px 24px 0;
+            }
+
+            header {
+                padding: 20px 24px;
+            }
+
+            .hero {
+                padding: 56px 0 72px;
+            }
+
+            .hero h1 {
+                font-size: 2.25rem;
+                margin-bottom: 24px;
+            }
+
+            section {
+                padding: 48px 0;
+            }
+
+            .cta {
+                padding: 56px 0 80px;
+            }
+
+            .contact-form {
+                max-width: 100%;
+            }
+
+            .nav-cta {
+                font-size: 0.6rem;
+                padding: 12px 20px;
+            }
+
+            .section-label {
+                font-size: 0.75rem;
+            }
+
+            .hero-sub {
+                font-size: 1rem;
+            }
+
+            .hero-bio {
+                font-size: 0.875rem !important;
+            }
+        }
+
+        /* Small phones */
+        @media (max-width: 400px) {
+            .container {
+                padding: 60px 20px 0;
+            }
+
+            header {
+                padding: 16px 20px;
+            }
+
+            .hero h1 {
+                font-size: clamp(1.25rem, 6.5vw, 1.75rem);
+                margin-bottom: 20px;
+                letter-spacing: -0.03em;
+            }
+
+            section {
+                padding: 36px 0;
+            }
+
+            .hero {
+                padding: 40px 0 56px;
+            }
+
+            .cta {
+                padding: 40px 0 64px;
+            }
+        }
+
+        /* Testimonial */
+        .testimonial-rotator {
+            max-width: 560px;
+            margin: 0 auto;
+            padding: 16px 0;
+            text-align: center;
+            position: relative;
+            min-height: 120px;
+        }
+
+        .testimonial-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .testimonial-slide.active {
+            opacity: 1;
+            position: relative;
+        }
+
+        .testimonial-quote {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.0625rem;
+            font-style: italic;
+            color: var(--walnut);
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .testimonial-attr {
+            font-size: 0.6875rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--brass);
+        }
+
+        .testimonial-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .testimonial-dot {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .testimonial-dot::after {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--brass);
+            opacity: 0.25;
+            transition: opacity 0.3s ease;
+        }
+
+        .testimonial-dot.active::after {
+            opacity: 0.7;
+        }
+
+        /* Portfolio */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .portfolio-card {
+            border: 1px solid rgba(166, 93, 63, 0.2);
+            padding: 24px;
+        }
+
+        .portfolio-role {
+            font-size: 0.6875rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--brass);
+            margin-bottom: 12px;
+        }
+
+        .portfolio-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.125rem;
+            font-weight: 400;
+            color: var(--walnut);
+            margin-bottom: 8px;
+        }
+
+        .portfolio-desc {
+            font-size: 0.8125rem;
+            color: var(--graphite);
+            line-height: 1.7;
+        }
+
+        .portfolio-wide {
+            grid-column: 1 / -1;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Fade in */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1, .hero-sub {
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .hero h1 { animation-delay: 0.05s; opacity: 0; }
+        .hero-sub { animation-delay: 0.1s; opacity: 0; }
+    </style>
+</head>
+<body style="visibility: hidden;">
+    <script>
+        (function() {
+            var password = prompt('Enter password to view archive:');
+            if (password === 'popup2024') {
+                document.body.style.visibility = 'visible';
+            } else {
+                document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:monospace;color:#8B7355;">Access denied</div>';
+                document.body.style.visibility = 'visible';
+            }
+        })();
+    </script>
+    <header>
+        <div class="header-inner">
+            <div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="18" height="18" style="vertical-align: middle; margin-right: 6px;"><polygon points="50,12 90,35 10,35" fill="currentColor"/><rect x="12" y="35" width="76" height="8" fill="currentColor"/><line x1="18" y1="43" x2="18" y2="85" stroke="currentColor" stroke-width="4"/><line x1="82" y1="43" x2="82" y2="85" stroke="currentColor" stroke-width="4"/></svg>Pop-Up</div>
+            <a href="#letstalk" class="nav-cta">Got an idea?</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="hero">
+            <h1>You don't sign a lease on an idea. You run a pop-up first.</h1>
+            <p class="hero-sub">Turn industry knowledge or hyper-niche interests into a real product — built, launched, and in front of customers in weeks, not months.</p>
+            <p class="hero-bio" style="font-size: 0.8125rem; color: var(--brass); margin-top: 24px;">I'm Sam Rahim. I've scaled startups to millions in revenue. Now I build businesses with ambitious people.</p>
+        </section>
+
+        <hr class="divider">
+
+        <section class="who">
+            <div class="section-label">Who This Is For</div>
+            <div class="who-for">
+                <ul>
+                    <li>High agency people who have more ideas than time</li>
+                    <li>Experts sitting on projects they don't know how to build</li>
+                    <li>Anyone with a notes app full of projects that never go anywhere</li>
+                </ul>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <section class="deal">
+            <div class="section-label">The Studio</div>
+            <p><strong>I run a small studio.</strong> I take on a few partners at a time. You bring ideas + expertise. I build them and help you go to market. (Bonus if you have distribution!)</p>
+            <p><strong>Monthly retainer + equity.</strong> We both take equity in the business. If it works, we both win.</p>
+            <p><strong>Build, pop-up, repeat.</strong> A build takes a week or two, depending on complexity. Speed means we learn faster and build smarter.</p>
+        </section>
+
+        <hr class="divider">
+
+        <section>
+            <div class="testimonial-rotator" id="testimonialRotator">
+                <div class="testimonial-slide active">
+                    <p class="testimonial-quote">"I can't speak highly enough of Sam. He's high agency, accountable, and incredibly strategic&mdash;always focused on what truly moves the needle."</p>
+                    <p class="testimonial-attr">Stephen Francis &middot; COO at Proximity VC</p>
+                </div>
+                <div class="testimonial-slide">
+                    <p class="testimonial-quote">"I've had the pleasure of working with hundreds of people over the decades, and Sam is without doubt amongst the very best of the best."</p>
+                    <p class="testimonial-attr">Tom Dunmore &middot; VP, Marketing at The Snow League</p>
+                </div>
+            </div>
+            <div class="testimonial-dots">
+                <div class="testimonial-dot active" onclick="goToTestimonial(0)"></div>
+                <div class="testimonial-dot" onclick="goToTestimonial(1)"></div>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <section>
+            <div class="section-label">Portfolio</div>
+            <div class="portfolio-grid">
+                <div class="portfolio-card">
+                    <div class="portfolio-role">Founder</div>
+                    <div class="portfolio-name">Haul</div>
+                    <div class="portfolio-desc">The social sharing tool for estate sale buyers.</div>
+                </div>
+                <div class="portfolio-card">
+                    <div class="portfolio-role">Founder</div>
+                    <a href="https://www.callingcard.site/" target="_blank" class="portfolio-name" style="text-decoration: none; color: var(--walnut); border-bottom: 1px solid rgba(166, 93, 63, 0.3);">Calling Card ↗</a>
+                    <div class="portfolio-desc">Custom, one-page personal websites. Delivered in days, not weeks.</div>
+                </div>
+                <div class="portfolio-card">
+                    <div class="portfolio-role">Partner</div>
+                    <div class="portfolio-name">Pickleball State</div>
+                    <div class="portfolio-desc">Pickleball tournament directory + newsletter.</div>
+                </div>
+                <div class="portfolio-card">
+                    <div class="portfolio-role">Partner</div>
+                    <div class="portfolio-name">JNKML Mailing Club</div>
+                    <div class="portfolio-desc">Monthly junk journal subscription.</div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <section class="projects">
+            <div class="section-label">What We'd Build</div>
+            <p><strong>The more niche, the better.</strong></p>
+            <ul>
+                <li>A lawn care AI that tells you exactly what to do, when, to have the best yard on the block</li>
+                <li>An AI that reads a restaurant's Yelp reviews and generates a prioritized fix-it list for the owner</li>
+                <li>Fleet and route management for mobile pet groomers</li>
+                <li>A tool that watches public permit filings and surfaces real estate opportunities</li>
+            </ul>
+            <button class="see-more-btn" onclick="openModal()">Try your luck <span>→</span></button>
+        </section>
+
+        <!-- Ideas Modal -->
+        <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+            <div class="modal" onclick="event.stopPropagation()">
+                <button class="modal-close" onclick="event.stopPropagation(); closeModal()">×</button>
+                <div class="modal-header">
+                    <div class="section-label">More Ideas</div>
+                </div>
+                <div class="modal-ideas" id="modalIdeas">
+                    <!-- Ideas will be inserted here by JS -->
+                </div>
+                <div class="slot-lever" onclick="pullLever()">
+                    <div class="lever-track">
+                        <div class="lever-knob" id="leverKnob"></div>
+                    </div>
+                    <div class="lever-label">Tap to pull</div>
+                </div>
+                <a href="#letstalk" onclick="closeModal()" style="display: block; text-align: center; margin-top: 24px; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brass); text-decoration: none; border-bottom: none; transition: color 0.2s ease;">Like one of these? Let's talk →</a>
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <section class="how">
+            <div class="section-label">How It Works</div>
+            <ol>
+                <li>You bring an idea and expertise. We scope it together.</li>
+                <li>I build it in a week or two. We put it in front of real users.</li>
+                <li>Double down on what works, move on from what doesn't. Repeat.</li>
+            </ol>
+        </section>
+
+        <hr class="divider">
+
+        <section class="cta" id="letstalk">
+            <div class="section-label">Work Together</div>
+            <p>If something on this page made you think "that's me" — I'd love to hear what you're sitting on.</p>
+            
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="idea">What's the idea? <span class="optional">(optional)</span></label>
+                    <textarea id="idea" name="idea" rows="3"></textarea>
+                </div>
+                <button type="submit" class="cta-button">Run a Pop-Up</button>
+            </form>
+
+
+        </section>
+
+        <footer>
+            <div style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.5rem; color: var(--walnut); margin-bottom: 16px; opacity: 0.3;">SR</div>
+            <p>Built by me in The Sunshine State · <a href="https://www.linkedin.com/in/sam-rahim/" target="_blank" style="color: var(--brass); text-decoration: none; border-bottom: 1px solid rgba(139, 115, 85, 0.3); transition: border-color 0.2s ease;">LinkedIn</a></p>
+        </footer>
+    </div>
+
+    <script>
+        const ideas = [
+            "A home inspection report generator that cuts a 3-hour writeup to 10 minutes",
+            "An AI nutritionist that replaces the $200/month meal planning service",
+            "A property tax appeal tool that does what a $3K consultant does for $50",
+            "A tool that reads your lease and tells you what your landlord can and can't do",
+            "An insurance claims estimator for auto body shops that skips the back-and-forth with adjusters",
+            "A booking and scheduling platform for fishing charter captains",
+            "A CRM built specifically for commercial real estate brokers",
+            "A job management tool for pool cleaning companies",
+            "Inventory tracking for independent plant nurseries",
+            "A client portal for immigration attorneys",
+            "A quoting tool for custom fabrication shops",
+            "Fleet and route management for mobile pet groomers",
+            "A vendor management platform for wedding planners",
+            "Production scheduling software for craft breweries",
+            "Student progress tracking for martial arts studios",
+            "A repair order system for independent watch repair shops",
+            "A patient intake and consent flow for med spas",
+            "A load board built for hot shot truckers, not big freight companies",
+            "A client management tool for dog trainers juggling 40 active clients",
+            "A project tracker for residential electricians who run 3-person crews",
+            "Bid management software for commercial cleaning companies",
+            "A parts inventory system for small engine repair shops",
+            "A route planner for mobile car detailers doing 6 stops a day",
+            "A client reporting dashboard for boutique PR firms",
+            "Appointment and follow-up management for mobile notaries",
+            "A marketplace for surplus commercial kitchen equipment",
+            "A platform connecting property owners with film location scouts",
+            "A marketplace for freelance lab technicians",
+            "A matching platform for retired engineers and hardware startups that need prototyping help",
+            "A marketplace for secondhand salon equipment",
+            "A platform where churches list event space availability for community rentals",
+            "A lawn care AI that tells you exactly what to do, when, to have the best yard on the block",
+            "An AI that monitors your competitors' pricing and alerts you daily",
+            "A tool that watches public permit filings and surfaces real estate opportunities",
+            "An AI that turns a rambling voice memo into a structured project brief",
+            "A tool that reads earnings calls and writes the summary your team actually needs",
+            "An AI that grades your eBay listing photos and tells you how to improve them",
+            "A food cost calculator that watches ingredient prices and updates your menu margins in real time",
+            "An AI that reads a restaurant's Yelp reviews and generates a prioritized fix-it list for the owner",
+            "A tool that scans HOA meeting minutes and flags anything that affects your property value",
+            "A tool that monitors county court filings and alerts real estate investors to pre-foreclosures",
+            "An AI that watches your Etsy shop and rewrites underperforming listings automatically",
+            "A tool that reads veterinary lab results and generates plain-English summaries for pet owners",
+            "A script generator for real estate agents making neighborhood tour videos",
+            "A UGC management platform for DTC brands running 50+ creators",
+            "A podcast booking tool that matches B2B shows under 10K downloads with relevant guests",
+            "A tool that turns one property listing into a video script, carousel post, and email blast",
+            "An app that tracks every estate sale, garage sale, and flea market within 50 miles",
+            "A booking tool for local sports leagues that handles refs, fields, and rain reschedules",
+            "A review and booking platform specifically for children's birthday party venues",
+            "A platform that lets neighborhoods collectively hire and manage shared private security",
+            "A tool that aggregates every permitted food truck's live location in your city",
+            "A booking system for local hunting land owners who want to lease by the day",
+            "An onboarding platform for franchise owners opening their first location",
+            "A compliance tracker for small healthcare practices that can't afford a full-time admin",
+            "A warranty claim management tool for HVAC contractors",
+            "A tip pooling and payout calculator for restaurants that actually follows state law",
+            "A change order tracker for residential general contractors",
+            "A damage deposit documentation tool for Airbnb property managers",
+            "A punch list app for construction foremen that syncs photos to line items automatically"
+        ];
+
+        let availableIdeas = [...ideas];
+        let generateCount = 0;
+        const btnLabels = ['Show me 3 more', 'Another round', 'Keep going', 'What else?', 'One more time'];
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        var isSpinning = false;
+
+        function generateIdeas() {
+            if (availableIdeas.length < 3) {
+                availableIdeas = [...ideas];
+                shuffleArray(availableIdeas);
+            }
+
+            var selectedIdeas = availableIdeas.splice(0, 3);
+            var modalIdeas = document.getElementById('modalIdeas');
+
+            modalIdeas.innerHTML = '<ul>' +
+                selectedIdeas.map(function() { return '<li class="spinning"></li>'; }).join('') +
+                '</ul>';
+
+            var items = modalIdeas.querySelectorAll('li');
+
+            items.forEach(function(item, i) {
+                setTimeout(function() {
+                    item.className = 'landed';
+                    item.textContent = selectedIdeas[i];
+                }, 400 + i * 300);
+            });
+
+            setTimeout(function() { isSpinning = false; }, 400 + 3 * 300);
+        }
+
+        function pullLever() {
+            if (isSpinning) return;
+            isSpinning = true;
+
+            var knob = document.getElementById('leverKnob');
+            knob.className = 'lever-knob';
+            void knob.offsetWidth;
+            knob.classList.add('pulled');
+
+            setTimeout(function() {
+                knob.classList.remove('pulled');
+                knob.classList.add('snap-back');
+                generateIdeas();
+                setTimeout(function() {
+                    knob.classList.remove('snap-back');
+                }, 200);
+            }, 350);
+        }
+
+        function openModal() {
+            document.getElementById('modalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            isSpinning = false;
+            pullLever();
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Testimonial rotator
+        var currentTestimonial = 0;
+        var testimonialSlides = document.querySelectorAll('.testimonial-slide');
+        var testimonialDots = document.querySelectorAll('.testimonial-dot');
+
+        function goToTestimonial(index) {
+            testimonialSlides[currentTestimonial].classList.remove('active');
+            testimonialDots[currentTestimonial].classList.remove('active');
+            currentTestimonial = index;
+            testimonialSlides[currentTestimonial].classList.add('active');
+            testimonialDots[currentTestimonial].classList.add('active');
+        }
+
+        setInterval(function() {
+            goToTestimonial((currentTestimonial + 1) % testimonialSlides.length);
+        }, 8000);
+
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const json = JSON.stringify({
+                name: this.name.value,
+                email: this.email.value,
+                idea: this.idea.value
+            });
+
+            // Fire and forget — don't wait for response
+            fetch('https://script.google.com/macros/s/AKfycbzJC0Fuxx1O9w6SBkAhdUp7e9psW3B5VgGuOnPBC6FojAXrpYhdNw66fyblRXjKqugXzQ/exec', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain' },
+                body: json
+            });
+
+            // Show success immediately with typewriter effect
+            this.reset();
+            this.innerHTML = '<div style="border: 1.5px solid var(--brass); padding: 32px; text-align: center; opacity: 0; transform: translateY(8px); animation: fadeIn 0.4s ease forwards;"><p id="typewriter" style="font-family: Playfair Display, serif; font-size: 1.25rem; color: var(--walnut); margin-bottom: 8px; min-height: 1.5em;"></p><p id="typewriter-sub" style="font-size: 0.875rem; color: var(--graphite); line-height: 1.8; opacity: 0;"></p></div>';
+
+            function typeWrite(el, text, speed, callback) {
+                let i = 0;
+                function tick() {
+                    if (i < text.length) {
+                        el.textContent += text[i];
+                        i++;
+                        setTimeout(tick, speed);
+                    } else if (callback) {
+                        callback();
+                    }
+                }
+                tick();
+            }
+
+            setTimeout(function() {
+                typeWrite(document.getElementById('typewriter'), 'Great to hear from you!', 40, function() {
+                    var sub = document.getElementById('typewriter-sub');
+                    sub.style.opacity = '1';
+                    sub.style.transition = 'opacity 0.5s ease';
+                    typeWrite(sub, "I'll be in touch as soon as I can.", 30);
+                });
+            }, 400);
+        });
+    </script>
+</body>
+</html>
