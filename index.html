@@ -219,37 +219,22 @@
         }
 
         /* Game list */
-        .game-section {
-            border-top: 2px solid var(--ink);
-            border-bottom: 2px solid var(--ink);
-            padding: 32px 0;
-            margin: 32px 0;
-            text-align: center;
-        }
-
         .game-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px 24px;
-            margin: 0;
+            list-style: none;
+            margin: 24px 0;
         }
 
-        .game-title {
+        .game-list li {
             font-family: 'Rokkitt', 'Rockwell', serif;
             font-size: 1.125rem;
             font-weight: 700;
             color: var(--ink);
-            white-space: nowrap;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(26, 26, 26, 0.1);
         }
 
-        .game-title::before {
-            content: "· ";
-            opacity: 0.4;
-        }
-
-        .game-title:first-child::before {
-            content: "";
+        .game-list li:last-child {
+            border-bottom: none;
         }
 
         /* Pull quote */
@@ -634,16 +619,14 @@
                 <div class="section-header">What We'd Pop Up</div>
                 <p>Every game is a "Can You ___?" They play. They struggle. They call you.</p>
 
-                <div class="game-section">
-                    <p class="game-list">
-                        <span class="game-title">"Can You Retire?"</span>
-                        <span class="game-title">"Can You Buy a House?"</span>
-                        <span class="game-title">"Can You Do Your Own Taxes?"</span>
-                        <span class="game-title">"Can You Fix Your Own Roof?"</span>
-                        <span class="game-title">"Can You Survive Summer Without AC?"</span>
-                        <span class="game-title">"Can You Diagnose Your Dog?"</span>
-                    </p>
-                </div>
+                <ul class="game-list">
+                    <li>"Can You Retire?"</li>
+                    <li>"Can You Buy a House?"</li>
+                    <li>"Can You Do Your Own Taxes?"</li>
+                    <li>"Can You Fix Your Own Roof?"</li>
+                    <li>"Can You Survive Summer Without AC?"</li>
+                    <li>"Can You Diagnose Your Dog?"</li>
+                </ul>
 
                 <p style="font-style: italic;">The answer is always: technically yes, practically no.</p>
             </section>
