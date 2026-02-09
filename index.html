@@ -28,8 +28,6 @@
             --cream: #EDE8DF;
             --ink: #1a1a1a;
             --brown: #2C2216;
-            --rust: #B5533E;
-            --rust-dark: #8B3D2E;
         }
 
         * {
@@ -88,7 +86,7 @@
             position: absolute;
             top: -100px;
             left: 16px;
-            background: var(--rust);
+            background: var(--ink);
             color: var(--cream);
             padding: 12px 20px;
             font-size: 0.875rem;
@@ -139,13 +137,14 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
             padding: 12px 20px;
-            background-color: var(--rust);
-            border: none;
-            transition: background-color 0.2s ease;
+            background-color: var(--ink);
+            border: 2px solid var(--ink);
+            transition: background-color 0.15s ease, color 0.15s ease;
         }
 
         .nav-cta:hover {
-            background-color: var(--rust-dark);
+            background-color: var(--cream);
+            color: var(--ink);
         }
 
         .nav-cta:focus {
@@ -409,7 +408,7 @@
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            border-bottom-color: var(--rust);
+            border-bottom-width: 3px;
         }
 
         .form-group textarea {
@@ -424,17 +423,18 @@
             letter-spacing: 0.1em;
             text-transform: uppercase;
             color: var(--cream);
-            background-color: var(--rust);
-            border: none;
+            background-color: var(--ink);
+            border: 2px solid var(--ink);
             padding: 16px 32px;
             min-height: 48px;
             cursor: pointer;
-            transition: background-color 0.2s ease;
+            transition: background-color 0.15s ease, color 0.15s ease;
             width: 100%;
         }
 
         .cta-button:hover {
-            background-color: var(--rust-dark);
+            background-color: var(--cream);
+            color: var(--ink);
         }
 
         .cta-button:focus {
@@ -461,11 +461,11 @@
             color: var(--ink);
             text-decoration: none;
             border-bottom: 1px solid var(--ink);
-            transition: border-color 0.2s ease;
+            transition: border-bottom-width 0.15s ease;
         }
 
         a.text-link:hover {
-            border-bottom-color: var(--rust);
+            border-bottom-width: 2px;
         }
 
         /* Responsive */
