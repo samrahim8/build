@@ -218,6 +218,25 @@
             font-weight: 600;
         }
 
+        /* Game list */
+        .game-list {
+            margin: 0;
+        }
+
+        .game-title {
+            display: block;
+            font-family: 'Rokkitt', 'Rockwell', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .game-title:last-child {
+            margin-bottom: 0;
+        }
+
         /* Pull quote */
         .pull-quote {
             font-family: 'Rokkitt', 'Rockwell', serif;
@@ -598,55 +617,18 @@
 
             <section>
                 <div class="section-header">What We'd Pop Up</div>
-                <p style="margin-bottom: 32px;">Every game is a "Can You ___?" They play. They lose. They call you.</p>
+                <p style="margin-bottom: 24px;">Every game is a "Can You ___?" They play. They struggle. They call you.</p>
 
-                <ul class="menu-list">
-                    <li class="menu-item">
-                        <span class="menu-item-name">Real Estate</span>
-                        <span class="menu-item-dots"></span>
-                        <span class="menu-item-desc">"Can You Buy a House?" — Make offers, get outbid, watch rates change. Hard mode: no agent.</span>
-                    </li>
-                    <li class="menu-item">
-                        <span class="menu-item-name">Financial Advisor</span>
-                        <span class="menu-item-dots"></span>
-                        <span class="menu-item-desc">"Can You Retire?" — Oregon Trail for your 401k. Life happens. You probably go broke.</span>
-                    </li>
-                    <li class="menu-item">
-                        <span class="menu-item-name">Injury Lawyer</span>
-                        <span class="menu-item-dots"></span>
-                        <span class="menu-item-desc">"Can You Win Your Own Claim?" — Insurance lowballs you. Bills pile up. See what you left on the table.</span>
-                    </li>
-                    <li class="menu-item">
-                        <span class="menu-item-name">Dentist</span>
-                        <span class="menu-item-dots"></span>
-                        <span class="menu-item-desc">"Can You Skip the Dentist for 5 Years?" — Small problems compound. See the bill at the end.</span>
-                    </li>
-                    <li class="menu-item">
-                        <span class="menu-item-name">Accountant</span>
-                        <span class="menu-item-dots"></span>
-                        <span class="menu-item-desc">"Can You Do Your Own Taxes?" — Miss deductions. Overpay. See what a pro would've saved you.</span>
-                    </li>
-                    <li class="menu-item">
-                        <span class="menu-item-name">Personal Trainer</span>
-                        <span class="menu-item-dots"></span>
-                        <span class="menu-item-desc">"Can You Get in Shape Alone?" — 90-day sim. Life derails you. Compare to a real program.</span>
-                    </li>
-                    <li class="menu-item">
-                        <span class="menu-item-name">HVAC</span>
-                        <span class="menu-item-dots"></span>
-                        <span class="menu-item-desc">"Can You Survive Summer Without AC?" — DIY fixes, window units, fans. See how long you last.</span>
-                    </li>
-                    <li class="menu-item">
-                        <span class="menu-item-name">Roofer</span>
-                        <span class="menu-item-dots"></span>
-                        <span class="menu-item-desc">"Can You Fix Your Own Roof?" — YouTube confidence. Then rain comes.</span>
-                    </li>
-                    <li class="menu-item">
-                        <span class="menu-item-name">Vet</span>
-                        <span class="menu-item-dots"></span>
-                        <span class="menu-item-desc">"Can You Diagnose Your Dog?" — Google symptoms. Make choices. Sometimes you make it worse.</span>
-                    </li>
-                </ul>
+                <p class="game-list">
+                    <span class="game-title">"Can You Retire?"</span>
+                    <span class="game-title">"Can You Buy a House?"</span>
+                    <span class="game-title">"Can You Do Your Own Taxes?"</span>
+                    <span class="game-title">"Can You Fix Your Own Roof?"</span>
+                    <span class="game-title">"Can You Survive Summer Without AC?"</span>
+                    <span class="game-title">"Can You Diagnose Your Dog?"</span>
+                </p>
+
+                <p style="margin-top: 24px; font-style: italic;">The answer is always: technically yes, practically no.</p>
             </section>
 
             <div class="divider">* * * * *</div>
