@@ -48,6 +48,22 @@
             cursor: pointer;
         }
 
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 16px;
+            background: var(--oxide);
+            color: var(--parchment);
+            padding: 12px 20px;
+            font-size: 0.875rem;
+            z-index: 1000;
+            transition: top 0.2s ease;
+        }
+
+        .skip-link:focus {
+            top: 16px;
+        }
+
         html {
             scroll-behavior: smooth;
             overflow-x: hidden;
@@ -58,7 +74,7 @@
             background-color: var(--parchment);
             color: var(--walnut);
             line-height: 1.7;
-            font-size: 15px;
+            font-size: 16px;
             overflow-x: hidden;
             max-width: 100vw;
         }
@@ -113,7 +129,9 @@
             transform: translateX(-50%);
             width: 100%;
             z-index: 100;
-            background-color: transparent;
+            background-color: rgba(245, 241, 232, 0.95);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
         .header-inner {
@@ -148,6 +166,11 @@
             border-color: #8B4A30;
             color: var(--parchment);
             transform: translateY(-2px);
+        }
+
+        .nav-cta:focus {
+            outline: 2px solid var(--oxide);
+            outline-offset: 2px;
         }
 
         /* Hero */
@@ -369,7 +392,7 @@
 
         .form-group textarea {
             resize: vertical;
-            min-height: 80px;
+            min-height: 120px;
         }
 
         .contact-form .cta-button {
@@ -395,6 +418,11 @@
         .cta-button:hover {
             background-color: #8B4A30;
             transform: translateY(-2px);
+        }
+
+        .cta-button:focus {
+            outline: 2px solid var(--oxide);
+            outline-offset: 2px;
         }
 
         /* Footer */
@@ -493,6 +521,7 @@
     </style>
 </head>
 <body>
+    <a href="#main" class="skip-link">Skip to content</a>
     <header>
         <div class="header-inner">
             <div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="18" height="18" style="vertical-align: middle; margin-right: 6px;"><polygon points="50,12 90,35 10,35" fill="currentColor"/><rect x="12" y="35" width="76" height="8" fill="currentColor"/><line x1="18" y1="43" x2="18" y2="85" stroke="currentColor" stroke-width="4"/><line x1="82" y1="43" x2="82" y2="85" stroke="currentColor" stroke-width="4"/></svg>Pop-Up</div>
@@ -500,7 +529,7 @@
         </div>
     </header>
 
-    <div class="container">
+    <div class="container" id="main">
         <section class="hero">
             <h1>Your next lead magnet isn't a PDF. It's a tool.</h1>
             <p class="hero-sub">I build pop-ups — small software tools that give your customers free value and bring them through the door.</p>
