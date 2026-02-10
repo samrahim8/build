@@ -100,11 +100,49 @@
         }
 
         .container {
-            max-width: 680px;
+            max-width: 720px;
             margin: 0 auto;
             padding: 0 32px;
             position: relative;
             z-index: 3;
+        }
+
+        /* Desktop enhancements */
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 760px;
+                padding: 0 48px;
+            }
+
+            .hero {
+                padding: 100px 0 80px;
+            }
+
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+
+            .divider {
+                padding: 56px 0;
+            }
+
+            section {
+                padding: 0 0 56px;
+            }
+
+            .contact-section {
+                padding: 56px 0 100px;
+            }
+        }
+
+        @media (min-width: 1440px) {
+            .container {
+                max-width: 800px;
+            }
+
+            .hero {
+                padding: 120px 0 96px;
+            }
         }
 
         /* Header */
