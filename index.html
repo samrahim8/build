@@ -248,8 +248,39 @@
         }
 
         /* Pricing */
+        .pricing-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 48px;
+            max-width: 420px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .pricing-card .section-label {
+            margin-bottom: 12px;
+        }
+
+        .pricing-price {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 3.5rem;
+            font-weight: 400;
+            color: var(--text);
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .pricing-desc {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
         .pricing-list {
             list-style: none;
+            text-align: left;
         }
 
         .pricing-list li {
@@ -509,17 +540,19 @@
         <!-- Pricing -->
         <section>
             <div class="container">
-                <p class="section-label">Pricing</p>
-                <h2>$1,500 for your first POP-UP</h2>
-                <p>One custom interactive game, designed and built for your business. Live in two weeks.</p>
-                <ul class="pricing-list" style="margin-top: 32px;">
-                    <li>Strategy session</li>
-                    <li>Custom design and build</li>
-                    <li>Landing page included</li>
-                    <li>Email capture and integration</li>
-                    <li>Mobile-friendly</li>
-                    <li>One revision round</li>
-                </ul>
+                <div class="pricing-card">
+                    <p class="section-label">Pricing</p>
+                    <p class="pricing-price">$1,500</p>
+                    <p class="pricing-desc">One custom interactive game, designed and built for your business. Live in two weeks.</p>
+                    <ul class="pricing-list">
+                        <li>Strategy session</li>
+                        <li>Custom design and build</li>
+                        <li>Landing page included</li>
+                        <li>Email capture and integration</li>
+                        <li>Mobile-friendly</li>
+                        <li>One revision round</li>
+                    </ul>
+                </div>
             </div>
         </section>
 
