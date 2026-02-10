@@ -122,7 +122,7 @@
         .game-container {
             flex: 1;
             display: flex;
-            align-items: flex-start;
+            align-items: safe center;
             justify-content: center;
             padding: 20px;
             padding-top: 90px;
@@ -135,7 +135,7 @@
         }
 
         .game-container.centered {
-            align-items: center;
+            align-items: safe center;
         }
 
         /* Screens */
@@ -712,93 +712,125 @@
 
         /* Playbook Screen */
         .playbook-screen {
-            max-width: 520px;
+            max-width: 440px;
+            width: 100%;
+            padding: 20px 0;
+        }
+
+        .playbook-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 28px 24px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            text-align: center;
         }
 
         .playbook-header {
-            text-align: center;
             margin-bottom: 24px;
         }
 
         .playbook-header h2 {
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
         .playbook-header p {
             color: var(--text-muted);
-            font-size: 0.9375rem;
+            font-size: 0.875rem;
         }
 
-        /* Scorecard */
-        .scorecard {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 24px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        /* Stats Row */
+        .playbook-stats {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e5e5e5;
         }
 
-        .scorecard-title {
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+        .playbook-stat {
+            text-align: center;
+        }
+
+        .playbook-stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .playbook-stat-label {
+            font-size: 0.6875rem;
             color: var(--text-muted);
-            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Interactive Scorecard */
+        .scorecard {
+            margin-bottom: 20px;
+        }
+
+        .scorecard-label {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 12px;
         }
 
         .scorecard-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            flex-wrap: wrap;
         }
 
         .score-item {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 6px;
+            justify-content: center;
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: var(--bg);
+            border: 2px solid transparent;
         }
 
-        .score-round {
-            font-size: 0.6875rem;
-            color: var(--text-muted);
-            font-weight: 500;
+        .score-item:hover {
+            transform: scale(1.1);
+            border-color: var(--accent);
         }
 
-        .score-icon {
-            font-size: 1.5rem;
+        .score-item.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
         }
 
-        /* Decision Breakdown */
-        .breakdown-section {
-            margin-bottom: 20px;
+        /* Detail Panel */
+        .detail-panel {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e5e5;
+            text-align: left;
+            display: none;
+            animation: fadeIn 0.3s ease;
         }
 
-        .breakdown-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 12px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-            border-left: 4px solid transparent;
+        .detail-panel.visible {
+            display: block;
         }
 
-        .breakdown-card.good { border-left-color: var(--green); }
-        .breakdown-card.ok { border-left-color: var(--orange); }
-        .breakdown-card.bad { border-left-color: var(--red); }
-
-        .breakdown-header {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 12px;
-            margin-bottom: 12px;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .breakdown-round {
+        .detail-round-label {
             font-size: 0.6875rem;
             font-weight: 600;
             text-transform: uppercase;
@@ -807,93 +839,90 @@
             margin-bottom: 4px;
         }
 
-        .breakdown-title {
-            font-size: 1rem;
+        .detail-title {
+            font-size: 1.125rem;
             font-weight: 600;
-        }
-
-        .breakdown-badge {
-            font-size: 1.25rem;
-            flex-shrink: 0;
-        }
-
-        .breakdown-choice {
-            font-size: 0.875rem;
-            color: var(--text-muted);
             margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-choice {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
             padding: 10px 12px;
             background: var(--bg);
             border-radius: 8px;
+            margin-bottom: 12px;
             line-height: 1.4;
         }
 
-        .breakdown-insight {
+        .detail-insight {
             font-size: 0.9375rem;
             line-height: 1.5;
             color: var(--text);
         }
 
-        .breakdown-insight strong {
+        .detail-insight strong {
             color: var(--accent);
         }
 
-        /* Takeaway Section */
-        .takeaway-card {
+        /* Takeaway */
+        .playbook-takeaway {
+            margin-top: 20px;
+            padding: 20px;
             background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            border-radius: 20px;
-            padding: 28px 24px;
-            margin-bottom: 20px;
+            border-radius: 16px;
             color: white;
-            text-align: center;
         }
 
-        .takeaway-label {
-            font-size: 0.75rem;
+        .playbook-takeaway-label {
+            font-size: 0.6875rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.08em;
             opacity: 0.8;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
-        .takeaway-text {
-            font-size: 1.125rem;
-            font-weight: 500;
+        .playbook-takeaway-text {
+            font-size: 0.9375rem;
             line-height: 1.5;
         }
 
-        /* Playbook CTA */
+        /* CTA Section */
         .playbook-cta {
             background: var(--card-bg);
             border-radius: 20px;
-            padding: 28px 24px;
+            padding: 24px;
+            margin-top: 16px;
             text-align: center;
             box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-            margin-bottom: 20px;
         }
 
         .playbook-cta h3 {
-            font-size: 1.25rem;
+            font-size: 1.125rem;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .playbook-cta p {
             color: var(--text-muted);
-            font-size: 0.9375rem;
-            margin-bottom: 20px;
-            line-height: 1.5;
+            font-size: 0.8125rem;
+            margin-bottom: 16px;
+            line-height: 1.4;
         }
 
         .playbook-cta-btn {
             display: inline-block;
-            padding: 16px 32px;
-            font-size: 1rem;
+            padding: 14px 28px;
+            font-size: 0.9375rem;
             font-weight: 600;
             color: white;
             background: var(--text);
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             cursor: pointer;
             font-family: inherit;
             text-decoration: none;
@@ -904,16 +933,21 @@
             opacity: 0.9;
         }
 
+        .playbook-footer {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
         .playbook-play-again {
-            display: block;
-            width: 100%;
-            padding: 14px 28px;
-            font-size: 0.9375rem;
+            flex: 1;
+            padding: 12px 20px;
+            font-size: 0.875rem;
             font-weight: 600;
             color: var(--text);
             background: transparent;
             border: 2px solid #e5e5e5;
-            border-radius: 12px;
+            border-radius: 10px;
             cursor: pointer;
             font-family: inherit;
             transition: border-color 0.2s ease;
@@ -941,13 +975,26 @@
                 font-size: 2.5rem;
             }
 
-            .scorecard-grid {
-                grid-template-columns: repeat(5, 1fr);
-                gap: 6px;
+            .playbook-card {
+                padding: 24px 20px;
             }
 
-            .score-icon {
-                font-size: 1.25rem;
+            .playbook-stats {
+                gap: 24px;
+            }
+
+            .score-item {
+                width: 36px;
+                height: 36px;
+                font-size: 1.125rem;
+            }
+
+            .playbook-takeaway {
+                padding: 16px;
+            }
+
+            .playbook-takeaway-text {
+                font-size: 0.875rem;
             }
 
             .overlay-card {
@@ -1097,38 +1144,61 @@
         <!-- Playbook Screen -->
         <div class="screen" id="playbookScreen">
             <div class="playbook-screen">
-                <div class="playbook-header">
-                    <h2>Your Social Playbook</h2>
-                    <p>A breakdown of every move you made.</p>
-                </div>
-
-                <!-- Scorecard -->
-                <div class="scorecard">
-                    <div class="scorecard-title">Your Scorecard</div>
-                    <div class="scorecard-grid" id="scorecardGrid">
-                        <!-- Filled by JS -->
+                <div class="playbook-card">
+                    <div class="playbook-header">
+                        <h2>Your Playbook</h2>
+                        <p>Tap any round to see the breakdown</p>
                     </div>
-                </div>
 
-                <!-- Decision Breakdown -->
-                <div class="breakdown-section" id="breakdownSection">
-                    <!-- Filled by JS -->
-                </div>
+                    <!-- Stats -->
+                    <div class="playbook-stats">
+                        <div class="playbook-stat">
+                            <div class="playbook-stat-value" id="smartMovesCount">7</div>
+                            <div class="playbook-stat-label">Smart Moves</div>
+                        </div>
+                        <div class="playbook-stat">
+                            <div class="playbook-stat-value" id="roundsPlayedCount">10</div>
+                            <div class="playbook-stat-label">Rounds</div>
+                        </div>
+                    </div>
 
-                <!-- Takeaway -->
-                <div class="takeaway-card">
-                    <div class="takeaway-label">Your Takeaway</div>
-                    <p class="takeaway-text" id="takeawayText">You've got great instincts for social. Now imagine a custom experience like this, tuned for your audience.</p>
+                    <!-- Interactive Scorecard -->
+                    <div class="scorecard">
+                        <div class="scorecard-label">Your Decisions</div>
+                        <div class="scorecard-grid" id="scorecardGrid">
+                            <!-- Filled by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Detail Panel (shows when a round is tapped) -->
+                    <div class="detail-panel" id="detailPanel">
+                        <div class="detail-round-label" id="detailRoundLabel">Round 1</div>
+                        <div class="detail-title" id="detailTitle">
+                            <span id="detailTitleText">First Post</span>
+                            <span id="detailBadge">✅</span>
+                        </div>
+                        <div class="detail-choice" id="detailChoice">"Behind-the-scenes raw video..."</div>
+                        <div class="detail-insight" id="detailInsight">Insight goes here...</div>
+                    </div>
+
+                    <!-- Takeaway -->
+                    <div class="playbook-takeaway">
+                        <div class="playbook-takeaway-label">Your Takeaway</div>
+                        <p class="playbook-takeaway-text" id="takeawayText">You've got great instincts for social.</p>
+                    </div>
                 </div>
 
                 <!-- CTA -->
                 <div class="playbook-cta">
                     <h3>Want one for your business?</h3>
-                    <p>This demo was built for a social media agency. We build custom Pop-Ups for any industry — financial advisors, fitness studios, SaaS companies, and more.</p>
+                    <p>This demo was built for a social media agency. We build custom Pop-Ups for any industry.</p>
                     <a href="/#contact" class="playbook-cta-btn">Let's Build Yours →</a>
                 </div>
 
-                <button class="playbook-play-again" onclick="resetGame()">Play Again</button>
+                <div class="playbook-footer">
+                    <button class="playbook-play-again" onclick="resetGame()">Play Again</button>
+                    <button class="playbook-play-again" onclick="shareTwitter()">Share</button>
+                </div>
             </div>
         </div>
     </div>
@@ -1406,14 +1476,10 @@
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
 
-            // Playbook needs to scroll from top, other screens should be centered
+            // Reset scroll position for all screens
             const container = document.getElementById('gameContainer');
-            if (id === 'playbookScreen') {
-                container.classList.remove('centered');
-                container.scrollTop = 0;
-            } else {
-                container.classList.add('centered');
-            }
+            container.scrollTop = 0;
+            container.classList.add('centered');
         }
 
         function showBrandSelect() {
@@ -1719,33 +1785,43 @@
             }, 800);
         }
 
-        function showPlaybook() {
-            // Generate scorecard
-            const scorecardGrid = document.getElementById('scorecardGrid');
-            scorecardGrid.innerHTML = '';
+        // Store playbook data for interactive display
+        let playbookData = [];
 
+        function getIconForRound(roundIndex, choice) {
+            const insight = strategyInsights[roundIndex]?.[choice?.optionIndex];
+            if (insight?.grade === 'bad') return '❌';
+            if (insight?.grade === 'ok') return '⚠️';
+            if (insight?.grade === 'risky') return choice?.result?.change > 0 ? '🎰' : '💥';
+            return '✅';
+        }
+
+        function showRoundDetail(roundIndex) {
+            const data = playbookData[roundIndex];
+            if (!data) return;
+
+            // Update active state on scorecard
+            document.querySelectorAll('.score-item').forEach((item, i) => {
+                item.classList.toggle('active', i === roundIndex);
+            });
+
+            // Update detail panel
+            document.getElementById('detailRoundLabel').textContent = `Round ${roundIndex + 1} — ${data.title}`;
+            document.getElementById('detailTitleText').textContent = data.subtitle;
+            document.getElementById('detailBadge').textContent = data.icon;
+            document.getElementById('detailChoice').textContent = `"${data.choiceText}"`;
+            document.getElementById('detailInsight').innerHTML = data.insight;
+
+            // Show panel
+            document.getElementById('detailPanel').classList.add('visible');
+        }
+
+        function showPlaybook() {
             const roundsToShow = state.cancelled ? state.cancelledRound : 10;
 
-            for (let i = 0; i < roundsToShow; i++) {
-                const choice = state.choices[i];
-                const insight = strategyInsights[i]?.[choice?.optionIndex];
-                let icon = '✅';
-                if (insight?.grade === 'bad') icon = '❌';
-                else if (insight?.grade === 'ok') icon = '⚠️';
-                else if (insight?.grade === 'risky') icon = choice?.result?.change > 0 ? '🎰' : '💥';
-
-                const item = document.createElement('div');
-                item.className = 'score-item';
-                item.innerHTML = `
-                    <span class="score-round">${i + 1}</span>
-                    <span class="score-icon">${icon}</span>
-                `;
-                scorecardGrid.appendChild(item);
-            }
-
-            // Generate breakdown
-            const breakdownSection = document.getElementById('breakdownSection');
-            breakdownSection.innerHTML = '';
+            // Build playbook data
+            playbookData = [];
+            let smartMoves = 0;
 
             for (let i = 0; i < roundsToShow; i++) {
                 const round = rounds[i];
@@ -1753,39 +1829,50 @@
                 if (!choice) continue;
 
                 const insight = strategyInsights[i]?.[choice.optionIndex];
-                let gradeClass = 'good';
-                let badge = '✅';
-                if (insight?.grade === 'bad') {
-                    gradeClass = 'bad';
-                    badge = '❌';
-                } else if (insight?.grade === 'ok') {
-                    gradeClass = 'ok';
-                    badge = '⚠️';
-                } else if (insight?.grade === 'risky') {
-                    gradeClass = choice.result?.change > 0 ? 'good' : 'bad';
-                    badge = choice.result?.change > 0 ? '🎰' : '💥';
+                const icon = getIconForRound(i, choice);
+
+                // Count smart moves (good or risky wins)
+                if (insight?.grade === 'good' || (insight?.grade === 'risky' && choice.result?.change > 0)) {
+                    smartMoves++;
                 }
 
-                const card = document.createElement('div');
-                card.className = `breakdown-card ${gradeClass}`;
-                card.innerHTML = `
-                    <div class="breakdown-header">
-                        <div>
-                            <div class="breakdown-round">Round ${i + 1} — ${round.title}</div>
-                            <div class="breakdown-title">${round.subtitle}</div>
-                        </div>
-                        <span class="breakdown-badge">${badge}</span>
-                    </div>
-                    <div class="breakdown-choice">"${choice.optionText}"</div>
-                    <div class="breakdown-insight">${insight?.insight || ''}</div>
-                `;
-                breakdownSection.appendChild(card);
+                playbookData.push({
+                    roundIndex: i,
+                    title: round.title,
+                    subtitle: round.subtitle,
+                    icon: icon,
+                    choiceText: choice.optionText,
+                    insight: insight?.insight || ''
+                });
+            }
+
+            // Update stats
+            document.getElementById('smartMovesCount').textContent = smartMoves;
+            document.getElementById('roundsPlayedCount').textContent = roundsToShow;
+
+            // Generate interactive scorecard
+            const scorecardGrid = document.getElementById('scorecardGrid');
+            scorecardGrid.innerHTML = '';
+
+            for (let i = 0; i < roundsToShow; i++) {
+                const data = playbookData[i];
+                const item = document.createElement('div');
+                item.className = 'score-item';
+                item.textContent = data.icon;
+                item.onclick = () => showRoundDetail(i);
+                scorecardGrid.appendChild(item);
             }
 
             // Set takeaway
             document.getElementById('takeawayText').textContent = getTakeaway();
 
+            // Hide detail panel initially
+            document.getElementById('detailPanel').classList.remove('visible');
+
             showScreen('playbookScreen');
+
+            // Auto-show first round after a brief delay
+            setTimeout(() => showRoundDetail(0), 300);
         }
     </script>
 </body>
