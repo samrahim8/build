@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Can You Retire? — Interactive Simulator</title>
+    <meta name="description" content="Make 11 life decisions. See if you make it.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Can You Retire? — Interactive Simulator">
+    <meta property="og:description" content="Make 11 life decisions. See if you make it.">
+    <meta property="og:image" content="https://popup.company/og-game.png">
+    <meta property="og:url" content="https://popup.company/game">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Can You Retire? — Interactive Simulator">
+    <meta name="twitter:description" content="Make 11 life decisions. See if you make it.">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23C4704C'/><text x='50' y='70' text-anchor='middle' font-family='serif' font-size='60' font-weight='bold' fill='%23fff'>P</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --card-bg: #141414;
+            --card-border: #2a2a2a;
+            --text: #ffffff;
+            --text-muted: #888;
+            --accent: #C4704C;
+            --green: #22c55e;
+            --red: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--card-border);
+            background: var(--bg);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .top-bar.visible {
+            display: flex;
+        }
+
+        .age-display {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .age-display span {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .balance-display {
+            text-align: right;
+        }
+
+        .balance-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 2px;
+        }
+
+        .balance-amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-feature-settings: "tnum";
+            transition: color 0.3s ease;
+        }
+
+        .balance-amount.positive {
+            color: var(--green);
+        }
+
+        .balance-amount.negative {
+            color: var(--red);
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            display: none;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px 24px;
+            background: var(--bg);
+            position: fixed;
+            top: 73px;
+            left: 0;
+            right: 0;
+            z-index: 99;
+        }
+
+        .progress-bar.visible {
+            display: flex;
+        }
+
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--card-border);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .progress-dot.completed {
+            background: var(--accent);
+        }
+
+        .progress-dot.current {
+            background: var(--accent);
+            transform: scale(1.25);
+        }
+
+        /* Main Content */
+        .game-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            padding-top: 140px;
+            overflow-y: auto;
+        }
+
+        .game-container.no-header {
+            padding-top: 24px;
+        }
+
+        /* Screens */
+        .screen {
+            display: none;
+            width: 100%;
+            max-width: 480px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Start Screen */
+        .start-screen {
+            text-align: center;
+        }
+
+        .start-screen h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .start-screen .subhead {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 48px;
+        }
+
+        .start-button {
+            display: inline-block;
+            padding: 18px 48px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: white;
+            background: var(--accent);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(196, 112, 76, 0.3);
+        }
+
+        .start-button:active {
+            transform: translateY(0);
+        }
+
+        /* Decision Card */
+        .decision-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 32px;
+        }
+
+        .round-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .decision-context {
+            font-size: 0.9375rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .decision-question {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 32px;
+            line-height: 1.3;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-button {
+            width: 100%;
+            padding: 20px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text);
+            background: var(--bg);
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: left;
+            transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .option-button:hover {
+            border-color: var(--accent);
+            background: rgba(196, 112, 76, 0.1);
+        }
+
+        .option-button:active {
+            transform: scale(0.98);
+        }
+
+        .option-button .impact {
+            display: block;
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Setup Screen */
+        .setup-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+        }
+
+        .setup-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .setup-card .subtext {
+            color: var(--text-muted);
+            margin-bottom: 32px;
+        }
+
+        .salary-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .salary-option {
+            padding: 18px 24px;
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: var(--text);
+            background: var(--bg);
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .salary-option:hover {
+            border-color: var(--accent);
+            background: rgba(196, 112, 76, 0.1);
+        }
+
+        /* Impact Animation */
+        .impact-flash {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            font-weight: 700;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 200;
+        }
+
+        .impact-flash.show {
+            animation: flashIn 0.8s ease forwards;
+        }
+
+        .impact-flash.positive {
+            color: var(--green);
+        }
+
+        .impact-flash.negative {
+            color: var(--red);
+        }
+
+        @keyframes flashIn {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            20% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+            100% { opacity: 0; transform: translate(-50%, -60%) scale(1); }
+        }
+
+        /* Result Screen */
+        .result-screen {
+            text-align: center;
+        }
+
+        .result-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 48px 32px;
+            margin-bottom: 24px;
+        }
+
+        .result-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-radius: 100px;
+            margin-bottom: 24px;
+        }
+
+        .result-badge.success {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--green);
+        }
+
+        .result-badge.failure {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--red);
+        }
+
+        .result-amount {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-feature-settings: "tnum";
+        }
+
+        .result-amount.success {
+            color: var(--green);
+        }
+
+        .result-amount.failure {
+            color: var(--red);
+        }
+
+        .result-headline {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .result-subhead {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        /* Share Card */
+        .share-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .share-text {
+            font-size: 1.125rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .share-button {
+            padding: 12px 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text);
+            background: var(--card-border);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .share-button:hover {
+            background: #3a3a3a;
+        }
+
+        /* CTA */
+        .game-cta {
+            padding: 24px;
+            border-top: 1px solid var(--card-border);
+            text-align: center;
+        }
+
+        .game-cta p {
+            color: var(--text-muted);
+            font-size: 0.9375rem;
+            margin-bottom: 16px;
+        }
+
+        .game-cta a {
+            color: var(--accent);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .game-cta a:hover {
+            text-decoration: underline;
+        }
+
+        .play-again {
+            display: inline-block;
+            padding: 14px 28px;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            color: var(--text);
+            background: transparent;
+            border: 2px solid var(--card-border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+            margin-top: 16px;
+        }
+
+        .play-again:hover {
+            border-color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .start-screen h1 {
+                font-size: 2.25rem;
+            }
+
+            .decision-card, .setup-card, .result-card {
+                padding: 24px;
+            }
+
+            .decision-question {
+                font-size: 1.25rem;
+            }
+
+            .result-amount {
+                font-size: 3rem;
+            }
+
+            .balance-amount {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar" id="topBar">
+        <div class="age-display">Age <span id="currentAge">25</span></div>
+        <div class="balance-display">
+            <div class="balance-label">Retirement</div>
+            <div class="balance-amount" id="balanceDisplay">$0</div>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar">
+        <!-- Dots will be generated by JS -->
+    </div>
+
+    <!-- Impact Flash -->
+    <div class="impact-flash" id="impactFlash"></div>
+
+    <!-- Game Container -->
+    <div class="game-container no-header" id="gameContainer">
+
+        <!-- Start Screen -->
+        <div class="screen active" id="startScreen">
+            <div class="start-screen">
+                <h1>Can You Retire?</h1>
+                <p class="subhead">Make 11 life decisions. See if you make it.</p>
+                <button class="start-button" onclick="startGame()">Start</button>
+            </div>
+        </div>
+
+        <!-- Setup Screen -->
+        <div class="screen" id="setupScreen">
+            <div class="setup-card">
+                <h2>Choose your starting salary</h2>
+                <p class="subtext">This sets your baseline. No wrong answers.</p>
+                <div class="salary-options">
+                    <button class="salary-option" onclick="selectSalary(42500)">$35K – $50K</button>
+                    <button class="salary-option" onclick="selectSalary(62500)">$50K – $75K</button>
+                    <button class="salary-option" onclick="selectSalary(87500)">$75K – $100K</button>
+                    <button class="salary-option" onclick="selectSalary(125000)">$100K+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Decision Screen -->
+        <div class="screen" id="decisionScreen">
+            <div class="decision-card">
+                <div class="round-label" id="roundLabel">Round 1 — Housing</div>
+                <p class="decision-context" id="decisionContext">You're 25.</p>
+                <h2 class="decision-question" id="decisionQuestion">Where do you live?</h2>
+                <div class="options" id="optionsContainer">
+                    <!-- Options populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div class="screen" id="resultScreen">
+            <div class="result-screen">
+                <div class="result-card">
+                    <div class="result-badge" id="resultBadge">You Made It</div>
+                    <div class="result-amount" id="resultAmount">$847,000</div>
+                    <h2 class="result-headline" id="resultHeadline">You retired at 62.</h2>
+                    <p class="result-subhead" id="resultSubhead">Not bad. But would your clients do the same?</p>
+                </div>
+
+                <div class="share-card">
+                    <p class="share-text" id="shareText">I retired at 62 with $847,000 in the Can You Retire? simulator</p>
+                    <div class="share-buttons">
+                        <button class="share-button" onclick="shareTwitter()">Share on X</button>
+                        <button class="share-button" onclick="shareLinkedIn()">Share on LinkedIn</button>
+                        <button class="share-button" onclick="copyLink()">Copy Link</button>
+                    </div>
+                </div>
+
+                <div class="game-cta">
+                    <p>This is a Pop-Up. We build games like this for businesses like yours.</p>
+                    <a href="/#contact">Let's build yours →</a>
+                    <br>
+                    <button class="play-again" onclick="resetGame()">Play Again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game State
+        let state = {
+            balance: 0,
+            age: 25,
+            salary: 0,
+            savingsRate: 0.1,
+            currentRound: 0,
+            hasEmergencyFund: true,
+            retireAge: 65,
+            didRetireEarly: false
+        };
+
+        // Rounds Data
+        const rounds = [
+            {
+                label: "Round 1 — Housing",
+                context: "You're 25.",
+                question: "Where do you live?",
+                options: [
+                    { text: "Rent a cheap apartment with roommates", impact: "+savings", effect: (s) => { s.savingsRate += 0.05; return 8000; } },
+                    { text: "Rent a nice place solo", impact: "−higher monthly cost", effect: (s) => { s.savingsRate -= 0.03; return -5000; } }
+                ],
+                ageAfter: 25
+            },
+            {
+                label: "Round 2 — Transportation",
+                context: "You're 26.",
+                question: "How do you get around?",
+                options: [
+                    { text: "Drive a used car, paid in cash", impact: "+savings", effect: (s) => { return 6000; } },
+                    { text: "Lease a new car", impact: "−monthly drain", effect: (s) => { s.savingsRate -= 0.02; return -8000; } }
+                ],
+                ageAfter: 26
+            },
+            {
+                label: "Round 3 — Career Move",
+                context: "You're 28. Your friend starts a company and wants you to join.",
+                question: "What do you do?",
+                options: [
+                    { text: "Take the startup risk", impact: "coin flip: big gain or small loss", effect: (s) => {
+                        if (Math.random() > 0.4) { s.salary *= 1.4; return 50000; }
+                        else { return -10000; }
+                    }},
+                    { text: "Stay at your stable job", impact: "+steady contributions", effect: (s) => { return 15000; } }
+                ],
+                ageAfter: 28
+            },
+            {
+                label: "Round 4 — Lifestyle Creep",
+                context: "You got a raise.",
+                question: "What do you do with it?",
+                options: [
+                    { text: "Increase your 401k contribution", impact: "+compound growth", effect: (s) => { s.savingsRate += 0.05; return 12000; } },
+                    { text: "Upgrade your lifestyle", impact: "−savings rate drops", effect: (s) => { s.savingsRate -= 0.03; return -3000; } }
+                ],
+                ageAfter: 29
+            },
+            {
+                label: "Round 5 — Housing",
+                context: "You're 30. You've saved enough for a down payment.",
+                question: "Do you buy?",
+                options: [
+                    { text: "Buy a starter home", impact: "−down payment, +equity building", effect: (s) => { return -20000; } },
+                    { text: "Keep renting and invest the difference", impact: "+market returns", effect: (s) => { return 25000; } }
+                ],
+                ageAfter: 30
+            },
+            {
+                label: "Round 6 — Relationship",
+                context: "You're 31. You're getting married.",
+                question: "What kind of wedding?",
+                options: [
+                    { text: "Big wedding", impact: "−$30K hit", effect: (s) => { return -30000; } },
+                    { text: "Courthouse + honeymoon", impact: "−$5K, +savings preserved", effect: (s) => { return -5000; } }
+                ],
+                ageAfter: 31
+            },
+            {
+                label: "Round 7 — Kids",
+                context: "You're 33.",
+                question: "Kids?",
+                options: [
+                    { text: "Have two kids", impact: "−significant annual cost", effect: (s) => { s.savingsRate -= 0.08; return -40000; } },
+                    { text: "Stay child-free", impact: "+savings rate stays high", effect: (s) => { return 20000; } }
+                ],
+                ageAfter: 33
+            },
+            {
+                label: "Round 8 — Emergency",
+                context: "You're 37. Medical emergency in the family.",
+                question: "Are you prepared?",
+                options: [
+                    { text: "You have an emergency fund", impact: "small hit, recover fast", effect: (s) => { return -15000; } },
+                    { text: "You don't", impact: "large hit, debt added", effect: (s) => { s.hasEmergencyFund = false; return -45000; } }
+                ],
+                ageAfter: 37
+            },
+            {
+                label: "Round 9 — Investment",
+                context: "The market crashes. Your portfolio is down 35%.",
+                question: "What do you do?",
+                options: [
+                    { text: "Panic sell", impact: "lock in losses", effect: (s) => { return Math.floor(s.balance * -0.35); } },
+                    { text: "Stay the course", impact: "recovery over time", effect: (s) => { return Math.floor(s.balance * 0.15); } }
+                ],
+                ageAfter: 42
+            },
+            {
+                label: "Round 10 — Burnout",
+                context: "You're 45. Burnout hits.",
+                question: "What do you do?",
+                options: [
+                    { text: "Take a sabbatical year", impact: "−one year income", effect: (s) => { return Math.floor(s.salary * -0.8); } },
+                    { text: "Push through", impact: "+income continues", effect: (s) => { return Math.floor(s.salary * 0.15); } }
+                ],
+                ageAfter: 46
+            },
+            {
+                label: "Round 11 — Late Career",
+                context: "You're 55. Early retirement is on the table.",
+                question: "What do you do?",
+                options: [
+                    { text: "Retire now", impact: "stop contributions, start spending", effect: (s) => { s.didRetireEarly = true; s.retireAge = 55; return -50000; } },
+                    { text: "Work five more years", impact: "+significant final push", effect: (s) => { s.retireAge = 60; return 150000; } }
+                ],
+                ageAfter: 55
+            }
+        ];
+
+        // Initialize progress dots
+        function initProgressDots() {
+            const container = document.getElementById('progressBar');
+            container.innerHTML = '';
+            for (let i = 0; i < 11; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'progress-dot';
+                dot.id = `dot-${i}`;
+                container.appendChild(dot);
+            }
+        }
+
+        // Update progress dots
+        function updateProgress() {
+            for (let i = 0; i < 11; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                dot.classList.remove('completed', 'current');
+                if (i < state.currentRound) {
+                    dot.classList.add('completed');
+                } else if (i === state.currentRound) {
+                    dot.classList.add('current');
+                }
+            }
+        }
+
+        // Format currency
+        function formatCurrency(amount) {
+            if (amount >= 1000000) {
+                return '$' + (amount / 1000000).toFixed(1) + 'M';
+            }
+            return '$' + Math.abs(amount).toLocaleString();
+        }
+
+        // Update balance display
+        function updateBalanceDisplay(change = 0) {
+            const display = document.getElementById('balanceDisplay');
+            const targetBalance = state.balance;
+
+            // Animate the number
+            const startBalance = targetBalance - change;
+            const duration = 800;
+            const startTime = performance.now();
+
+            function animate(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                // Easing
+                const easeProgress = 1 - Math.pow(1 - progress, 3);
+                const currentValue = Math.floor(startBalance + (change * easeProgress));
+
+                display.textContent = formatCurrency(currentValue);
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    display.textContent = formatCurrency(targetBalance);
+                }
+            }
+
+            requestAnimationFrame(animate);
+
+            // Color flash
+            if (change > 0) {
+                display.classList.remove('negative');
+                display.classList.add('positive');
+            } else if (change < 0) {
+                display.classList.remove('positive');
+                display.classList.add('negative');
+            }
+
+            setTimeout(() => {
+                display.classList.remove('positive', 'negative');
+            }, 1000);
+        }
+
+        // Show impact flash
+        function showImpactFlash(amount) {
+            const flash = document.getElementById('impactFlash');
+            flash.textContent = (amount >= 0 ? '+' : '') + formatCurrency(amount);
+            flash.className = 'impact-flash show ' + (amount >= 0 ? 'positive' : 'negative');
+
+            setTimeout(() => {
+                flash.classList.remove('show');
+            }, 800);
+        }
+
+        // Update age display
+        function updateAgeDisplay() {
+            document.getElementById('currentAge').textContent = state.age;
+        }
+
+        // Show screen
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        // Start game
+        function startGame() {
+            showScreen('setupScreen');
+        }
+
+        // Select salary
+        function selectSalary(salary) {
+            state.salary = salary;
+            state.balance = Math.floor(salary * 0.1); // Start with some savings
+            state.savingsRate = 0.12;
+
+            // Show UI
+            document.getElementById('topBar').classList.add('visible');
+            document.getElementById('progressBar').classList.add('visible');
+            document.getElementById('gameContainer').classList.remove('no-header');
+
+            initProgressDots();
+            updateBalanceDisplay();
+            updateAgeDisplay();
+
+            showRound(0);
+        }
+
+        // Show round
+        function showRound(roundIndex) {
+            state.currentRound = roundIndex;
+            updateProgress();
+
+            const round = rounds[roundIndex];
+            document.getElementById('roundLabel').textContent = round.label;
+            document.getElementById('decisionContext').textContent = round.context;
+            document.getElementById('decisionQuestion').textContent = round.question;
+
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+
+            round.options.forEach((option, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-button';
+                btn.innerHTML = `${option.text}<span class="impact">${option.impact}</span>`;
+                btn.onclick = () => selectOption(roundIndex, i);
+                container.appendChild(btn);
+            });
+
+            showScreen('decisionScreen');
+        }
+
+        // Select option
+        function selectOption(roundIndex, optionIndex) {
+            const round = rounds[roundIndex];
+            const option = round.options[optionIndex];
+
+            // Calculate effect
+            const change = option.effect(state);
+            state.balance += change;
+
+            // Add compound growth between rounds
+            const yearsPassed = round.ageAfter - state.age;
+            if (yearsPassed > 0) {
+                const growth = Math.floor(state.balance * 0.07 * yearsPassed);
+                state.balance += growth;
+            }
+
+            // Add annual contributions
+            const contributions = Math.floor(state.salary * state.savingsRate * yearsPassed);
+            state.balance += contributions;
+
+            // Update age
+            state.age = round.ageAfter;
+
+            // Show impact
+            showImpactFlash(change);
+            updateBalanceDisplay(change + (yearsPassed > 0 ? contributions : 0));
+            updateAgeDisplay();
+
+            // Next round or result
+            setTimeout(() => {
+                if (roundIndex < rounds.length - 1) {
+                    showRound(roundIndex + 1);
+                } else {
+                    showResult();
+                }
+            }, 600);
+        }
+
+        // Show result
+        function showResult() {
+            // Final growth to retirement age
+            const yearsToRetire = state.retireAge - state.age;
+            if (yearsToRetire > 0 && !state.didRetireEarly) {
+                const finalGrowth = Math.floor(state.balance * 0.07 * yearsToRetire);
+                const finalContributions = Math.floor(state.salary * state.savingsRate * yearsToRetire);
+                state.balance += finalGrowth + finalContributions;
+            }
+
+            // Determine success (need ~25x annual expenses, assume $60k/year)
+            const neededForRetirement = 1500000; // $1.5M target
+            const success = state.balance >= neededForRetirement * 0.6; // 60% is passing
+
+            // Calculate "ran out" age if failure
+            let ranOutAge = 0;
+            if (!success) {
+                const annualSpend = 60000;
+                const yearsOfMoney = Math.floor(state.balance / annualSpend);
+                ranOutAge = state.retireAge + yearsOfMoney;
+            }
+
+            // Update result UI
+            const badge = document.getElementById('resultBadge');
+            const amount = document.getElementById('resultAmount');
+            const headline = document.getElementById('resultHeadline');
+            const subhead = document.getElementById('resultSubhead');
+            const shareText = document.getElementById('shareText');
+
+            if (success) {
+                badge.className = 'result-badge success';
+                badge.textContent = 'You Made It';
+                amount.className = 'result-amount success';
+                amount.textContent = formatCurrency(state.balance);
+                headline.textContent = `You retired at ${state.retireAge}.`;
+                subhead.textContent = "Not bad. But would your clients do the same?";
+                shareText.textContent = `I retired at ${state.retireAge} with ${formatCurrency(state.balance)} in the Can You Retire? simulator`;
+            } else {
+                badge.className = 'result-badge failure';
+                badge.textContent = 'You Ran Out';
+                amount.className = 'result-amount failure';
+                amount.textContent = formatCurrency(state.balance);
+                headline.textContent = `You ran out at ${ranOutAge}.`;
+                subhead.textContent = "Most people don't plan for this. That's where you come in.";
+                shareText.textContent = `I went broke at ${ranOutAge} in the Can You Retire? simulator`;
+            }
+
+            // Hide game UI
+            document.getElementById('topBar').classList.remove('visible');
+            document.getElementById('progressBar').classList.remove('visible');
+            document.getElementById('gameContainer').classList.add('no-header');
+
+            showScreen('resultScreen');
+        }
+
+        // Share functions
+        function shareTwitter() {
+            const text = document.getElementById('shareText').textContent;
+            const url = encodeURIComponent('https://popup.company/game');
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${url}`, '_blank');
+        }
+
+        function shareLinkedIn() {
+            const url = encodeURIComponent('https://popup.company/game');
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText('https://popup.company/game');
+            const btn = event.target;
+            btn.textContent = 'Copied!';
+            setTimeout(() => { btn.textContent = 'Copy Link'; }, 2000);
+        }
+
+        // Reset game
+        function resetGame() {
+            state = {
+                balance: 0,
+                age: 25,
+                salary: 0,
+                savingsRate: 0.1,
+                currentRound: 0,
+                hasEmergencyFund: true,
+                retireAge: 65,
+                didRetireEarly: false
+            };
+            showScreen('startScreen');
+        }
+    </script>
+</body>
+</html>
