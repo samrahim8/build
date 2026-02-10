@@ -713,7 +713,8 @@
             round: 0,
             risksTaken: 0,
             cancelled: false,
-            cancelledRound: 0
+            cancelledRound: 0,
+            builtEmail: false
         };
 
         const brandNames = {
@@ -723,7 +724,7 @@
             law: 'a law firm'
         };
 
-        // Rounds Data
+        // Rounds Data - Real social media expertise baked in
         const rounds = [
             {
                 title: "First Post",
@@ -732,81 +733,98 @@
                 options: [
                     {
                         text: "Polished brand announcement with a logo reveal",
-                        hint: "Professional but... yawn",
-                        effect: () => ({ change: rand(200, 500), text: "A few people noticed.", emoji: "👀", risky: false })
+                        hint: "Professional but... who cares?",
+                        effect: () => ({ change: rand(200, 500), text: "Crickets. Nobody follows a logo.", emoji: "🦗", risky: false })
                     },
                     {
-                        text: "Behind-the-scenes raw video of you setting up",
+                        text: "Behind-the-scenes raw video of you messing up",
                         hint: "Messy but real",
-                        effect: () => ({ change: rand(800, 2000), text: "People love the authenticity!", emoji: "🔥", risky: false })
+                        effect: () => ({ change: rand(1500, 3000), text: "Authenticity wins. People connect with humans, not brands.", emoji: "🔥", risky: false })
                     }
                 ]
             },
             {
-                title: "The Trend",
-                subtitle: "Trending Audio",
-                context: "A trending audio is blowing up. It has nothing to do with your brand.",
+                title: "The Hook",
+                subtitle: "Video Strategy",
+                context: "You're posting your first Reel. How do you start it?",
                 options: [
                     {
-                        text: "Jump on it anyway",
-                        hint: "Could go either way...",
-                        effect: () => {
-                            state.risksTaken++;
-                            if (Math.random() > 0.5) {
-                                return { change: rand(1500, 3000), text: "You caught the wave! Algorithm loves you.", emoji: "🌊", risky: true };
-                            } else {
-                                return { change: rand(-1000, -500), text: "Looked try-hard. Cringe in the comments.", emoji: "😬", risky: true };
-                            }
-                        }
+                        text: "Slow intro with your logo, then get to the point",
+                        hint: "Gotta build the brand, right?",
+                        effect: () => ({ change: rand(-500, 200), text: "3-second rule: 80% of viewers dropped before your point. Dead reach.", emoji: "💀", risky: false })
                     },
                     {
-                        text: "Ignore it and post your planned content",
-                        hint: "Steady wins the race?",
-                        effect: () => ({ change: rand(300, 700), text: "On-brand content. Solid.", emoji: "👍", risky: false })
+                        text: "Punchy hook in the first second, payoff at the end",
+                        hint: "Retention is everything",
+                        effect: () => ({ change: rand(2000, 4000), text: "Watch time through the roof. Algorithm pushed it hard.", emoji: "📈", risky: false })
                     }
                 ]
             },
             {
-                title: "The Comment Section",
-                subtitle: "Haters Gonna Hate",
-                context: 'Someone leaves a sarcastic comment: "lol who asked for this"',
+                title: "Influencer Collab",
+                subtitle: "Partnership Pitch",
+                context: "You've got budget for influencer marketing. Two options on the table.",
                 options: [
                     {
-                        text: "Clap back with humor",
-                        hint: "High risk, high reward",
-                        effect: () => {
-                            state.risksTaken++;
-                            if (Math.random() > 0.4) {
-                                return { change: rand(2000, 5000), text: "Your reply went viral! W brand.", emoji: "💀", risky: true };
-                            } else {
-                                return { change: rand(-2000, -1000), text: "Came off petty. Not a good look.", emoji: "🫠", risky: true };
-                            }
-                        }
+                        text: "Pay $5K for one post from an influencer with 500K followers",
+                        hint: "Big reach, big name",
+                        effect: () => ({ change: rand(1000, 2500), text: "Impressions were huge. Conversions? Meh. Their audience doesn't trust brand posts.", emoji: "😐", risky: false })
                     },
                     {
-                        text: "Ignore it",
-                        hint: "Don't feed the trolls",
-                        effect: () => ({ change: 0, text: "Nothing happened. Probably fine.", emoji: "🤷", risky: false })
+                        text: "Pay $1K for a month of collabs with a niche micro-influencer (8K followers)",
+                        hint: "Small but mighty",
+                        effect: () => ({ change: rand(4000, 8000), text: "Their audience TRUSTS them. 5x the engagement, 10x the conversions. Micro wins.", emoji: "🎯", risky: false })
                     }
                 ]
             },
             {
-                title: "Collab Opportunity",
-                subtitle: "Sliding Into DMs",
-                context: "A bigger account wants to collab. But their audience doesn't overlap with yours at all.",
+                title: "Engagement Bait",
+                subtitle: "The Algorithm Game",
+                context: "You need more engagement. Quick fix?",
                 options: [
                     {
-                        text: "Do the collab",
-                        hint: "Numbers go up... right?",
-                        effect: () => {
-                            state.engagementPenalty = true;
-                            return { change: rand(3000, 6000), text: "Vanity metrics! But engagement tanked.", emoji: "📈", risky: false };
-                        }
+                        text: '"Comment YES if you agree!" with a generic hot take',
+                        hint: "Easy engagement hack",
+                        effect: () => ({ change: rand(-1000, 500), text: "Algorithm flagged it as engagement bait. Reach throttled. That trick died in 2022.", emoji: "🪤", risky: false })
                     },
                     {
-                        text: "Decline and focus on your niche",
-                        hint: "Algorithm rewards relevance",
-                        effect: () => ({ change: rand(500, 1200), text: "Stayed on brand. Community loves it.", emoji: "🎯", risky: false })
+                        text: "Ask a genuine question that sparks real discussion",
+                        hint: "Slower but sustainable",
+                        effect: () => ({ change: rand(2000, 4500), text: "Real comments = real reach. Algorithm rewards genuine engagement.", emoji: "💬", risky: false })
+                    }
+                ]
+            },
+            {
+                title: "Cross-Posting",
+                subtitle: "Content Repurposing",
+                context: "Your TikTok went viral. Time to post it everywhere else.",
+                options: [
+                    {
+                        text: "Download it and upload to Reels with the TikTok watermark",
+                        hint: "One video, all platforms",
+                        effect: () => ({ change: rand(-2000, -500), text: "Instagram literally deprioritizes TikTok watermarks. Rookie mistake.", emoji: "🚫", risky: false })
+                    },
+                    {
+                        text: "Recreate it natively for each platform",
+                        hint: "More work but...",
+                        effect: () => ({ change: rand(3000, 6000), text: "Platform-native content gets pushed. Every algorithm rewards native.", emoji: "✨", risky: false })
+                    }
+                ]
+            },
+            {
+                title: "UGC Gold",
+                subtitle: "Customer Content",
+                context: "A customer tags you in an amazing post showing off your product/service.",
+                options: [
+                    {
+                        text: "Like it and move on — don't want to seem desperate",
+                        hint: "Play it cool",
+                        effect: () => ({ change: rand(100, 400), text: "Missed opportunity. That was free content AND social proof.", emoji: "🤷", risky: false })
+                    },
+                    {
+                        text: "Repost it, tag them, make them feel like a VIP",
+                        hint: "UGC is gold",
+                        effect: () => ({ change: rand(3000, 6000), text: "UGC converts 4x better than branded content. They feel seen. Win-win.", emoji: "👑", risky: false })
                     }
                 ]
             },
@@ -816,102 +834,58 @@
                 context: "A hot take is dividing your industry. Everyone's weighing in.",
                 options: [
                     {
-                        text: "Take a strong stance",
-                        hint: "Pick a side",
+                        text: "Take a strong stance and own it",
+                        hint: "Risky but memorable",
                         effect: () => {
                             state.risksTaken++;
-                            if (Math.random() > 0.5) {
-                                return { change: rand(5000, 12000), text: "You picked the winning side. Hero status.", emoji: "👑", risky: true };
+                            if (Math.random() > 0.45) {
+                                return { change: rand(6000, 15000), text: "You picked a side. Half love you, half hate you. But everyone knows you.", emoji: "👑", risky: true };
                             } else {
-                                return { change: rand(-8000, -4000), text: "Wrong side of history. Mass unfollows.", emoji: "💨", risky: true };
+                                return { change: rand(-8000, -4000), text: "Wrong read on the room. Mass unfollows.", emoji: "💨", risky: true };
                             }
                         }
                     },
                     {
                         text: "Post something neutral and diplomatic",
                         hint: "Safe but forgettable",
-                        effect: () => ({ change: rand(100, 400), text: "Nobody shares lukewarm takes.", emoji: "😐", risky: false })
+                        effect: () => ({ change: rand(100, 400), text: "Nobody shares lukewarm takes. You're background noise.", emoji: "😐", risky: false })
                     }
                 ]
             },
             {
-                title: "Going Paid",
-                subtitle: "Pay to Play",
-                context: "You've got momentum. Time to boost a post?",
+                title: "The Long Game",
+                subtitle: "Asset Building",
+                context: "You're growing. Time to think bigger. Where do you focus?",
                 options: [
                     {
-                        text: "Spend on ads",
-                        hint: "Money can buy followers",
+                        text: "Double down on followers — get to 100K",
+                        hint: "Big number = big credibility",
+                        effect: () => ({ change: rand(2000, 4000), text: "Followers up. But you're renting that audience from the algorithm.", emoji: "📊", risky: false })
+                    },
+                    {
+                        text: "Use social to build your email list",
+                        hint: "You own that list",
                         effect: () => {
-                            state.engagementPenalty = true;
-                            return { change: rand(4000, 8000), text: "Followers up, but engagement rate down.", emoji: "💰", risky: false };
+                            state.builtEmail = true;
+                            return { change: rand(500, 1500), text: "Slower follower growth, but you OWN those leads. Algorithm can't take them.", emoji: "📧", risky: false };
                         }
-                    },
-                    {
-                        text: "Stay organic",
-                        hint: "Slow and steady",
-                        effect: () => ({ change: rand(800, 1500), text: "Organic growth. Algorithm trusts you.", emoji: "🌱", risky: false })
                     }
                 ]
             },
             {
-                title: "The Intern Incident",
-                subtitle: "Posted from Main 💀",
-                context: "Someone on your team accidentally posts a personal meme from the brand account.",
+                title: "Comment Strategy",
+                subtitle: "The First Hour",
+                context: "You just posted. Now what?",
                 options: [
                     {
-                        text: "Delete it immediately and pretend it didn't happen",
-                        hint: "Nothing to see here...",
-                        effect: () => ({ change: rand(-1500, -500), text: "Screenshots are forever. People noticed.", emoji: "📸", risky: false })
+                        text: "Close the app and check back later",
+                        hint: "Don't be thirsty",
+                        effect: () => ({ change: rand(-500, 500), text: "The first hour is when the algorithm decides your fate. You missed the window.", emoji: "⏰", risky: false })
                     },
                     {
-                        text: 'Lean into it, reply "our intern says hi"',
-                        hint: "Brand with personality",
-                        effect: () => ({ change: rand(4000, 10000), text: "Everyone loves a human brand!", emoji: "😂", risky: false })
-                    }
-                ]
-            },
-            {
-                title: "Content Drought",
-                subtitle: "Running on Empty",
-                context: "You've been posting daily but you're running out of ideas.",
-                options: [
-                    {
-                        text: "Repost your best performing content from last month",
-                        hint: "Recycling works",
-                        effect: () => ({ change: rand(1000, 3000), text: "Algorithm resurfaces evergreen content.", emoji: "♻️", risky: false })
-                    },
-                    {
-                        text: "Go silent for a few days",
-                        hint: "Creative break?",
-                        effect: () => ({ change: rand(-3000, -1500), text: "Algorithm punished your absence.", emoji: "👻", risky: false })
-                    }
-                ]
-            },
-            {
-                title: "The Competitor",
-                subtitle: "Copycat Alert",
-                context: "A competitor copies your exact content style. People start confusing you.",
-                options: [
-                    {
-                        text: "Call them out publicly",
-                        hint: "Shots fired",
-                        effect: () => {
-                            state.risksTaken++;
-                            if (Math.random() > 0.5) {
-                                return { change: rand(3000, 7000), text: "You looked confident. They looked guilty.", emoji: "🎤", risky: true };
-                            } else {
-                                return { change: rand(-4000, -2000), text: "Came off insecure. Bad look.", emoji: "🤡", risky: true };
-                            }
-                        }
-                    },
-                    {
-                        text: "Pivot your style and differentiate",
-                        hint: "Evolution time",
-                        effect: () => {
-                            state.pivoted = true;
-                            return { change: rand(-500, 500), text: "Short-term confusion, but you're building something new.", emoji: "🦋", risky: false };
-                        }
+                        text: "Reply to every comment in the first 30 minutes",
+                        hint: "Feed the algorithm",
+                        effect: () => ({ change: rand(3000, 6000), text: "Engagement velocity in the first hour = reach. Algorithm saw activity and pushed it.", emoji: "🚀", risky: false })
                     }
                 ]
             },
@@ -921,21 +895,21 @@
                 context: "Last chance. You've got one post left. What is it?",
                 options: [
                     {
-                        text: "A polished, perfectly produced brand video",
-                        hint: "Safe finish",
-                        effect: () => ({ change: rand(2000, 5000), text: "Solid landing. Professional.", emoji: "✨", risky: false })
+                        text: "A polished carousel with your best tips",
+                        hint: "Value-packed, save-worthy",
+                        effect: () => ({ change: rand(4000, 8000), text: "Saves and shares through the roof. Evergreen content.", emoji: "📚", risky: false })
                     },
                     {
-                        text: "A bold, unhinged, totally unexpected post",
-                        hint: "Chaos mode",
+                        text: "A bold, personal story that breaks your usual format",
+                        hint: "Vulnerable but real",
                         effect: () => {
                             state.risksTaken++;
-                            // Better odds if they took risks all game
-                            const winChance = 0.3 + (state.risksTaken * 0.08) + (state.pivoted ? 0.1 : 0);
+                            // Better odds if they made smart choices + took some risks
+                            const winChance = 0.35 + (state.risksTaken * 0.06) + (state.builtEmail ? 0.1 : 0);
                             if (Math.random() < winChance) {
-                                return { change: rand(20000, 50000), text: "YOU BROKE THE INTERNET 🔥", emoji: "🚀", risky: true };
+                                return { change: rand(25000, 60000), text: "Vulnerability is magnetic. This is the post people will remember.", emoji: "💜", risky: true };
                             } else {
-                                return { change: rand(-15000, -8000), text: "That was... a choice.", emoji: "💀", risky: true };
+                                return { change: rand(-5000, -2000), text: "Felt too personal. Audience wasn't ready.", emoji: "😬", risky: true };
                             }
                         }
                     }
@@ -1159,7 +1133,8 @@
                 round: 0,
                 risksTaken: 0,
                 cancelled: false,
-                cancelledRound: 0
+                cancelledRound: 0,
+                builtEmail: false
             };
             showScreen('startScreen');
         }
