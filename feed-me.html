@@ -122,15 +122,20 @@
         .game-container {
             flex: 1;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
             padding: 20px;
             padding-top: 90px;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .game-container.no-header {
             padding-top: 20px;
+        }
+
+        .game-container.centered {
+            align-items: center;
         }
 
         /* Screens */
@@ -534,6 +539,374 @@
             border-color: var(--text-muted);
         }
 
+        /* Email Capture Overlay */
+        .overlay-screen {
+            text-align: center;
+            max-width: 480px;
+        }
+
+        .overlay-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 40px 28px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        .overlay-meta {
+            display: inline-block;
+            padding: 6px 14px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .overlay-card h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .overlay-card p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .overlay-card p:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .overlay-highlight {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .overlay-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 18px 48px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            font-family: inherit;
+            margin-top: 24px;
+        }
+
+        .overlay-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Email Capture Screen */
+        .email-screen {
+            text-align: center;
+        }
+
+        .email-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 40px 28px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        .email-card h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .email-card .subtext {
+            color: var(--text-muted);
+            font-size: 0.9375rem;
+            margin-bottom: 24px;
+        }
+
+        .email-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .email-input {
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 1rem;
+            font-family: inherit;
+            border: 2px solid #e5e5e5;
+            border-radius: 12px;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .email-input:focus {
+            border-color: var(--accent);
+        }
+
+        .email-submit {
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .email-submit:hover {
+            transform: translateY(-1px);
+        }
+
+        .email-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .email-skip {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-family: inherit;
+            cursor: pointer;
+            padding: 12px;
+            margin-top: 8px;
+        }
+
+        .email-skip:hover {
+            color: var(--text);
+        }
+
+        /* Playbook Screen */
+        .playbook-screen {
+            max-width: 520px;
+        }
+
+        .playbook-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .playbook-header h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .playbook-header p {
+            color: var(--text-muted);
+            font-size: 0.9375rem;
+        }
+
+        /* Scorecard */
+        .scorecard {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        .scorecard-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .scorecard-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+
+        .score-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .score-round {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .score-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Decision Breakdown */
+        .breakdown-section {
+            margin-bottom: 20px;
+        }
+
+        .breakdown-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            border-left: 4px solid transparent;
+        }
+
+        .breakdown-card.good { border-left-color: var(--green); }
+        .breakdown-card.ok { border-left-color: var(--orange); }
+        .breakdown-card.bad { border-left-color: var(--red); }
+
+        .breakdown-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .breakdown-round {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .breakdown-title {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .breakdown-badge {
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .breakdown-choice {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            padding: 10px 12px;
+            background: var(--bg);
+            border-radius: 8px;
+            line-height: 1.4;
+        }
+
+        .breakdown-insight {
+            font-size: 0.9375rem;
+            line-height: 1.5;
+            color: var(--text);
+        }
+
+        .breakdown-insight strong {
+            color: var(--accent);
+        }
+
+        /* Takeaway Section */
+        .takeaway-card {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            border-radius: 20px;
+            padding: 28px 24px;
+            margin-bottom: 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .takeaway-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.8;
+            margin-bottom: 12px;
+        }
+
+        .takeaway-text {
+            font-size: 1.125rem;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        /* Playbook CTA */
+        .playbook-cta {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 28px 24px;
+            text-align: center;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        .playbook-cta h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .playbook-cta p {
+            color: var(--text-muted);
+            font-size: 0.9375rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .playbook-cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            background: var(--text);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: inherit;
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .playbook-cta-btn:hover {
+            opacity: 0.9;
+        }
+
+        .playbook-play-again {
+            display: block;
+            width: 100%;
+            padding: 14px 28px;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--text);
+            background: transparent;
+            border: 2px solid #e5e5e5;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: border-color 0.2s ease;
+        }
+
+        .playbook-play-again:hover {
+            border-color: var(--text-muted);
+        }
+
         /* Responsive */
         @media (max-width: 480px) {
             .start-screen h1 {
@@ -550,6 +923,27 @@
 
             .result-followers {
                 font-size: 2.5rem;
+            }
+
+            .scorecard-grid {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 6px;
+            }
+
+            .score-icon {
+                font-size: 1.25rem;
+            }
+
+            .overlay-card {
+                padding: 32px 20px;
+            }
+
+            .overlay-card h2 {
+                font-size: 1.5rem;
+            }
+
+            .playbook-screen {
+                padding: 0 4px;
             }
         }
     </style>
@@ -568,7 +962,7 @@
     </div>
 
     <!-- Game Container -->
-    <div class="game-container no-header" id="gameContainer">
+    <div class="game-container no-header centered" id="gameContainer">
 
         <!-- Start Screen -->
         <div class="screen active" id="startScreen">
@@ -649,12 +1043,74 @@
                     </div>
                 </div>
 
-                <div class="game-cta">
-                    <p>This is a Pop-Up. We build games like this for your business.</p>
-                    <a href="/#contact">Let's build yours →</a>
-                    <br>
-                    <button class="play-again" onclick="resetGame()">Play Again</button>
+                <button class="overlay-btn" onclick="showEmailOverlay()" style="margin-top: 20px;">Get Your Playbook →</button>
+            </div>
+        </div>
+
+        <!-- Email Capture Overlay (Educational) -->
+        <div class="screen" id="overlayScreen">
+            <div class="overlay-screen">
+                <div class="overlay-card">
+                    <div class="overlay-meta">📍 Right here</div>
+                    <h2>This is the moment.</h2>
+                    <p>You just played a game. You're curious what you got right and wrong. You <span class="overlay-highlight">want</span> the breakdown.</p>
+                    <p>This is exactly where we'd capture an email for your business — when someone is <span class="overlay-highlight">invested</span>, not interrupted.</p>
+                    <p>No cold pop-up. No desperate plea. Just a fair value exchange: <span class="overlay-highlight">your insight for their inbox</span>.</p>
+                    <button class="overlay-btn" onclick="showEmailCapture()">See How It Works →</button>
                 </div>
+            </div>
+        </div>
+
+        <!-- Email Capture Screen -->
+        <div class="screen" id="emailScreen">
+            <div class="email-screen">
+                <div class="email-card">
+                    <h2>Your Playbook is ready.</h2>
+                    <p class="subtext">Every decision you made. What worked, what didn't, and why — personalized to your play style.</p>
+                    <form class="email-form" onsubmit="submitEmail(event)">
+                        <input type="email" class="email-input" id="emailInput" placeholder="Enter your email" required>
+                        <button type="submit" class="email-submit" id="emailSubmitBtn">Send My Playbook</button>
+                    </form>
+                    <button class="email-skip" onclick="showPlaybook()">Skip for now</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Playbook Screen -->
+        <div class="screen" id="playbookScreen">
+            <div class="playbook-screen">
+                <div class="playbook-header">
+                    <h2>Your Social Playbook</h2>
+                    <p>A breakdown of every move you made.</p>
+                </div>
+
+                <!-- Scorecard -->
+                <div class="scorecard">
+                    <div class="scorecard-title">Your Scorecard</div>
+                    <div class="scorecard-grid" id="scorecardGrid">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- Decision Breakdown -->
+                <div class="breakdown-section" id="breakdownSection">
+                    <!-- Filled by JS -->
+                </div>
+
+                <!-- Takeaway -->
+                <div class="takeaway-card">
+                    <div class="takeaway-label">Your Takeaway</div>
+                    <p class="takeaway-text" id="takeawayText">You've got great instincts for social. Now imagine a custom experience like this, tuned for your audience.</p>
+                </div>
+
+                <!-- CTA -->
+                <div class="playbook-cta">
+                    <h3>Want one for your brand?</h3>
+                    <p>We build interactive experiences like this — custom quizzes, games, and tools that capture leads while delivering real value.</p>
+                    <a href="/#contact" class="playbook-cta-btn">Let's Build Yours →</a>
+                </div>
+
+                <button class="playbook-play-again" onclick="resetGame()">Play Again</button>
             </div>
         </div>
     </div>
@@ -714,7 +1170,8 @@
             risksTaken: 0,
             cancelled: false,
             cancelledRound: 0,
-            builtEmail: false
+            builtEmail: false,
+            choices: [] // Track which option was chosen each round (0 or 1)
         };
 
         const brandNames = {
@@ -930,6 +1387,15 @@
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
+
+            // Playbook needs to scroll from top, other screens should be centered
+            const container = document.getElementById('gameContainer');
+            if (id === 'playbookScreen') {
+                container.classList.remove('centered');
+                container.scrollTop = 0;
+            } else {
+                container.classList.add('centered');
+            }
         }
 
         function showBrandSelect() {
@@ -1000,6 +1466,13 @@
             const round = rounds[roundIndex];
             const option = round.options[optionIndex];
             const result = option.effect();
+
+            // Track the choice
+            state.choices[roundIndex] = {
+                optionIndex,
+                result: { ...result },
+                optionText: option.text
+            };
 
             state.followers += result.change;
 
@@ -1134,9 +1607,167 @@
                 risksTaken: 0,
                 cancelled: false,
                 cancelledRound: 0,
-                builtEmail: false
+                builtEmail: false,
+                choices: []
             };
             showScreen('startScreen');
+        }
+
+        // Playbook Strategy Insights - keyed by [roundIndex][optionIndex]
+        const strategyInsights = {
+            0: { // First Post
+                0: { grade: 'bad', insight: '<strong>The Lesson:</strong> Nobody follows logos. People follow people. The algorithm rewards content that gets engagement, not aesthetics. Show your face, tell your story.' },
+                1: { grade: 'good', insight: '<strong>Pro Move:</strong> Authenticity outperforms polish 9 times out of 10. Imperfect, real content signals "human" to the algorithm — and humans are what people want to follow.' }
+            },
+            1: { // The Hook
+                0: { grade: 'bad', insight: '<strong>The Lesson:</strong> You have 3 seconds. The algorithm measures watch time, and 80% of viewers drop off before a slow intro ends. Hook first, brand later.' },
+                1: { grade: 'good', insight: '<strong>Pro Move:</strong> The hook-first format isn\'t just trendy — it\'s algorithmic survival. High retention = high reach. Save your logo for your profile.' }
+            },
+            2: { // Influencer Collab
+                0: { grade: 'ok', insight: '<strong>The Lesson:</strong> Big follower counts don\'t mean big trust. Macro-influencers have diluted audiences. Their engagement rate is often 1-2%, while micro-influencers hit 8-10%.' },
+                1: { grade: 'good', insight: '<strong>Pro Move:</strong> Micro-influencers have something priceless: trust. Their smaller audience actually believes them. That\'s why brands see 3-5x better conversion rates.' }
+            },
+            3: { // Engagement Bait
+                0: { grade: 'bad', insight: '<strong>The Lesson:</strong> Platforms have cracked down hard on engagement bait. "Comment YES" triggers spam filters. Your reach gets throttled, not boosted.' },
+                1: { grade: 'good', insight: '<strong>Pro Move:</strong> Real questions spark real conversations. The algorithm can tell the difference between genuine engagement and gaming — and it rewards the real thing.' }
+            },
+            4: { // Cross-Posting
+                0: { grade: 'bad', insight: '<strong>The Lesson:</strong> Instagram literally deprioritizes TikTok watermarks. Cross-posting with watermarks is a reach killer. Each platform protects its ecosystem.' },
+                1: { grade: 'good', insight: '<strong>Pro Move:</strong> Platform-native content gets platform love. It takes more effort, but native posts get 2-3x the reach of cross-posted content with watermarks.' }
+            },
+            5: { // UGC Gold
+                0: { grade: 'ok', insight: '<strong>The Lesson:</strong> User-generated content is your most valuable asset. It\'s free, it\'s authentic, and it converts 4x better than branded content. Never let it go to waste.' },
+                1: { grade: 'good', insight: '<strong>Pro Move:</strong> Reposting UGC creates a flywheel: the original poster feels special, their followers discover you, and other customers are inspired to create content hoping to get featured.' }
+            },
+            6: { // The Controversy
+                0: { grade: 'risky', insight: '<strong>High Risk, High Reward:</strong> Taking a stance is polarizing — but polarizing is memorable. Brands that stand for nothing get lost in the feed. Just make sure you believe what you\'re saying.' },
+                1: { grade: 'ok', insight: '<strong>The Trade-off:</strong> Playing it safe means staying small. Neutral takes don\'t get shared, don\'t spark conversation, and don\'t build real community. Sometimes boring is the biggest risk.' }
+            },
+            7: { // The Long Game
+                0: { grade: 'ok', insight: '<strong>The Reality:</strong> Followers are rented, not owned. The algorithm can change tomorrow and tank your reach. Social is great for discovery, but you don\'t own that audience.' },
+                1: { grade: 'good', insight: '<strong>Pro Move:</strong> Email is the only channel you truly own. When Instagram changes its algorithm (and it will), your email list is still yours. Smart brands use social to build their list.' }
+            },
+            8: { // Comment Strategy
+                0: { grade: 'bad', insight: '<strong>The Lesson:</strong> The first hour is when the algorithm decides if your post gets pushed or buried. Engagement velocity matters. Close the app and you lose the window.' },
+                1: { grade: 'good', insight: '<strong>Pro Move:</strong> Reply to every comment in the first 30-60 minutes. This signals "active conversation" to the algorithm, which responds by showing your post to more people.' }
+            },
+            9: { // The Big Swing
+                0: { grade: 'good', insight: '<strong>Smart Play:</strong> Value-packed carousels get saved and shared — the two highest-value engagement signals. They also have the longest shelf life of any content type.' },
+                1: { grade: 'risky', insight: '<strong>High Risk, High Reward:</strong> Vulnerability is magnetic when it lands. But personal content can feel jarring if your audience isn\'t ready. The payoff is huge, but so is the risk.' }
+            }
+        };
+
+        // Takeaways based on play style
+        function getTakeaway() {
+            const goodCount = state.choices.filter(c => {
+                const insight = strategyInsights[state.choices.indexOf(c)]?.[c.optionIndex];
+                return insight?.grade === 'good';
+            }).length;
+
+            const riskCount = state.risksTaken;
+
+            if (goodCount >= 7) {
+                return "You've got strong social instincts. You understand that algorithms reward authenticity, timing, and genuine engagement over tricks and shortcuts. Now imagine a custom experience like this, designed to qualify leads for YOUR business.";
+            } else if (riskCount >= 3) {
+                return "You're a risk-taker — and on social, that's often what separates forgettable from unforgettable. Bold moves don't always land, but when they do, they create real momentum. That willingness to swing big is rare.";
+            } else if (goodCount >= 4) {
+                return "You made some smart moves and a few missteps — which is exactly how social works in real life. The key is knowing WHY something worked. That's what turns random wins into repeatable strategy.";
+            } else {
+                return "Social media strategy isn't intuitive — that's actually the point. What feels professional often underperforms, while what feels messy often wins. The platforms have their own logic, and now you've seen it in action.";
+            }
+        }
+
+        function showEmailOverlay() {
+            showScreen('overlayScreen');
+        }
+
+        function showEmailCapture() {
+            showScreen('emailScreen');
+        }
+
+        function submitEmail(e) {
+            e.preventDefault();
+            const email = document.getElementById('emailInput').value;
+            const btn = document.getElementById('emailSubmitBtn');
+
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+
+            // In production, this would submit to your email service
+            // For demo, we'll simulate success after a brief delay
+            setTimeout(() => {
+                console.log('Email captured:', email);
+                showPlaybook();
+            }, 800);
+        }
+
+        function showPlaybook() {
+            // Generate scorecard
+            const scorecardGrid = document.getElementById('scorecardGrid');
+            scorecardGrid.innerHTML = '';
+
+            const roundsToShow = state.cancelled ? state.cancelledRound : 10;
+
+            for (let i = 0; i < roundsToShow; i++) {
+                const choice = state.choices[i];
+                const insight = strategyInsights[i]?.[choice?.optionIndex];
+                let icon = '✅';
+                if (insight?.grade === 'bad') icon = '❌';
+                else if (insight?.grade === 'ok') icon = '⚠️';
+                else if (insight?.grade === 'risky') icon = choice?.result?.change > 0 ? '🎰' : '💥';
+
+                const item = document.createElement('div');
+                item.className = 'score-item';
+                item.innerHTML = `
+                    <span class="score-round">${i + 1}</span>
+                    <span class="score-icon">${icon}</span>
+                `;
+                scorecardGrid.appendChild(item);
+            }
+
+            // Generate breakdown
+            const breakdownSection = document.getElementById('breakdownSection');
+            breakdownSection.innerHTML = '';
+
+            for (let i = 0; i < roundsToShow; i++) {
+                const round = rounds[i];
+                const choice = state.choices[i];
+                if (!choice) continue;
+
+                const insight = strategyInsights[i]?.[choice.optionIndex];
+                let gradeClass = 'good';
+                let badge = '✅';
+                if (insight?.grade === 'bad') {
+                    gradeClass = 'bad';
+                    badge = '❌';
+                } else if (insight?.grade === 'ok') {
+                    gradeClass = 'ok';
+                    badge = '⚠️';
+                } else if (insight?.grade === 'risky') {
+                    gradeClass = choice.result?.change > 0 ? 'good' : 'bad';
+                    badge = choice.result?.change > 0 ? '🎰' : '💥';
+                }
+
+                const card = document.createElement('div');
+                card.className = `breakdown-card ${gradeClass}`;
+                card.innerHTML = `
+                    <div class="breakdown-header">
+                        <div>
+                            <div class="breakdown-round">Round ${i + 1} — ${round.title}</div>
+                            <div class="breakdown-title">${round.subtitle}</div>
+                        </div>
+                        <span class="breakdown-badge">${badge}</span>
+                    </div>
+                    <div class="breakdown-choice">"${choice.optionText}"</div>
+                    <div class="breakdown-insight">${insight?.insight || ''}</div>
+                `;
+                breakdownSection.appendChild(card);
+            }
+
+            // Set takeaway
+            document.getElementById('takeawayText').textContent = getTakeaway();
+
+            showScreen('playbookScreen');
         }
     </script>
 </body>
