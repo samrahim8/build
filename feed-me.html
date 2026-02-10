@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Feed Me — Social Media Simulator</title>
+    <meta name="description" content="You run the brand. Feed the algorithm. Try not to get cancelled.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Feed Me — Social Media Simulator">
+    <meta property="og:description" content="You run the brand. Feed the algorithm. Try not to get cancelled.">
+    <meta property="og:url" content="https://popup.company/feed-me">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📱</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fafafa;
+            --card-bg: #ffffff;
+            --text: #1a1a1a;
+            --text-muted: #737373;
+            --accent: #8b5cf6;
+            --accent-dark: #7c3aed;
+            --green: #22c55e;
+            --red: #ef4444;
+            --orange: #f97316;
+            --pink: #ec4899;
+            --blue: #3b82f6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: var(--card-bg);
+            border-bottom: 1px solid #e5e5e5;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .top-bar.visible {
+            display: flex;
+        }
+
+        .brand-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .brand-icon.coffee { background: linear-gradient(135deg, #92400e, #b45309); }
+        .brand-icon.fitness { background: linear-gradient(135deg, #dc2626, #f97316); }
+        .brand-icon.skincare { background: linear-gradient(135deg, #ec4899, #a855f7); }
+        .brand-icon.law { background: linear-gradient(135deg, #1e3a5f, #3b82f6); }
+
+        .round-indicator {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .follower-display {
+            text-align: right;
+        }
+
+        .follower-label {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .follower-count {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-feature-settings: "tnum";
+            transition: color 0.3s ease;
+        }
+
+        .follower-count.rising {
+            color: var(--green);
+        }
+
+        .follower-count.dropping {
+            color: var(--red);
+        }
+
+        /* Main Content */
+        .game-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            padding-top: 90px;
+            overflow-y: auto;
+        }
+
+        .game-container.no-header {
+            padding-top: 20px;
+        }
+
+        /* Screens */
+        .screen {
+            display: none;
+            width: 100%;
+            max-width: 420px;
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-5px); }
+            80% { transform: translateX(5px); }
+        }
+
+        .shake {
+            animation: shake 0.5s ease;
+        }
+
+        /* Start Screen */
+        .start-screen {
+            text-align: center;
+            padding: 40px 24px;
+        }
+
+        .start-emoji {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .start-screen h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--accent), var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .start-screen .subhead {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+
+        .start-button {
+            display: inline-block;
+            padding: 18px 48px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            font-family: inherit;
+        }
+
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Brand Selection */
+        .brand-select {
+            text-align: center;
+        }
+
+        .brand-select h2 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .brand-select .subtext {
+            color: var(--text-muted);
+            margin-bottom: 28px;
+            font-size: 0.9375rem;
+        }
+
+        .brand-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .brand-option {
+            padding: 24px 16px;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--text);
+            background: var(--card-bg);
+            border: 2px solid #e5e5e5;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-option:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .brand-option .emoji {
+            font-size: 2rem;
+        }
+
+        /* Decision Card */
+        .decision-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        .decision-header {
+            padding: 20px 24px;
+            background: linear-gradient(135deg, #f5f5f5, #fafafa);
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .decision-round {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+
+        .decision-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .decision-body {
+            padding: 24px;
+        }
+
+        .decision-context {
+            font-size: 1.125rem;
+            color: var(--text);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-button {
+            width: 100%;
+            padding: 18px 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text);
+            background: var(--bg);
+            border: 2px solid #e5e5e5;
+            border-radius: 14px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.15s ease;
+            font-family: inherit;
+            line-height: 1.4;
+        }
+
+        .option-button:hover {
+            border-color: var(--accent);
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(236, 72, 153, 0.05));
+            transform: translateX(4px);
+        }
+
+        .option-button:active {
+            transform: scale(0.98);
+        }
+
+        .option-hint {
+            display: block;
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+            font-weight: 400;
+        }
+
+        /* Outcome Screen */
+        .outcome-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 40px 24px;
+            text-align: center;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        .outcome-emoji {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+
+        .outcome-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .outcome-change {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .outcome-change.positive { color: var(--green); }
+        .outcome-change.negative { color: var(--red); }
+
+        .outcome-continue {
+            padding: 16px 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            background: var(--text);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: opacity 0.2s ease;
+        }
+
+        .outcome-continue:hover {
+            opacity: 0.9;
+        }
+
+        /* Result Screen */
+        .result-screen {
+            text-align: center;
+        }
+
+        .result-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 40px 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .result-card.ghost::before { background: linear-gradient(90deg, #737373, #a3a3a3); }
+        .result-card.niche::before { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+        .result-card.rising::before { background: linear-gradient(90deg, #22c55e, #4ade80); }
+        .result-card.main::before { background: linear-gradient(90deg, #f97316, #fb923c); }
+        .result-card.viral::before { background: linear-gradient(90deg, #ec4899, #a855f7); }
+        .result-card.cancelled::before { background: linear-gradient(90deg, #ef4444, #dc2626); }
+
+        .result-tier {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+        }
+
+        .result-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .result-followers {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            font-feature-settings: "tnum";
+        }
+
+        .result-followers.ghost { color: #737373; }
+        .result-followers.niche { color: #3b82f6; }
+        .result-followers.rising { color: #22c55e; }
+        .result-followers.main { color: #f97316; }
+        .result-followers.viral { color: #ec4899; }
+        .result-followers.cancelled { color: #ef4444; }
+
+        .result-desc {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        /* Share Card */
+        .share-card {
+            background: linear-gradient(135deg, var(--accent), var(--pink));
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .share-text {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .share-button {
+            padding: 12px 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--accent);
+            background: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: transform 0.2s ease;
+        }
+
+        .share-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* CTA */
+        .game-cta {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .game-cta p {
+            color: var(--text-muted);
+            font-size: 0.9375rem;
+            margin-bottom: 12px;
+        }
+
+        .game-cta a {
+            color: var(--accent);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .play-again {
+            display: inline-block;
+            padding: 14px 28px;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--text);
+            background: transparent;
+            border: 2px solid #e5e5e5;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: inherit;
+            margin-top: 12px;
+            transition: border-color 0.2s ease;
+        }
+
+        .play-again:hover {
+            border-color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .start-screen h1 {
+                font-size: 2.5rem;
+            }
+
+            .brand-options {
+                grid-template-columns: 1fr;
+            }
+
+            .decision-body {
+                padding: 20px;
+            }
+
+            .result-followers {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar" id="topBar">
+        <div class="brand-badge">
+            <div class="brand-icon" id="brandIcon">☕</div>
+            <span class="round-indicator" id="roundIndicator">Round 1 of 10</span>
+        </div>
+        <div class="follower-display">
+            <div class="follower-label">Followers</div>
+            <div class="follower-count" id="followerCount">1,247</div>
+        </div>
+    </div>
+
+    <!-- Game Container -->
+    <div class="game-container no-header" id="gameContainer">
+
+        <!-- Start Screen -->
+        <div class="screen active" id="startScreen">
+            <div class="start-screen">
+                <div class="start-emoji">📱</div>
+                <h1>Feed Me.</h1>
+                <p class="subhead">You run the brand. Feed the algorithm.<br>Try not to get cancelled.</p>
+                <button class="start-button" onclick="showBrandSelect()">Post Up</button>
+            </div>
+        </div>
+
+        <!-- Brand Selection -->
+        <div class="screen" id="brandScreen">
+            <div class="brand-select">
+                <h2>Pick your brand</h2>
+                <p class="subtext">Same game, different vibes. Choose wisely.</p>
+                <div class="brand-options">
+                    <button class="brand-option" onclick="selectBrand('coffee', '☕')">
+                        <span class="emoji">☕</span>
+                        A coffee shop
+                    </button>
+                    <button class="brand-option" onclick="selectBrand('fitness', '💪')">
+                        <span class="emoji">💪</span>
+                        A fitness studio
+                    </button>
+                    <button class="brand-option" onclick="selectBrand('skincare', '✨')">
+                        <span class="emoji">✨</span>
+                        A skincare line
+                    </button>
+                    <button class="brand-option" onclick="selectBrand('law', '⚖️')">
+                        <span class="emoji">⚖️</span>
+                        A law firm
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Decision Screen -->
+        <div class="screen" id="decisionScreen">
+            <div class="decision-card">
+                <div class="decision-header">
+                    <div class="decision-round" id="decisionRound">Round 1 — First Post</div>
+                    <div class="decision-title" id="decisionTitle">The Opening Move</div>
+                </div>
+                <div class="decision-body">
+                    <p class="decision-context" id="decisionContext">Day one. What's your opening move?</p>
+                    <div class="options" id="optionsContainer"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Outcome Screen -->
+        <div class="screen" id="outcomeScreen">
+            <div class="outcome-card" id="outcomeCard">
+                <div class="outcome-emoji" id="outcomeEmoji">🎉</div>
+                <p class="outcome-text" id="outcomeText">Your raw video went viral!</p>
+                <div class="outcome-change positive" id="outcomeChange">+2,450</div>
+                <button class="outcome-continue" onclick="nextRound()">Continue</button>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div class="screen" id="resultScreen">
+            <div class="result-screen">
+                <div class="result-card" id="resultCard">
+                    <div class="result-tier" id="resultTier">You finished as</div>
+                    <h2 class="result-title" id="resultTitle">Niche Famous</h2>
+                    <div class="result-followers" id="resultFollowers">47,892</div>
+                    <p class="result-desc" id="resultDesc">Solid following. Your mom shares every post. A few strangers do too.</p>
+                </div>
+
+                <div class="share-card">
+                    <p class="share-text" id="shareText">I got Niche Famous running a coffee shop on Feed Me 📱</p>
+                    <div class="share-buttons">
+                        <button class="share-button" onclick="shareTwitter()">Share on X</button>
+                        <button class="share-button" onclick="shareLinkedIn()">LinkedIn</button>
+                        <button class="share-button" onclick="copyLink()">Copy Link</button>
+                    </div>
+                </div>
+
+                <div class="game-cta">
+                    <p>This is a Pop-Up. We build games like this for your business.</p>
+                    <a href="/#contact">Let's build yours →</a>
+                    <br>
+                    <button class="play-again" onclick="resetGame()">Play Again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Audio
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playTick(up = true) {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.frequency.value = up ? 880 : 440;
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.1);
+        }
+
+        function playWin() {
+            [0, 100, 200].forEach((delay, i) => {
+                setTimeout(() => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.frequency.value = [523, 659, 784][i];
+                    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.2);
+                }, delay);
+            });
+        }
+
+        function playLose() {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.frequency.value = 200;
+            osc.type = 'sawtooth';
+            gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.3);
+        }
+
+        // Game State
+        let state = {
+            brand: null,
+            brandEmoji: null,
+            brandName: null,
+            followers: 1247,
+            round: 0,
+            risksTaken: 0,
+            cancelled: false,
+            cancelledRound: 0
+        };
+
+        const brandNames = {
+            coffee: 'a coffee shop',
+            fitness: 'a fitness studio',
+            skincare: 'a skincare line',
+            law: 'a law firm'
+        };
+
+        // Rounds Data
+        const rounds = [
+            {
+                title: "First Post",
+                subtitle: "The Opening Move",
+                context: "Day one. What's your opening move?",
+                options: [
+                    {
+                        text: "Polished brand announcement with a logo reveal",
+                        hint: "Professional but... yawn",
+                        effect: () => ({ change: rand(200, 500), text: "A few people noticed.", emoji: "👀", risky: false })
+                    },
+                    {
+                        text: "Behind-the-scenes raw video of you setting up",
+                        hint: "Messy but real",
+                        effect: () => ({ change: rand(800, 2000), text: "People love the authenticity!", emoji: "🔥", risky: false })
+                    }
+                ]
+            },
+            {
+                title: "The Trend",
+                subtitle: "Trending Audio",
+                context: "A trending audio is blowing up. It has nothing to do with your brand.",
+                options: [
+                    {
+                        text: "Jump on it anyway",
+                        hint: "Could go either way...",
+                        effect: () => {
+                            state.risksTaken++;
+                            if (Math.random() > 0.5) {
+                                return { change: rand(1500, 3000), text: "You caught the wave! Algorithm loves you.", emoji: "🌊", risky: true };
+                            } else {
+                                return { change: rand(-1000, -500), text: "Looked try-hard. Cringe in the comments.", emoji: "😬", risky: true };
+                            }
+                        }
+                    },
+                    {
+                        text: "Ignore it and post your planned content",
+                        hint: "Steady wins the race?",
+                        effect: () => ({ change: rand(300, 700), text: "On-brand content. Solid.", emoji: "👍", risky: false })
+                    }
+                ]
+            },
+            {
+                title: "The Comment Section",
+                subtitle: "Haters Gonna Hate",
+                context: 'Someone leaves a sarcastic comment: "lol who asked for this"',
+                options: [
+                    {
+                        text: "Clap back with humor",
+                        hint: "High risk, high reward",
+                        effect: () => {
+                            state.risksTaken++;
+                            if (Math.random() > 0.4) {
+                                return { change: rand(2000, 5000), text: "Your reply went viral! W brand.", emoji: "💀", risky: true };
+                            } else {
+                                return { change: rand(-2000, -1000), text: "Came off petty. Not a good look.", emoji: "🫠", risky: true };
+                            }
+                        }
+                    },
+                    {
+                        text: "Ignore it",
+                        hint: "Don't feed the trolls",
+                        effect: () => ({ change: 0, text: "Nothing happened. Probably fine.", emoji: "🤷", risky: false })
+                    }
+                ]
+            },
+            {
+                title: "Collab Opportunity",
+                subtitle: "Sliding Into DMs",
+                context: "A bigger account wants to collab. But their audience doesn't overlap with yours at all.",
+                options: [
+                    {
+                        text: "Do the collab",
+                        hint: "Numbers go up... right?",
+                        effect: () => {
+                            state.engagementPenalty = true;
+                            return { change: rand(3000, 6000), text: "Vanity metrics! But engagement tanked.", emoji: "📈", risky: false };
+                        }
+                    },
+                    {
+                        text: "Decline and focus on your niche",
+                        hint: "Algorithm rewards relevance",
+                        effect: () => ({ change: rand(500, 1200), text: "Stayed on brand. Community loves it.", emoji: "🎯", risky: false })
+                    }
+                ]
+            },
+            {
+                title: "The Controversy",
+                subtitle: "Hot Take Territory",
+                context: "A hot take is dividing your industry. Everyone's weighing in.",
+                options: [
+                    {
+                        text: "Take a strong stance",
+                        hint: "Pick a side",
+                        effect: () => {
+                            state.risksTaken++;
+                            if (Math.random() > 0.5) {
+                                return { change: rand(5000, 12000), text: "You picked the winning side. Hero status.", emoji: "👑", risky: true };
+                            } else {
+                                return { change: rand(-8000, -4000), text: "Wrong side of history. Mass unfollows.", emoji: "💨", risky: true };
+                            }
+                        }
+                    },
+                    {
+                        text: "Post something neutral and diplomatic",
+                        hint: "Safe but forgettable",
+                        effect: () => ({ change: rand(100, 400), text: "Nobody shares lukewarm takes.", emoji: "😐", risky: false })
+                    }
+                ]
+            },
+            {
+                title: "Going Paid",
+                subtitle: "Pay to Play",
+                context: "You've got momentum. Time to boost a post?",
+                options: [
+                    {
+                        text: "Spend on ads",
+                        hint: "Money can buy followers",
+                        effect: () => {
+                            state.engagementPenalty = true;
+                            return { change: rand(4000, 8000), text: "Followers up, but engagement rate down.", emoji: "💰", risky: false };
+                        }
+                    },
+                    {
+                        text: "Stay organic",
+                        hint: "Slow and steady",
+                        effect: () => ({ change: rand(800, 1500), text: "Organic growth. Algorithm trusts you.", emoji: "🌱", risky: false })
+                    }
+                ]
+            },
+            {
+                title: "The Intern Incident",
+                subtitle: "Posted from Main 💀",
+                context: "Someone on your team accidentally posts a personal meme from the brand account.",
+                options: [
+                    {
+                        text: "Delete it immediately and pretend it didn't happen",
+                        hint: "Nothing to see here...",
+                        effect: () => ({ change: rand(-1500, -500), text: "Screenshots are forever. People noticed.", emoji: "📸", risky: false })
+                    },
+                    {
+                        text: 'Lean into it, reply "our intern says hi"',
+                        hint: "Brand with personality",
+                        effect: () => ({ change: rand(4000, 10000), text: "Everyone loves a human brand!", emoji: "😂", risky: false })
+                    }
+                ]
+            },
+            {
+                title: "Content Drought",
+                subtitle: "Running on Empty",
+                context: "You've been posting daily but you're running out of ideas.",
+                options: [
+                    {
+                        text: "Repost your best performing content from last month",
+                        hint: "Recycling works",
+                        effect: () => ({ change: rand(1000, 3000), text: "Algorithm resurfaces evergreen content.", emoji: "♻️", risky: false })
+                    },
+                    {
+                        text: "Go silent for a few days",
+                        hint: "Creative break?",
+                        effect: () => ({ change: rand(-3000, -1500), text: "Algorithm punished your absence.", emoji: "👻", risky: false })
+                    }
+                ]
+            },
+            {
+                title: "The Competitor",
+                subtitle: "Copycat Alert",
+                context: "A competitor copies your exact content style. People start confusing you.",
+                options: [
+                    {
+                        text: "Call them out publicly",
+                        hint: "Shots fired",
+                        effect: () => {
+                            state.risksTaken++;
+                            if (Math.random() > 0.5) {
+                                return { change: rand(3000, 7000), text: "You looked confident. They looked guilty.", emoji: "🎤", risky: true };
+                            } else {
+                                return { change: rand(-4000, -2000), text: "Came off insecure. Bad look.", emoji: "🤡", risky: true };
+                            }
+                        }
+                    },
+                    {
+                        text: "Pivot your style and differentiate",
+                        hint: "Evolution time",
+                        effect: () => {
+                            state.pivoted = true;
+                            return { change: rand(-500, 500), text: "Short-term confusion, but you're building something new.", emoji: "🦋", risky: false };
+                        }
+                    }
+                ]
+            },
+            {
+                title: "The Big Swing",
+                subtitle: "Final Post",
+                context: "Last chance. You've got one post left. What is it?",
+                options: [
+                    {
+                        text: "A polished, perfectly produced brand video",
+                        hint: "Safe finish",
+                        effect: () => ({ change: rand(2000, 5000), text: "Solid landing. Professional.", emoji: "✨", risky: false })
+                    },
+                    {
+                        text: "A bold, unhinged, totally unexpected post",
+                        hint: "Chaos mode",
+                        effect: () => {
+                            state.risksTaken++;
+                            // Better odds if they took risks all game
+                            const winChance = 0.3 + (state.risksTaken * 0.08) + (state.pivoted ? 0.1 : 0);
+                            if (Math.random() < winChance) {
+                                return { change: rand(20000, 50000), text: "YOU BROKE THE INTERNET 🔥", emoji: "🚀", risky: true };
+                            } else {
+                                return { change: rand(-15000, -8000), text: "That was... a choice.", emoji: "💀", risky: true };
+                            }
+                        }
+                    }
+                ]
+            }
+        ];
+
+        function rand(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(num >= 10000 ? 0 : 1) + 'K';
+            return num.toLocaleString();
+        }
+
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        function showBrandSelect() {
+            showScreen('brandScreen');
+        }
+
+        function selectBrand(brand, emoji) {
+            state.brand = brand;
+            state.brandEmoji = emoji;
+            state.brandName = brandNames[brand];
+            state.followers = rand(1000, 2000);
+
+            document.getElementById('brandIcon').textContent = emoji;
+            document.getElementById('brandIcon').className = 'brand-icon ' + brand;
+            updateFollowerDisplay();
+
+            document.getElementById('topBar').classList.add('visible');
+            document.getElementById('gameContainer').classList.remove('no-header');
+
+            showRound(0);
+        }
+
+        function updateFollowerDisplay(change = 0) {
+            const display = document.getElementById('followerCount');
+            display.textContent = formatNumber(state.followers);
+
+            if (change > 0) {
+                display.classList.add('rising');
+                display.classList.remove('dropping');
+            } else if (change < 0) {
+                display.classList.remove('rising');
+                display.classList.add('dropping');
+            }
+
+            setTimeout(() => {
+                display.classList.remove('rising', 'dropping');
+            }, 1000);
+        }
+
+        function updateRoundIndicator() {
+            document.getElementById('roundIndicator').textContent = `Round ${state.round + 1} of 10`;
+        }
+
+        function showRound(index) {
+            state.round = index;
+            updateRoundIndicator();
+
+            const round = rounds[index];
+            document.getElementById('decisionRound').textContent = `Round ${index + 1} — ${round.title}`;
+            document.getElementById('decisionTitle').textContent = round.subtitle;
+            document.getElementById('decisionContext').textContent = round.context;
+
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+
+            round.options.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-button';
+                btn.innerHTML = `${opt.text}<span class="option-hint">${opt.hint}</span>`;
+                btn.onclick = () => selectOption(index, i);
+                container.appendChild(btn);
+            });
+
+            showScreen('decisionScreen');
+        }
+
+        function selectOption(roundIndex, optionIndex) {
+            const round = rounds[roundIndex];
+            const option = round.options[optionIndex];
+            const result = option.effect();
+
+            state.followers += result.change;
+
+            // Check for cancellation
+            if (state.followers < 0) {
+                state.cancelled = true;
+                state.cancelledRound = roundIndex + 1;
+                state.followers = 0;
+            }
+
+            showOutcome(result, roundIndex);
+        }
+
+        function showOutcome(result, roundIndex) {
+            document.getElementById('outcomeEmoji').textContent = result.emoji;
+            document.getElementById('outcomeText').textContent = result.text;
+
+            const changeEl = document.getElementById('outcomeChange');
+            const change = result.change;
+            changeEl.textContent = (change >= 0 ? '+' : '') + formatNumber(Math.abs(change));
+            changeEl.className = 'outcome-change ' + (change >= 0 ? 'positive' : 'negative');
+
+            if (change > 0) playTick(true);
+            else if (change < 0) {
+                playLose();
+                document.getElementById('outcomeCard').classList.add('shake');
+                setTimeout(() => document.getElementById('outcomeCard').classList.remove('shake'), 500);
+            }
+
+            updateFollowerDisplay(change);
+
+            // Update button text for last round or cancellation
+            const continueBtn = document.querySelector('.outcome-continue');
+            if (state.cancelled) {
+                continueBtn.textContent = 'See Results';
+            } else if (roundIndex >= rounds.length - 1) {
+                continueBtn.textContent = 'See Final Results';
+            } else {
+                continueBtn.textContent = 'Continue';
+            }
+
+            showScreen('outcomeScreen');
+        }
+
+        function nextRound() {
+            if (state.cancelled || state.round >= rounds.length - 1) {
+                showResults();
+            } else {
+                showRound(state.round + 1);
+            }
+        }
+
+        function showResults() {
+            document.getElementById('topBar').classList.remove('visible');
+            document.getElementById('gameContainer').classList.add('no-header');
+
+            const f = state.followers;
+            let tier, title, desc, tierClass;
+
+            if (state.cancelled) {
+                tier = 'You lasted ' + state.cancelledRound + ' rounds';
+                title = 'Cancelled';
+                desc = "The internet came for you. It happens to the best of us.";
+                tierClass = 'cancelled';
+                playLose();
+            } else if (f < 10000) {
+                tier = 'You finished as';
+                title = 'Ghost Account';
+                desc = "You played it safe. The algorithm didn't even know you existed.";
+                tierClass = 'ghost';
+            } else if (f < 50000) {
+                tier = 'You finished as';
+                title = 'Niche Famous';
+                desc = "Solid following. Your mom shares every post. A few strangers do too.";
+                tierClass = 'niche';
+                playWin();
+            } else if (f < 200000) {
+                tier = 'You finished as';
+                title = 'On the Rise';
+                desc = "The algorithm likes you. Brand deals are sliding into your DMs.";
+                tierClass = 'rising';
+                playWin();
+            } else if (f < 500000) {
+                tier = 'You finished as';
+                title = 'Main Character';
+                desc = "You're trending. Screenshots of your posts are everywhere.";
+                tierClass = 'main';
+                playWin();
+            } else {
+                tier = 'You finished as';
+                title = 'Viral Legend';
+                desc = "You broke the internet. Until tomorrow, when everyone forgets and does it again.";
+                tierClass = 'viral';
+                playWin();
+            }
+
+            document.getElementById('resultTier').textContent = tier;
+            document.getElementById('resultTitle').textContent = title;
+            document.getElementById('resultFollowers').textContent = formatNumber(f) + ' followers';
+            document.getElementById('resultFollowers').className = 'result-followers ' + tierClass;
+            document.getElementById('resultDesc').textContent = desc;
+            document.getElementById('resultCard').className = 'result-card ' + tierClass;
+
+            document.getElementById('shareText').textContent =
+                `I got ${title} running ${state.brandName} on Feed Me 📱`;
+
+            showScreen('resultScreen');
+        }
+
+        function shareTwitter() {
+            const text = document.getElementById('shareText').textContent;
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent('https://popup.company/feed-me')}`, '_blank');
+        }
+
+        function shareLinkedIn() {
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://popup.company/feed-me')}`, '_blank');
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText('https://popup.company/feed-me');
+            event.target.textContent = 'Copied!';
+            setTimeout(() => event.target.textContent = 'Copy Link', 2000);
+        }
+
+        function resetGame() {
+            state = {
+                brand: null,
+                brandEmoji: null,
+                brandName: null,
+                followers: 1247,
+                round: 0,
+                risksTaken: 0,
+                cancelled: false,
+                cancelledRound: 0
+            };
+            showScreen('startScreen');
+        }
+    </script>
+</body>
+</html>
