@@ -1281,14 +1281,14 @@
                 context: "Day one. What's your opening move?",
                 options: [
                     {
-                        text: "Polished brand announcement with a logo reveal",
-                        hint: "Professional but... who cares?",
-                        effect: () => ({ change: rand(200, 500), text: "Crickets. Nobody follows a logo.", emoji: "🦗", risky: false })
-                    },
-                    {
                         text: "Behind-the-scenes raw video of you messing up",
                         hint: "Messy but real",
                         effect: () => ({ change: rand(1500, 3000), text: "Authenticity wins. People connect with humans, not brands.", emoji: "🔥", risky: false })
+                    },
+                    {
+                        text: "Polished brand announcement with a logo reveal",
+                        hint: "Professional but... who cares?",
+                        effect: () => ({ change: rand(200, 500), text: "Crickets. Nobody follows a logo.", emoji: "🦗", risky: false })
                     }
                 ]
             },
@@ -1315,14 +1315,14 @@
                 context: "You've got budget for influencer marketing. Two options on the table.",
                 options: [
                     {
-                        text: "Pay $5K for one post from an influencer with 500K followers",
-                        hint: "Big reach, big name",
-                        effect: () => ({ change: rand(1000, 2500), text: "Impressions were huge. Conversions? Meh. Their audience doesn't trust brand posts.", emoji: "😐", risky: false })
-                    },
-                    {
                         text: "Pay $1K for a month of collabs with a niche micro-influencer (8K followers)",
                         hint: "Small but mighty",
                         effect: () => ({ change: rand(4000, 8000), text: "Their audience TRUSTS them. 5x the engagement, 10x the conversions. Micro wins.", emoji: "🎯", risky: false })
+                    },
+                    {
+                        text: "Pay $5K for one post from an influencer with 500K followers",
+                        hint: "Big reach, big name",
+                        effect: () => ({ change: rand(1000, 2500), text: "Impressions were huge. Conversions? Meh. Their audience doesn't trust brand posts.", emoji: "😐", risky: false })
                     }
                 ]
             },
@@ -1349,14 +1349,14 @@
                 context: "Your TikTok went viral. Time to post it everywhere else.",
                 options: [
                     {
-                        text: "Download it and upload to Reels with the TikTok watermark",
-                        hint: "One video, all platforms",
-                        effect: () => ({ change: rand(-2000, -500), text: "Instagram literally deprioritizes TikTok watermarks. Rookie mistake.", emoji: "🚫", risky: false })
-                    },
-                    {
                         text: "Recreate it natively for each platform",
                         hint: "More work but...",
                         effect: () => ({ change: rand(3000, 6000), text: "Platform-native content gets pushed. Every algorithm rewards native.", emoji: "✨", risky: false })
+                    },
+                    {
+                        text: "Download it and upload to Reels with the TikTok watermark",
+                        hint: "One video, all platforms",
+                        effect: () => ({ change: rand(-2000, -500), text: "Instagram literally deprioritizes TikTok watermarks. Rookie mistake.", emoji: "🚫", risky: false })
                     }
                 ]
             },
@@ -1407,17 +1407,17 @@
                 context: "You're growing. Time to think bigger. Where do you focus?",
                 options: [
                     {
-                        text: "Double down on followers — get to 100K",
-                        hint: "Big number = big credibility",
-                        effect: () => ({ change: rand(2000, 4000), text: "Followers up. But you're renting that audience from the algorithm.", emoji: "📊", risky: false })
-                    },
-                    {
                         text: "Use social to build your email list",
                         hint: "You own that list",
                         effect: () => {
                             state.builtEmail = true;
                             return { change: rand(500, 1500), text: "Slower follower growth, but you OWN those leads. Algorithm can't take them.", emoji: "📧", risky: false };
                         }
+                    },
+                    {
+                        text: "Double down on followers — get to 100K",
+                        hint: "Big number = big credibility",
+                        effect: () => ({ change: rand(2000, 4000), text: "Followers up. But you're renting that audience from the algorithm.", emoji: "📊", risky: false })
                     }
                 ]
             },
@@ -1703,25 +1703,25 @@
 
         // Playbook Strategy Insights - keyed by [roundIndex][optionIndex]
         const strategyInsights = {
-            0: { // First Post
-                0: { grade: 'bad', insight: '<strong>The Lesson:</strong> Nobody follows logos. People follow people. The algorithm rewards content that gets engagement, not aesthetics. Show your face, tell your story.' },
-                1: { grade: 'good', insight: '<strong>Pro Move:</strong> Authenticity outperforms polish 9 times out of 10. Imperfect, real content signals "human" to the algorithm — and humans are what people want to follow.' }
+            0: { // First Post (swapped)
+                0: { grade: 'good', insight: '<strong>Pro Move:</strong> Authenticity outperforms polish 9 times out of 10. Imperfect, real content signals "human" to the algorithm — and humans are what people want to follow.' },
+                1: { grade: 'bad', insight: '<strong>The Lesson:</strong> Nobody follows logos. People follow people. The algorithm rewards content that gets engagement, not aesthetics. Show your face, tell your story.' }
             },
             1: { // The Hook
                 0: { grade: 'bad', insight: '<strong>The Lesson:</strong> You have 3 seconds. The algorithm measures watch time, and 80% of viewers drop off before a slow intro ends. Hook first, brand later.' },
                 1: { grade: 'good', insight: '<strong>Pro Move:</strong> The hook-first format isn\'t just trendy — it\'s algorithmic survival. High retention = high reach. Save your logo for your profile.' }
             },
-            2: { // Influencer Collab
-                0: { grade: 'ok', insight: '<strong>The Lesson:</strong> Big follower counts don\'t mean big trust. Macro-influencers have diluted audiences. Their engagement rate is often 1-2%, while micro-influencers hit 8-10%.' },
-                1: { grade: 'good', insight: '<strong>Pro Move:</strong> Micro-influencers have something priceless: trust. Their smaller audience actually believes them. That\'s why brands see 3-5x better conversion rates.' }
+            2: { // Influencer Collab (swapped)
+                0: { grade: 'good', insight: '<strong>Pro Move:</strong> Micro-influencers have something priceless: trust. Their smaller audience actually believes them. That\'s why brands see 3-5x better conversion rates.' },
+                1: { grade: 'ok', insight: '<strong>The Lesson:</strong> Big follower counts don\'t mean big trust. Macro-influencers have diluted audiences. Their engagement rate is often 1-2%, while micro-influencers hit 8-10%.' }
             },
             3: { // Engagement Bait
                 0: { grade: 'bad', insight: '<strong>The Lesson:</strong> Platforms have cracked down hard on engagement bait. "Comment YES" triggers spam filters. Your reach gets throttled, not boosted.' },
                 1: { grade: 'good', insight: '<strong>Pro Move:</strong> Real questions spark real conversations. The algorithm can tell the difference between genuine engagement and gaming — and it rewards the real thing.' }
             },
-            4: { // Cross-Posting
-                0: { grade: 'bad', insight: '<strong>The Lesson:</strong> Instagram literally deprioritizes TikTok watermarks. Cross-posting with watermarks is a reach killer. Each platform protects its ecosystem.' },
-                1: { grade: 'good', insight: '<strong>Pro Move:</strong> Platform-native content gets platform love. It takes more effort, but native posts get 2-3x the reach of cross-posted content with watermarks.' }
+            4: { // Cross-Posting (swapped)
+                0: { grade: 'good', insight: '<strong>Pro Move:</strong> Platform-native content gets platform love. It takes more effort, but native posts get 2-3x the reach of cross-posted content with watermarks.' },
+                1: { grade: 'bad', insight: '<strong>The Lesson:</strong> Instagram literally deprioritizes TikTok watermarks. Cross-posting with watermarks is a reach killer. Each platform protects its ecosystem.' }
             },
             5: { // UGC Gold
                 0: { grade: 'ok', insight: '<strong>The Lesson:</strong> User-generated content is your most valuable asset. It\'s free, it\'s authentic, and it converts 4x better than branded content. Never let it go to waste.' },
@@ -1731,9 +1731,9 @@
                 0: { grade: 'risky', insight: '<strong>High Risk, High Reward:</strong> Taking a stance is polarizing — but polarizing is memorable. Brands that stand for nothing get lost in the feed. Just make sure you believe what you\'re saying.' },
                 1: { grade: 'ok', insight: '<strong>The Trade-off:</strong> Playing it safe means staying small. Neutral takes don\'t get shared, don\'t spark conversation, and don\'t build real community. Sometimes boring is the biggest risk.' }
             },
-            7: { // The Long Game
-                0: { grade: 'ok', insight: '<strong>The Reality:</strong> Followers are rented, not owned. The algorithm can change tomorrow and tank your reach. Social is great for discovery, but you don\'t own that audience.' },
-                1: { grade: 'good', insight: '<strong>Pro Move:</strong> Email is the only channel you truly own. When Instagram changes its algorithm (and it will), your email list is still yours. Smart brands use social to build their list.' }
+            7: { // The Long Game (swapped)
+                0: { grade: 'good', insight: '<strong>Pro Move:</strong> Email is the only channel you truly own. When Instagram changes its algorithm (and it will), your email list is still yours. Smart brands use social to build their list.' },
+                1: { grade: 'ok', insight: '<strong>The Reality:</strong> Followers are rented, not owned. The algorithm can change tomorrow and tank your reach. Social is great for discovery, but you don\'t own that audience.' }
             },
             8: { // Comment Strategy
                 0: { grade: 'bad', insight: '<strong>The Lesson:</strong> The first hour is when the algorithm decides if your post gets pushed or buried. Engagement velocity matters. Close the app and you lose the window.' },
