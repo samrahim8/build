@@ -85,6 +85,7 @@
         .brand-icon.fitness { background: linear-gradient(135deg, #dc2626, #f97316); }
         .brand-icon.skincare { background: linear-gradient(135deg, #ec4899, #a855f7); }
         .brand-icon.law { background: linear-gradient(135deg, #1e3a5f, #3b82f6); }
+        .brand-icon.agency { background: linear-gradient(135deg, #7c3aed, #ec4899); }
 
         .round-indicator {
             font-size: 0.8125rem;
@@ -1067,6 +1068,10 @@
                         <span class="emoji">⚖️</span>
                         A law firm
                     </button>
+                    <button class="brand-option" onclick="selectBrand('agency', '📈')">
+                        <span class="emoji">📈</span>
+                        A marketing agency
+                    </button>
                 </div>
             </div>
         </div>
@@ -1270,7 +1275,8 @@
             coffee: 'a coffee shop',
             fitness: 'a fitness studio',
             skincare: 'a skincare line',
-            law: 'a law firm'
+            law: 'a law firm',
+            agency: 'a marketing agency'
         };
 
         // Brand-specific content for tailored rounds
@@ -1310,6 +1316,15 @@
                 influencer: "local business consultant (8K followers)",
                 controversy: "A debate erupts: should you ever represent someone you know is guilty?",
                 bigSwingStory: "A vulnerable post about a case that kept you up at night and why you do this work"
+            },
+            agency: {
+                firstPostRaw: "Behind-the-scenes video of a pitch meeting going hilariously off the rails",
+                firstPostPolished: "Polished brand announcement showcasing your client logos",
+                ugcContext: "A client tags you in a post celebrating a campaign you built that crushed it.",
+                ugcRepost: "Repost it, tag them, add the results as a mini case study",
+                influencer: "B2B marketing micro-influencer (8K followers)",
+                controversy: "A debate erupts: is organic reach dead, or are agencies just lazy?",
+                bigSwingStory: "A vulnerable post about losing a major client and what it taught you about the business"
             }
         };
 
