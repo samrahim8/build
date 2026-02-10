@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Feed Me — Social Media Simulator</title>
+    <title>The Feed — Social Media Simulator</title>
     <meta name="description" content="You're the social media manager and content strategist. Think you can grow your brand?">
 
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Feed Me — Social Media Simulator">
+    <meta property="og:title" content="The Feed — Social Media Simulator">
     <meta property="og:description" content="You're the social media manager and content strategist. Think you can grow your brand?">
     <meta property="og:url" content="https://popup.company/feed-me">
 
@@ -1039,7 +1039,7 @@
             <div class="start-screen">
                 <div class="demo-context">Example lead magnet for a <strong>social media agency</strong></div>
                 <div class="start-emoji">📱</div>
-                <h1>Feed Me</h1>
+                <h1>The Feed</h1>
                 <p class="subhead">You're the social media manager and content strategist.<br>Think you can grow your brand?</p>
                 <button class="start-button" onclick="showBrandSelect()">Let's Find Out</button>
             </div>
@@ -1273,6 +1273,46 @@
             law: 'a law firm'
         };
 
+        // Brand-specific content for tailored rounds
+        const brandContent = {
+            coffee: {
+                firstPostRaw: "Behind-the-scenes video of you spilling coffee beans everywhere while opening",
+                firstPostPolished: "Polished brand announcement with your logo on a latte",
+                ugcContext: "A customer posts a gorgeous latte art photo and tags you.",
+                ugcRepost: "Repost it, tag them, offer them a free drink next visit",
+                influencer: "local food blogger (8K followers)",
+                controversy: "A debate erupts: is oat milk actually better than dairy?",
+                bigSwingStory: "A vulnerable post about almost closing during COVID and what your regulars meant to you"
+            },
+            fitness: {
+                firstPostRaw: "Behind-the-scenes video of you failing a lift and laughing it off",
+                firstPostPolished: "Polished brand announcement with your logo and gym tour",
+                ugcContext: "A member posts their 6-month transformation photo and tags you.",
+                ugcRepost: "Repost it, tag them, feature them as Member of the Month",
+                influencer: "local fitness micro-influencer (8K followers)",
+                controversy: "A debate erupts: are rest days actually necessary or just laziness?",
+                bigSwingStory: "A vulnerable post about your own fitness journey and the setbacks you faced"
+            },
+            skincare: {
+                firstPostRaw: "Behind-the-scenes video of a batch going wrong and having to start over",
+                firstPostPolished: "Polished brand announcement with aesthetic product flat-lay",
+                ugcContext: "A customer posts their before/after skin transformation and tags you.",
+                ugcRepost: "Repost it, tag them, send them your new product to try",
+                influencer: "skincare-obsessed micro-influencer (8K followers)",
+                controversy: "A debate erupts: is the 10-step routine actually damaging skin barriers?",
+                bigSwingStory: "A vulnerable post about your own skin struggles that led you to create the brand"
+            },
+            law: {
+                firstPostRaw: "Behind-the-scenes video of the chaos before a big court date",
+                firstPostPolished: "Polished brand announcement with professional headshots",
+                ugcContext: "A client posts a LinkedIn recommendation about how you changed their life.",
+                ugcRepost: "Share it to your feed, thank them publicly, offer a referral bonus",
+                influencer: "local business consultant (8K followers)",
+                controversy: "A debate erupts: should you ever represent someone you know is guilty?",
+                bigSwingStory: "A vulnerable post about a case that kept you up at night and why you do this work"
+            }
+        };
+
         // Rounds Data - Real social media expertise baked in
         const rounds = [
             {
@@ -1281,12 +1321,12 @@
                 context: "Day one. What's your opening move?",
                 options: [
                     {
-                        text: "Behind-the-scenes raw video of you messing up",
+                        getText: () => brandContent[state.brand]?.firstPostRaw || "Behind-the-scenes raw video of you messing up",
                         hint: "Messy but real",
                         effect: () => ({ change: rand(1500, 3000), text: "Authenticity wins. People connect with humans, not brands.", emoji: "🔥", risky: false })
                     },
                     {
-                        text: "Polished brand announcement with a logo reveal",
+                        getText: () => brandContent[state.brand]?.firstPostPolished || "Polished brand announcement with a logo reveal",
                         hint: "Professional but... who cares?",
                         effect: () => ({ change: rand(200, 500), text: "Crickets. Nobody follows a logo.", emoji: "🦗", risky: false })
                     }
@@ -1320,7 +1360,7 @@
                         effect: () => ({ change: rand(1000, 2500), text: "Impressions were huge. Conversions? Meh. Their audience doesn't trust brand posts.", emoji: "😐", risky: false })
                     },
                     {
-                        text: "Pay $1K for a month of collabs with a niche micro-influencer (8K followers)",
+                        getText: () => `Pay $1K for a month of collabs with a ${brandContent[state.brand]?.influencer || "niche micro-influencer (8K followers)"}`,
                         hint: "Small but mighty",
                         effect: () => ({ change: rand(4000, 8000), text: "Their audience TRUSTS them. 5x the engagement, 10x the conversions. Micro wins.", emoji: "🎯", risky: false })
                     }
@@ -1363,7 +1403,7 @@
             {
                 title: "UGC Gold",
                 subtitle: "Customer Content",
-                context: "A customer tags you in an amazing post showing off your product/service.",
+                getContext: () => brandContent[state.brand]?.ugcContext || "A customer tags you in an amazing post showing off your product/service.",
                 options: [
                     {
                         text: "Like it and move on — don't want to seem desperate",
@@ -1371,7 +1411,7 @@
                         effect: () => ({ change: rand(100, 400), text: "Missed opportunity. That was free content AND social proof.", emoji: "🤷", risky: false })
                     },
                     {
-                        text: "Repost it, tag them, make them feel like a VIP",
+                        getText: () => brandContent[state.brand]?.ugcRepost || "Repost it, tag them, make them feel like a VIP",
                         hint: "UGC is gold",
                         effect: () => ({ change: rand(3000, 6000), text: "UGC converts 4x better than branded content. They feel seen. Win-win.", emoji: "👑", risky: false })
                     }
@@ -1380,7 +1420,7 @@
             {
                 title: "The Controversy",
                 subtitle: "Hot Take Territory",
-                context: "A hot take is dividing your industry. Everyone's weighing in.",
+                getContext: () => brandContent[state.brand]?.controversy || "A hot take is dividing your industry. Everyone's weighing in.",
                 options: [
                     {
                         text: "Take a strong stance and own it",
@@ -1449,7 +1489,7 @@
                         effect: () => ({ change: rand(4000, 8000), text: "Saves and shares through the roof. Evergreen content.", emoji: "📚", risky: false })
                     },
                     {
-                        text: "A bold, personal story that breaks your usual format",
+                        getText: () => brandContent[state.brand]?.bigSwingStory || "A bold, personal story that breaks your usual format",
                         hint: "Vulnerable but real",
                         effect: () => {
                             state.risksTaken++;
@@ -1534,7 +1574,10 @@
             const round = rounds[index];
             document.getElementById('decisionRound').textContent = `Round ${index + 1} — ${round.title}`;
             document.getElementById('decisionTitle').textContent = round.subtitle;
-            document.getElementById('decisionContext').textContent = round.context;
+
+            // Handle dynamic context
+            const context = round.getContext ? round.getContext() : round.context;
+            document.getElementById('decisionContext').textContent = context;
 
             const container = document.getElementById('optionsContainer');
             container.innerHTML = '';
@@ -1542,7 +1585,9 @@
             round.options.forEach((opt, i) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-button';
-                btn.innerHTML = `${opt.text}<span class="option-hint">${opt.hint}</span>`;
+                // Handle dynamic text
+                const optionText = opt.getText ? opt.getText() : opt.text;
+                btn.innerHTML = `${optionText}<span class="option-hint">${opt.hint}</span>`;
                 btn.onclick = () => selectOption(index, i);
                 container.appendChild(btn);
             });
@@ -1555,11 +1600,12 @@
             const option = round.options[optionIndex];
             const result = option.effect();
 
-            // Track the choice
+            // Track the choice - get dynamic text if available
+            const optionText = option.getText ? option.getText() : option.text;
             state.choices[roundIndex] = {
                 optionIndex,
                 result: { ...result },
-                optionText: option.text
+                optionText: optionText
             };
 
             state.followers += result.change;
