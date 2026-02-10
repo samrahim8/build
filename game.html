@@ -19,17 +19,18 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23C4704C'/><text x='50' y='70' text-anchor='middle' font-family='serif' font-size='60' font-weight='bold' fill='%23fff'>P</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0a0a0a;
-            --card-bg: #141414;
-            --card-border: #2a2a2a;
-            --text: #ffffff;
-            --text-muted: #888;
+            --bg: #FDFBF8;
+            --card-bg: #ffffff;
+            --card-border: #e5e5e5;
+            --text: #1a1a1a;
+            --text-muted: #666;
             --accent: #C4704C;
-            --green: #22c55e;
-            --red: #ef4444;
+            --accent-hover: #A85A3A;
+            --green: #16a34a;
+            --red: #dc2626;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -90,10 +91,12 @@
         }
 
         .balance-amount {
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 1.75rem;
+            font-weight: 400;
             font-feature-settings: "tnum";
             transition: color 0.3s ease;
+            color: var(--text);
         }
 
         .balance-amount.positive {
@@ -177,14 +180,15 @@
         }
 
         .start-screen h1 {
+            font-family: 'Instrument Serif', Georgia, serif;
             font-size: 3rem;
-            font-weight: 700;
+            font-weight: 400;
             margin-bottom: 16px;
             letter-spacing: -0.02em;
         }
 
         .start-screen .subhead {
-            font-size: 1.25rem;
+            font-size: 1.125rem;
             color: var(--text-muted);
             margin-bottom: 48px;
         }
@@ -192,31 +196,27 @@
         .start-button {
             display: inline-block;
             padding: 18px 48px;
-            font-size: 1.125rem;
-            font-weight: 600;
+            font-size: 1rem;
+            font-weight: 500;
             color: white;
             background: var(--accent);
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: background-color 0.2s ease;
         }
 
         .start-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(196, 112, 76, 0.3);
-        }
-
-        .start-button:active {
-            transform: translateY(0);
+            background: var(--accent-hover);
         }
 
         /* Decision Card */
         .decision-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 20px;
+            border-radius: 16px;
             padding: 32px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
 
         .round-label {
@@ -235,8 +235,9 @@
         }
 
         .decision-question {
+            font-family: 'Instrument Serif', Georgia, serif;
             font-size: 1.5rem;
-            font-weight: 600;
+            font-weight: 400;
             margin-bottom: 32px;
             line-height: 1.3;
         }
@@ -254,7 +255,7 @@
             font-weight: 500;
             color: var(--text);
             background: var(--bg);
-            border: 2px solid var(--card-border);
+            border: 1px solid var(--card-border);
             border-radius: 12px;
             cursor: pointer;
             text-align: left;
@@ -263,7 +264,7 @@
 
         .option-button:hover {
             border-color: var(--accent);
-            background: rgba(196, 112, 76, 0.1);
+            background: rgba(196, 112, 76, 0.06);
         }
 
         .option-button:active {
@@ -275,19 +276,23 @@
             font-size: 0.8125rem;
             color: var(--text-muted);
             margin-top: 4px;
+            font-weight: 400;
         }
 
         /* Setup Screen */
         .setup-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 20px;
+            border-radius: 16px;
             padding: 32px;
             text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
 
         .setup-card h2 {
+            font-family: 'Instrument Serif', Georgia, serif;
             font-size: 1.5rem;
+            font-weight: 400;
             margin-bottom: 8px;
         }
 
@@ -304,11 +309,11 @@
 
         .salary-option {
             padding: 18px 24px;
-            font-size: 1.125rem;
+            font-size: 1rem;
             font-weight: 500;
             color: var(--text);
             background: var(--bg);
-            border: 2px solid var(--card-border);
+            border: 1px solid var(--card-border);
             border-radius: 12px;
             cursor: pointer;
             transition: border-color 0.2s ease, background-color 0.2s ease;
@@ -316,7 +321,7 @@
 
         .salary-option:hover {
             border-color: var(--accent);
-            background: rgba(196, 112, 76, 0.1);
+            background: rgba(196, 112, 76, 0.06);
         }
 
         /* Impact Animation */
@@ -325,8 +330,9 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            font-family: 'Instrument Serif', Georgia, serif;
             font-size: 3rem;
-            font-weight: 700;
+            font-weight: 400;
             pointer-events: none;
             opacity: 0;
             z-index: 200;
@@ -358,9 +364,10 @@
         .result-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 20px;
+            border-radius: 16px;
             padding: 48px 32px;
             margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
 
         .result-badge {
@@ -375,18 +382,19 @@
         }
 
         .result-badge.success {
-            background: rgba(34, 197, 94, 0.2);
+            background: rgba(22, 163, 74, 0.1);
             color: var(--green);
         }
 
         .result-badge.failure {
-            background: rgba(239, 68, 68, 0.2);
+            background: rgba(220, 38, 38, 0.1);
             color: var(--red);
         }
 
         .result-amount {
+            font-family: 'Instrument Serif', Georgia, serif;
             font-size: 4rem;
-            font-weight: 700;
+            font-weight: 400;
             margin-bottom: 8px;
             font-feature-settings: "tnum";
         }
@@ -400,8 +408,9 @@
         }
 
         .result-headline {
+            font-family: 'Instrument Serif', Georgia, serif;
             font-size: 1.5rem;
-            font-weight: 600;
+            font-weight: 400;
             margin-bottom: 12px;
         }
 
@@ -413,7 +422,7 @@
 
         /* Share Card */
         .share-card {
-            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            background: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 16px;
             padding: 24px;
@@ -421,10 +430,11 @@
         }
 
         .share-text {
-            font-size: 1.125rem;
+            font-size: 1rem;
             font-weight: 500;
             margin-bottom: 20px;
             line-height: 1.4;
+            color: var(--text);
         }
 
         .share-buttons {
@@ -439,21 +449,21 @@
             font-size: 0.875rem;
             font-weight: 500;
             color: var(--text);
-            background: var(--card-border);
-            border: none;
+            background: var(--bg);
+            border: 1px solid var(--card-border);
             border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.2s ease;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
         }
 
         .share-button:hover {
-            background: #3a3a3a;
+            border-color: var(--accent);
+            background: rgba(196, 112, 76, 0.06);
         }
 
         /* CTA */
         .game-cta {
-            padding: 24px;
-            border-top: 1px solid var(--card-border);
+            padding: 24px 0;
             text-align: center;
         }
 
@@ -480,8 +490,8 @@
             font-weight: 500;
             color: var(--text);
             background: transparent;
-            border: 2px solid var(--card-border);
-            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
             cursor: pointer;
             transition: border-color 0.2s ease;
             margin-top: 16px;
@@ -510,7 +520,7 @@
             }
 
             .balance-amount {
-                font-size: 1.25rem;
+                font-size: 1.5rem;
             }
         }
     </style>
