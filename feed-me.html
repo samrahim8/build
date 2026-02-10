@@ -1298,14 +1298,14 @@
                 context: "You're posting your first Reel. How do you start it?",
                 options: [
                     {
-                        text: "Slow intro with your logo, then get to the point",
-                        hint: "Gotta build the brand, right?",
-                        effect: () => ({ change: rand(-500, 200), text: "3-second rule: 80% of viewers dropped before your point. Dead reach.", emoji: "💀", risky: false })
-                    },
-                    {
                         text: "Punchy hook in the first second, payoff at the end",
                         hint: "Retention is everything",
                         effect: () => ({ change: rand(2000, 4000), text: "Watch time through the roof. Algorithm pushed it hard.", emoji: "📈", risky: false })
+                    },
+                    {
+                        text: "Slow intro with your logo, then get to the point",
+                        hint: "Gotta build the brand, right?",
+                        effect: () => ({ change: rand(-500, 200), text: "3-second rule: 80% of viewers dropped before your point. Dead reach.", emoji: "💀", risky: false })
                     }
                 ]
             },
@@ -1315,14 +1315,14 @@
                 context: "You've got budget for influencer marketing. Two options on the table.",
                 options: [
                     {
-                        text: "Pay $1K for a month of collabs with a niche micro-influencer (8K followers)",
-                        hint: "Small but mighty",
-                        effect: () => ({ change: rand(4000, 8000), text: "Their audience TRUSTS them. 5x the engagement, 10x the conversions. Micro wins.", emoji: "🎯", risky: false })
-                    },
-                    {
                         text: "Pay $5K for one post from an influencer with 500K followers",
                         hint: "Big reach, big name",
                         effect: () => ({ change: rand(1000, 2500), text: "Impressions were huge. Conversions? Meh. Their audience doesn't trust brand posts.", emoji: "😐", risky: false })
+                    },
+                    {
+                        text: "Pay $1K for a month of collabs with a niche micro-influencer (8K followers)",
+                        hint: "Small but mighty",
+                        effect: () => ({ change: rand(4000, 8000), text: "Their audience TRUSTS them. 5x the engagement, 10x the conversions. Micro wins.", emoji: "🎯", risky: false })
                     }
                 ]
             },
@@ -1332,14 +1332,14 @@
                 context: "You need more engagement. Quick fix?",
                 options: [
                     {
-                        text: '"Comment YES if you agree!" with a generic hot take',
-                        hint: "Easy engagement hack",
-                        effect: () => ({ change: rand(-1000, 500), text: "Algorithm flagged it as engagement bait. Reach throttled. That trick died in 2022.", emoji: "🪤", risky: false })
-                    },
-                    {
                         text: "Ask a genuine question that sparks real discussion",
                         hint: "Slower but sustainable",
                         effect: () => ({ change: rand(2000, 4500), text: "Real comments = real reach. Algorithm rewards genuine engagement.", emoji: "💬", risky: false })
+                    },
+                    {
+                        text: '"Comment YES if you agree!" with a generic hot take',
+                        hint: "Easy engagement hack",
+                        effect: () => ({ change: rand(-1000, 500), text: "Algorithm flagged it as engagement bait. Reach throttled. That trick died in 2022.", emoji: "🪤", risky: false })
                     }
                 ]
             },
@@ -1707,17 +1707,17 @@
                 0: { grade: 'good', insight: '<strong>Pro Move:</strong> Authenticity outperforms polish 9 times out of 10. Imperfect, real content signals "human" to the algorithm — and humans are what people want to follow.' },
                 1: { grade: 'bad', insight: '<strong>The Lesson:</strong> Nobody follows logos. People follow people. The algorithm rewards content that gets engagement, not aesthetics. Show your face, tell your story.' }
             },
-            1: { // The Hook
-                0: { grade: 'bad', insight: '<strong>The Lesson:</strong> You have 3 seconds. The algorithm measures watch time, and 80% of viewers drop off before a slow intro ends. Hook first, brand later.' },
-                1: { grade: 'good', insight: '<strong>Pro Move:</strong> The hook-first format isn\'t just trendy — it\'s algorithmic survival. High retention = high reach. Save your logo for your profile.' }
+            1: { // The Hook (swapped)
+                0: { grade: 'good', insight: '<strong>Pro Move:</strong> The hook-first format isn\'t just trendy — it\'s algorithmic survival. High retention = high reach. Save your logo for your profile.' },
+                1: { grade: 'bad', insight: '<strong>The Lesson:</strong> You have 3 seconds. The algorithm measures watch time, and 80% of viewers drop off before a slow intro ends. Hook first, brand later.' }
             },
-            2: { // Influencer Collab (swapped)
-                0: { grade: 'good', insight: '<strong>Pro Move:</strong> Micro-influencers have something priceless: trust. Their smaller audience actually believes them. That\'s why brands see 3-5x better conversion rates.' },
-                1: { grade: 'ok', insight: '<strong>The Lesson:</strong> Big follower counts don\'t mean big trust. Macro-influencers have diluted audiences. Their engagement rate is often 1-2%, while micro-influencers hit 8-10%.' }
+            2: { // Influencer Collab
+                0: { grade: 'ok', insight: '<strong>The Lesson:</strong> Big follower counts don\'t mean big trust. Macro-influencers have diluted audiences. Their engagement rate is often 1-2%, while micro-influencers hit 8-10%.' },
+                1: { grade: 'good', insight: '<strong>Pro Move:</strong> Micro-influencers have something priceless: trust. Their smaller audience actually believes them. That\'s why brands see 3-5x better conversion rates.' }
             },
-            3: { // Engagement Bait
-                0: { grade: 'bad', insight: '<strong>The Lesson:</strong> Platforms have cracked down hard on engagement bait. "Comment YES" triggers spam filters. Your reach gets throttled, not boosted.' },
-                1: { grade: 'good', insight: '<strong>Pro Move:</strong> Real questions spark real conversations. The algorithm can tell the difference between genuine engagement and gaming — and it rewards the real thing.' }
+            3: { // Engagement Bait (swapped)
+                0: { grade: 'good', insight: '<strong>Pro Move:</strong> Real questions spark real conversations. The algorithm can tell the difference between genuine engagement and gaming — and it rewards the real thing.' },
+                1: { grade: 'bad', insight: '<strong>The Lesson:</strong> Platforms have cracked down hard on engagement bait. "Comment YES" triggers spam filters. Your reach gets throttled, not boosted.' }
             },
             4: { // Cross-Posting (swapped)
                 0: { grade: 'good', insight: '<strong>Pro Move:</strong> Platform-native content gets platform love. It takes more effort, but native posts get 2-3x the reach of cross-posted content with watermarks.' },
