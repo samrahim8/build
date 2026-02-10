@@ -299,6 +299,26 @@
             font-weight: 600;
         }
 
+        .pricing-cta {
+            display: block;
+            width: 100%;
+            margin-top: 32px;
+            padding: 16px 32px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: white;
+            background-color: var(--accent);
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.2s ease;
+        }
+
+        .pricing-cta:hover {
+            background-color: var(--accent-hover);
+        }
+
         /* Final CTA */
         .final-cta {
             background: linear-gradient(180deg, #f5f2ed 0%, var(--bg) 100%);
@@ -552,6 +572,7 @@
                         <li>Mobile-friendly</li>
                         <li>One revision round</li>
                     </ul>
+                    <a href="#contact" class="pricing-cta">Get Started</a>
                 </div>
             </div>
         </section>
