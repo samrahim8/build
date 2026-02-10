@@ -4,25 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Feed Me — Social Media Simulator</title>
-    <meta name="description" content="You run the brand. Feed the algorithm. Try not to get cancelled.">
+    <meta name="description" content="You're the social media manager and content strategist. Think you can grow your brand?">
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="Feed Me — Social Media Simulator">
-    <meta property="og:description" content="You run the brand. Feed the algorithm. Try not to get cancelled.">
+    <meta property="og:description" content="You're the social media manager and content strategist. Think you can grow your brand?">
     <meta property="og:url" content="https://popup.company/feed-me">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📱</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #fafafa;
+            --bg: #FDFBF7;
             --card-bg: #ffffff;
-            --text: #1a1a1a;
-            --text-muted: #737373;
-            --accent: #8b5cf6;
-            --accent-dark: #7c3aed;
+            --text: #2D3B2D;
+            --text-muted: #6B7280;
+            --accent: #C4704C;
+            --accent-dark: #A85A3A;
             --green: #22c55e;
             --red: #ef4444;
             --orange: #f97316;
@@ -38,7 +38,7 @@
         }
 
         body {
-            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg);
             color: var(--text);
             display: flex;
@@ -176,8 +176,8 @@
         .demo-context {
             display: inline-block;
             padding: 8px 16px;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
-            border: 1px dashed rgba(139, 92, 246, 0.3);
+            background: rgba(196, 112, 76, 0.1);
+            border: 1px dashed rgba(196, 112, 76, 0.3);
             border-radius: 8px;
             font-size: 0.8125rem;
             color: var(--text-muted);
@@ -201,13 +201,11 @@
         }
 
         .start-screen h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            background: linear-gradient(135deg, var(--accent), var(--pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 3.5rem;
+            font-weight: 400;
+            margin-bottom: 16px;
+            color: var(--text);
         }
 
         .start-screen .subhead {
@@ -223,17 +221,17 @@
             font-size: 1.125rem;
             font-weight: 600;
             color: white;
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            background: var(--accent);
             border: none;
-            border-radius: 14px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.2s ease, background 0.2s ease;
             font-family: inherit;
         }
 
         .start-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+            background: var(--accent-dark);
         }
 
         /* Brand Selection */
@@ -242,7 +240,9 @@
         }
 
         .brand-select h2 {
-            font-size: 1.5rem;
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 1.75rem;
+            font-weight: 400;
             margin-bottom: 8px;
         }
 
@@ -277,8 +277,8 @@
 
         .brand-option:hover {
             border-color: var(--accent);
+            background: rgba(196, 112, 76, 0.04);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         .brand-option .emoji {
@@ -349,7 +349,7 @@
 
         .option-button:hover {
             border-color: var(--accent);
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(236, 72, 153, 0.05));
+            background: rgba(196, 112, 76, 0.04);
             transform: translateX(4px);
         }
 
@@ -453,8 +453,9 @@
         }
 
         .result-title {
+            font-family: 'Instrument Serif', Georgia, serif;
             font-size: 2rem;
-            font-weight: 700;
+            font-weight: 400;
             margin-bottom: 8px;
         }
 
@@ -480,8 +481,8 @@
 
         /* Share Card */
         .share-card {
-            background: linear-gradient(135deg, var(--accent), var(--pink));
-            border-radius: 20px;
+            background: var(--accent);
+            border-radius: 16px;
             padding: 24px;
             margin-bottom: 20px;
             color: white;
@@ -508,7 +509,7 @@
             color: var(--accent);
             background: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             font-family: inherit;
             transition: transform 0.2s ease;
@@ -572,7 +573,7 @@
         .overlay-meta {
             display: inline-block;
             padding: 6px 14px;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
+            background: rgba(196, 112, 76, 0.1);
             border-radius: 20px;
             font-size: 0.75rem;
             font-weight: 600;
@@ -583,8 +584,9 @@
         }
 
         .overlay-card h2 {
+            font-family: 'Instrument Serif', Georgia, serif;
             font-size: 1.75rem;
-            font-weight: 700;
+            font-weight: 400;
             margin-bottom: 16px;
             line-height: 1.3;
         }
@@ -612,18 +614,18 @@
             font-size: 1.125rem;
             font-weight: 600;
             color: white;
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            background: var(--accent);
             border: none;
-            border-radius: 14px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.2s ease, background 0.2s ease;
             font-family: inherit;
             margin-top: 24px;
         }
 
         .overlay-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+            background: var(--accent-dark);
         }
 
         /* Email Capture Screen */
@@ -639,8 +641,9 @@
         }
 
         .email-card h2 {
+            font-family: 'Instrument Serif', Georgia, serif;
             font-size: 1.5rem;
-            font-weight: 700;
+            font-weight: 400;
             margin-bottom: 8px;
         }
 
@@ -677,16 +680,17 @@
             font-size: 1rem;
             font-weight: 600;
             color: white;
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            background: var(--accent);
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             cursor: pointer;
             font-family: inherit;
-            transition: transform 0.2s ease, opacity 0.2s ease;
+            transition: transform 0.2s ease, background 0.2s ease;
         }
 
         .email-submit:hover {
             transform: translateY(-1px);
+            background: var(--accent-dark);
         }
 
         .email-submit:disabled {
@@ -730,8 +734,9 @@
         }
 
         .playbook-header h2 {
+            font-family: 'Instrument Serif', Georgia, serif;
             font-size: 1.5rem;
-            font-weight: 700;
+            font-weight: 400;
             margin-bottom: 4px;
         }
 
@@ -755,8 +760,9 @@
         }
 
         .playbook-stat-value {
-            font-size: 1.75rem;
-            font-weight: 700;
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 2rem;
+            font-weight: 400;
             color: var(--accent);
         }
 
@@ -808,7 +814,7 @@
 
         .score-item.active {
             border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+            box-shadow: 0 0 0 3px rgba(196, 112, 76, 0.2);
         }
 
         /* Detail Panel */
@@ -872,8 +878,8 @@
         .playbook-takeaway {
             margin-top: 20px;
             padding: 20px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            border-radius: 16px;
+            background: var(--accent);
+            border-radius: 12px;
             color: white;
         }
 
@@ -902,8 +908,9 @@
         }
 
         .playbook-cta h3 {
-            font-size: 1.125rem;
-            font-weight: 700;
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 1.25rem;
+            font-weight: 400;
             margin-bottom: 6px;
         }
 
@@ -1032,9 +1039,9 @@
             <div class="start-screen">
                 <div class="demo-context">Example lead magnet for a <strong>social media agency</strong></div>
                 <div class="start-emoji">📱</div>
-                <h1>Feed Me.</h1>
-                <p class="subhead">You run the brand. Feed the algorithm.<br>Try not to get cancelled.</p>
-                <button class="start-button" onclick="showBrandSelect()">Post Up</button>
+                <h1>Feed Me</h1>
+                <p class="subhead">You're the social media manager and content strategist.<br>Think you can grow your brand?</p>
+                <button class="start-button" onclick="showBrandSelect()">Let's Find Out</button>
             </div>
         </div>
 
