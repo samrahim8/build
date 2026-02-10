@@ -3,20 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Pop-Up — Lead magnets people actually want to play</title>
-    <meta name="description" content="I build small interactive games that capture leads. Your customers play. You get their email and their attention.">
+    <title>Pop-Up — Interactive lead magnets that spread themselves</title>
+    <meta name="description" content="We build interactive games, simulators, and tools that capture leads and spread themselves.">
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Pop-Up — Lead magnets people actually want to play">
-    <meta property="og:description" content="I build small interactive games that capture leads. Your customers play. You get their email and their attention.">
+    <meta property="og:title" content="Pop-Up — Interactive lead magnets that spread themselves">
+    <meta property="og:description" content="We build interactive games, simulators, and tools that capture leads and spread themselves.">
     <meta property="og:image" content="https://popup.company/og-image.png">
     <meta property="og:url" content="https://popup.company">
 
-    <!-- Twitter/X -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Pop-Up — Lead magnets people actually want to play">
-    <meta name="twitter:description" content="I build small interactive games that capture leads. Your customers play. You get their email and their attention.">
+    <meta name="twitter:title" content="Pop-Up — Interactive lead magnets that spread themselves">
+    <meta name="twitter:description" content="We build interactive games, simulators, and tools that capture leads and spread themselves.">
     <meta name="twitter:image" content="https://popup.company/og-image.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23C4704C'/><text x='50' y='70' text-anchor='middle' font-family='serif' font-size='60' font-weight='bold' fill='%23fff'>P</text></svg>">
@@ -31,22 +29,12 @@
             --accent: #C4704C;
             --accent-hover: #A85A3A;
             --border: #e5e5e5;
+            --card-bg: #fff;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        ::selection {
-            background: var(--accent);
-            color: white;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        ::selection { background: var(--accent); color: white; }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -58,7 +46,13 @@
         }
 
         .container {
-            max-width: 680px;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .container-wide {
+            max-width: 900px;
             margin: 0 auto;
             padding: 0 24px;
         }
@@ -77,7 +71,6 @@
         .logo {
             font-family: 'Instrument Serif', Georgia, serif;
             font-size: 1.5rem;
-            font-weight: 400;
             color: var(--text);
         }
 
@@ -98,12 +91,13 @@
 
         /* Hero */
         .hero {
-            padding: 80px 0 100px;
+            padding: 100px 0 80px;
+            text-align: center;
         }
 
         .hero h1 {
             font-family: 'Instrument Serif', Georgia, serif;
-            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-size: clamp(2.5rem, 7vw, 3.75rem);
             font-weight: 400;
             line-height: 1.1;
             color: var(--text);
@@ -111,28 +105,45 @@
             letter-spacing: -0.02em;
         }
 
-        .hero h1 em {
-            font-style: italic;
-        }
-
         .hero-sub {
             font-size: 1.25rem;
             color: var(--text-muted);
-            max-width: 520px;
+            max-width: 600px;
+            margin: 0 auto 40px;
             line-height: 1.5;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--accent);
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .hero-cta:hover {
+            opacity: 0.8;
         }
 
         /* Sections */
         section {
-            padding: 60px 0;
+            padding: 80px 0;
         }
 
         section h2 {
             font-family: 'Instrument Serif', Georgia, serif;
-            font-size: 2rem;
+            font-size: 2.25rem;
             font-weight: 400;
             margin-bottom: 24px;
             letter-spacing: -0.01em;
+        }
+
+        section h3 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 12px;
         }
 
         section p {
@@ -146,36 +157,305 @@
             margin-bottom: 0;
         }
 
-        .muted {
+        .section-label {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        /* Demo Section */
+        .demo-section {
+            background: linear-gradient(180deg, var(--bg) 0%, #f5f2ed 100%);
+            padding: 100px 0;
+        }
+
+        .demo-game {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 48px;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .demo-title {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .demo-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 40px;
+        }
+
+        .demo-step {
+            display: none;
+        }
+
+        .demo-step.active {
+            display: block;
+        }
+
+        .demo-question {
+            font-size: 1.125rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .demo-options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .demo-option {
+            padding: 16px 20px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            background: var(--bg);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+            text-align: left;
+        }
+
+        .demo-option:hover {
+            border-color: var(--accent);
+            background: white;
+        }
+
+        .demo-option.selected {
+            border-color: var(--accent);
+            background: rgba(196, 112, 76, 0.08);
+        }
+
+        .demo-slider-container {
+            padding: 20px 0;
+        }
+
+        .demo-slider-value {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 2.5rem;
+            text-align: center;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        .demo-slider {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: var(--border);
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .demo-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: var(--accent);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .demo-slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: var(--accent);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        .demo-slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        .demo-next {
+            width: 100%;
+            padding: 16px;
+            margin-top: 32px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: white;
+            background: var(--accent);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .demo-next:hover {
+            background: var(--accent-hover);
+        }
+
+        .demo-next:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .demo-result {
+            text-align: center;
+        }
+
+        .demo-result-score {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 4rem;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .demo-result-label {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .demo-result-detail {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .demo-progress {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+
+        .demo-progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border);
+            transition: background-color 0.2s ease;
+        }
+
+        .demo-progress-dot.active {
+            background: var(--accent);
+        }
+
+        .demo-caption {
+            text-align: center;
+            margin-top: 48px;
+            font-size: 1.125rem;
+            color: var(--text);
+            font-style: italic;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* What We Build */
+        .build-grid {
+            display: grid;
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        .build-item h3 {
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .build-item p {
+            color: var(--text-muted);
+            margin-bottom: 0;
+        }
+
+        /* The Difference */
+        .difference-grid {
+            display: grid;
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .difference-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .difference-item {
+            padding: 24px;
+            border-radius: 12px;
+        }
+
+        .difference-item.pdf {
+            background: #f5f5f5;
             color: var(--text-muted);
         }
 
-        /* The Trick - emphasized */
-        .the-trick {
-            font-family: 'Instrument Serif', Georgia, serif;
-            font-size: 1.5rem;
-            font-style: italic;
-            line-height: 1.4;
+        .difference-item.popup {
+            background: rgba(196, 112, 76, 0.1);
             color: var(--text);
-            margin: 32px 0;
         }
 
-        /* How it works */
+        .difference-item p {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        /* Who This Is For */
+        .industry-grid {
+            display: grid;
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .industry-item {
+            display: grid;
+            grid-template-columns: 160px 1fr;
+            gap: 16px;
+            align-items: baseline;
+        }
+
+        .industry-name {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .industry-desc {
+            color: var(--text-muted);
+        }
+
+        .industry-cta {
+            margin-top: 32px;
+            font-style: italic;
+            color: var(--text);
+        }
+
+        /* How It Works */
         .steps {
             display: grid;
             gap: 24px;
-            margin-top: 32px;
+            margin-top: 40px;
         }
 
         .step {
             display: flex;
-            gap: 16px;
+            gap: 20px;
             align-items: baseline;
         }
 
         .step-number {
             font-family: 'Instrument Serif', Georgia, serif;
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             color: var(--accent);
             flex-shrink: 0;
         }
@@ -185,51 +465,68 @@
             color: var(--text);
         }
 
-        /* Proof */
-        .proof-link {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 500;
-            border-bottom: 1px solid var(--accent);
-            transition: border-color 0.2s ease;
+        /* FAQ */
+        .faq-grid {
+            display: grid;
+            gap: 40px;
+            margin-top: 40px;
         }
 
-        .proof-link:hover {
-            border-bottom-width: 2px;
+        .faq-item h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.0625rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        .faq-item p {
+            color: var(--text-muted);
         }
 
         /* Pricing */
-        .pricing-card {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 40px;
-            margin-top: 32px;
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
         }
 
-        .pricing-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-            gap: 8px;
+        .pricing-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--accent);
+            box-shadow: 0 4px 24px rgba(196, 112, 76, 0.15);
         }
 
         .pricing-name {
             font-family: 'Instrument Serif', Georgia, serif;
             font-size: 1.5rem;
+            margin-bottom: 8px;
         }
 
         .pricing-price {
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-weight: 600;
             color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .pricing-price span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-muted);
         }
 
         .pricing-desc {
             color: var(--text-muted);
-            margin-bottom: 24px;
+            margin-bottom: 32px;
+            font-size: 0.9375rem;
         }
 
         .pricing-list {
@@ -237,10 +534,11 @@
         }
 
         .pricing-list li {
-            padding: 8px 0;
-            padding-left: 24px;
+            padding: 10px 0;
+            padding-left: 28px;
             position: relative;
             color: var(--text);
+            font-size: 0.9375rem;
         }
 
         .pricing-list li::before {
@@ -251,19 +549,28 @@
             font-weight: 600;
         }
 
-        /* Contact */
-        .contact-section {
-            padding: 80px 0;
+        /* Final CTA */
+        .final-cta {
+            background: linear-gradient(180deg, #f5f2ed 0%, var(--bg) 100%);
+            padding: 100px 0;
+            text-align: center;
         }
 
-        .contact-intro {
-            font-size: 1.0625rem;
+        .final-cta h2 {
+            max-width: 600px;
+            margin: 0 auto 16px;
+        }
+
+        .final-cta .subhead {
             color: var(--text-muted);
-            margin-bottom: 40px;
+            font-size: 1.125rem;
+            margin-bottom: 48px;
         }
 
         .contact-form {
             max-width: 440px;
+            margin: 0 auto;
+            text-align: left;
         }
 
         .form-group {
@@ -325,6 +632,7 @@
         footer {
             padding: 40px 0;
             border-top: 1px solid var(--border);
+            text-align: center;
         }
 
         footer p {
@@ -333,41 +641,9 @@
         }
 
         /* Responsive */
-        @media (min-width: 768px) {
-            .container {
-                padding: 0 32px;
-            }
-
-            header {
-                padding: 32px 0;
-            }
-
+        @media (max-width: 768px) {
             .hero {
-                padding: 120px 0 140px;
-            }
-
-            section {
-                padding: 80px 0;
-            }
-
-            .contact-section {
-                padding: 100px 0;
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .container {
-                max-width: 720px;
-            }
-
-            .hero h1 {
-                font-size: 4rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero {
-                padding: 60px 0 80px;
+                padding: 60px 0;
             }
 
             .hero h1 {
@@ -379,20 +655,50 @@
             }
 
             section {
-                padding: 48px 0;
+                padding: 60px 0;
             }
 
             section h2 {
-                font-size: 1.75rem;
+                font-size: 1.875rem;
+            }
+
+            .demo-game {
+                padding: 32px 24px;
+            }
+
+            .demo-title {
+                font-size: 1.5rem;
+            }
+
+            .difference-row {
+                grid-template-columns: 1fr;
+            }
+
+            .industry-item {
+                grid-template-columns: 1fr;
+                gap: 4px;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
             }
 
             .pricing-card {
-                padding: 28px;
+                padding: 32px;
             }
 
-            .pricing-header {
-                flex-direction: column;
-                gap: 4px;
+            .final-cta {
+                padding: 60px 0;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 760px;
+            }
+
+            .container-wide {
+                max-width: 960px;
             }
         }
     </style>
@@ -405,72 +711,291 @@
                 <a href="#contact" class="nav-cta">Get Started</a>
             </div>
         </header>
+    </div>
 
-        <main>
-            <section class="hero">
-                <h1>Lead magnets people actually <em>want</em> to play.</h1>
-                <p class="hero-sub">I build small interactive games that capture leads. Your customers play. You get their email — and their attention.</p>
-            </section>
+    <main>
+        <!-- Hero -->
+        <section class="hero">
+            <div class="container">
+                <h1>Your next lead magnet isn't a PDF. It's an experience.</h1>
+                <p class="hero-sub">We build interactive games, simulators, and tools that capture leads and spread themselves.</p>
+                <a href="#demo" class="hero-cta">See What We Mean ↓</a>
+            </div>
+        </section>
 
-            <section>
-                <h2>The problem with PDFs</h2>
-                <p>Your lead magnet sits in a downloads folder. Unopened. You know this because you don't open them either.</p>
-                <p>Games are different. People play them, share them, screenshot their results. A challenge is impossible to ignore.</p>
-            </section>
+        <!-- Demo -->
+        <section class="demo-section" id="demo">
+            <div class="container">
+                <div class="demo-game">
+                    <h2 class="demo-title">Can You Retire?</h2>
+                    <p class="demo-subtitle">Find out in 60 seconds</p>
 
-            <section>
-                <h2>How it works</h2>
-                <p>Every business has a "Can You ___?" question. The thing your customers think they can handle — until they try.</p>
-                <p class="the-trick">Can you retire? Can you fix your roof? Can you do your own taxes?</p>
-                <p>The game proves they can't. Not with shame — with reality. They finish, they realize, they call you.</p>
-            </section>
+                    <div class="demo-progress">
+                        <div class="demo-progress-dot active"></div>
+                        <div class="demo-progress-dot"></div>
+                        <div class="demo-progress-dot"></div>
+                        <div class="demo-progress-dot"></div>
+                    </div>
 
-            <section>
-                <h2>The process</h2>
+                    <!-- Step 1: Age -->
+                    <div class="demo-step active" data-step="1">
+                        <p class="demo-question">How old are you?</p>
+                        <div class="demo-slider-container">
+                            <div class="demo-slider-value" id="ageValue">35</div>
+                            <input type="range" class="demo-slider" id="ageSlider" min="25" max="65" value="35">
+                            <div class="demo-slider-labels">
+                                <span>25</span>
+                                <span>65</span>
+                            </div>
+                        </div>
+                        <button class="demo-next" onclick="nextStep(1)">Next</button>
+                    </div>
+
+                    <!-- Step 2: Savings -->
+                    <div class="demo-step" data-step="2">
+                        <p class="demo-question">How much have you saved for retirement?</p>
+                        <div class="demo-options">
+                            <button class="demo-option" data-value="low" onclick="selectOption(this, 2)">Less than $50,000</button>
+                            <button class="demo-option" data-value="medium" onclick="selectOption(this, 2)">$50,000 – $250,000</button>
+                            <button class="demo-option" data-value="high" onclick="selectOption(this, 2)">$250,000 – $500,000</button>
+                            <button class="demo-option" data-value="very-high" onclick="selectOption(this, 2)">More than $500,000</button>
+                        </div>
+                        <button class="demo-next" onclick="nextStep(2)" disabled>Next</button>
+                    </div>
+
+                    <!-- Step 3: Monthly -->
+                    <div class="demo-step" data-step="3">
+                        <p class="demo-question">How much do you spend per month?</p>
+                        <div class="demo-slider-container">
+                            <div class="demo-slider-value" id="spendValue">$4,000</div>
+                            <input type="range" class="demo-slider" id="spendSlider" min="2000" max="15000" value="4000" step="500">
+                            <div class="demo-slider-labels">
+                                <span>$2,000</span>
+                                <span>$15,000</span>
+                            </div>
+                        </div>
+                        <button class="demo-next" onclick="nextStep(3)">Next</button>
+                    </div>
+
+                    <!-- Step 4: Retire Age -->
+                    <div class="demo-step" data-step="4">
+                        <p class="demo-question">When do you want to retire?</p>
+                        <div class="demo-options">
+                            <button class="demo-option" data-value="55" onclick="selectOption(this, 4)">55 — Early retirement</button>
+                            <button class="demo-option" data-value="62" onclick="selectOption(this, 4)">62 — A bit early</button>
+                            <button class="demo-option" data-value="65" onclick="selectOption(this, 4)">65 — Traditional</button>
+                            <button class="demo-option" data-value="70" onclick="selectOption(this, 4)">70 — Working longer</button>
+                        </div>
+                        <button class="demo-next" onclick="showResult()" disabled>See My Results</button>
+                    </div>
+
+                    <!-- Result -->
+                    <div class="demo-step" data-step="result">
+                        <div class="demo-result">
+                            <div class="demo-result-score" id="resultScore">62%</div>
+                            <p class="demo-result-label" id="resultLabel">On Track (With Changes)</p>
+                            <p class="demo-result-detail" id="resultDetail">At your current pace, you'll have about 62% of what you need. Small adjustments now could close the gap entirely.</p>
+                        </div>
+                        <button class="demo-next" onclick="resetDemo()">Play Again</button>
+                    </div>
+                </div>
+
+                <p class="demo-caption">You just spent two minutes engaged with a brand you'd never heard of. We build these for businesses like yours.</p>
+            </div>
+        </section>
+
+        <!-- Why Now -->
+        <section>
+            <div class="container">
+                <p class="section-label">Why Now</p>
+                <h2>The best businesses aren't competing on content anymore. They're competing on experience.</h2>
+                <p>Your customers are ignoring PDFs, skimming emails, and scrolling past ads. But give them something to interact with — something that feels like it was built just for them — and they stop, engage, and remember you.</p>
+            </div>
+        </section>
+
+        <!-- What We Build -->
+        <section>
+            <div class="container">
+                <p class="section-label">What We Build</p>
+                <h2>Interactive experiences that capture attention</h2>
+                <div class="build-grid">
+                    <div class="build-item">
+                        <h3>Mini-games</h3>
+                        <p>Match, swipe, build, rank. Fast, fun, and engineered to get shared.</p>
+                    </div>
+                    <div class="build-item">
+                        <h3>Simulators</h3>
+                        <p>Make decisions, see outcomes. High stakes, high engagement, impossible to abandon halfway through.</p>
+                    </div>
+                    <div class="build-item">
+                        <h3>Visual assessments</h3>
+                        <p>Tap what's wrong, drag to prioritize. People engage differently when they're interacting, not reading.</p>
+                    </div>
+                    <div class="build-item">
+                        <h3>Calculators</h3>
+                        <p>Show me what I'm losing. Show me what I'd gain. Nothing motivates like a dollar amount.</p>
+                    </div>
+                    <div class="build-item">
+                        <h3>Diagnostic tools</h3>
+                        <p>Audit my business, score my profile, grade my strategy. Everyone wants to know their number.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Difference -->
+        <section>
+            <div class="container">
+                <p class="section-label">The Difference</p>
+                <h2>PDF vs. Pop-Up</h2>
+                <div class="difference-grid">
+                    <div class="difference-row">
+                        <div class="difference-item pdf"><p>A PDF gets downloaded and forgotten.</p></div>
+                        <div class="difference-item popup"><p>A Pop-Up gets played, shared, and remembered.</p></div>
+                    </div>
+                    <div class="difference-row">
+                        <div class="difference-item pdf"><p>A PDF gives information.</p></div>
+                        <div class="difference-item popup"><p>A Pop-Up gives an outcome.</p></div>
+                    </div>
+                    <div class="difference-row">
+                        <div class="difference-item pdf"><p>A PDF captures an email.</p></div>
+                        <div class="difference-item popup"><p>A Pop-Up captures an email and earns trust before you ever ask for anything.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Who This Is For -->
+        <section>
+            <div class="container">
+                <p class="section-label">Who This Is For</p>
+                <h2>If you sell expertise, this is your unfair advantage.</h2>
+                <div class="industry-grid">
+                    <div class="industry-item">
+                        <span class="industry-name">Real estate</span>
+                        <span class="industry-desc">A neighborhood matching game. Results page books a showing.</span>
+                    </div>
+                    <div class="industry-item">
+                        <span class="industry-name">Financial advisors</span>
+                        <span class="industry-desc">A retirement simulator. Results page books a consultation.</span>
+                    </div>
+                    <div class="industry-item">
+                        <span class="industry-name">Fitness coaches</span>
+                        <span class="industry-desc">A nutrition game. Results page pitches the program.</span>
+                    </div>
+                    <div class="industry-item">
+                        <span class="industry-name">Med spas</span>
+                        <span class="industry-desc">A treatment matching game. Results page books an appointment.</span>
+                    </div>
+                    <div class="industry-item">
+                        <span class="industry-name">Home services</span>
+                        <span class="industry-desc">A visual diagnosis game. Results page generates a quote.</span>
+                    </div>
+                    <div class="industry-item">
+                        <span class="industry-name">Consultants</span>
+                        <span class="industry-desc">An industry scorecard game. Results page starts the conversation.</span>
+                    </div>
+                </div>
+                <p class="industry-cta">Don't see your industry? That means nobody in your space has done this yet.</p>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section>
+            <div class="container">
+                <p class="section-label">How It Works</p>
+                <h2>From idea to live in two weeks</h2>
                 <div class="steps">
                     <div class="step">
                         <span class="step-number">1.</span>
-                        <span class="step-text">Tell me your business</span>
+                        <span class="step-text">You tell us who you're trying to reach.</span>
                     </div>
                     <div class="step">
                         <span class="step-number">2.</span>
-                        <span class="step-text">I design the game</span>
+                        <span class="step-text">We design a game they can't ignore.</span>
                     </div>
                     <div class="step">
                         <span class="step-number">3.</span>
-                        <span class="step-text">Built in 1–2 weeks</span>
+                        <span class="step-text">We build it. Custom, mobile-ready, plugged into your email or CRM.</span>
                     </div>
                     <div class="step">
                         <span class="step-number">4.</span>
-                        <span class="step-text">You start getting leads</span>
+                        <span class="step-text">You deploy it. On your site, in a campaign, or as a standalone link.</span>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <section>
-                <h2>See it in action</h2>
-                <p><a href="https://usecurbappeal.com" target="_blank" class="proof-link">Curb Appeal</a> — a free Google Business audit. Answer a few questions, get a score in 30 seconds. That's a pop-up.</p>
-            </section>
-
-            <section>
-                <h2>Pricing</h2>
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <span class="pricing-name">One Pop-Up</span>
-                        <span class="pricing-price">$1,500</span>
+        <!-- FAQ -->
+        <section>
+            <div class="container">
+                <p class="section-label">FAQ</p>
+                <h2>Questions we get</h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h3>"My audience is professional. Won't games feel gimmicky?"</h3>
+                        <p>A retirement simulator doesn't feel like Candy Crush. We calibrate the tone to your market. The interactivity is the hook, not the gimmick.</p>
                     </div>
-                    <p class="pricing-desc">One custom game for your business. Live in 1–2 weeks.</p>
-                    <ul class="pricing-list">
-                        <li>Landing page included</li>
-                        <li>Email capture built in</li>
-                        <li>One round of revisions</li>
-                    </ul>
+                    <div class="faq-item">
+                        <h3>"How is this different from a Typeform quiz?"</h3>
+                        <p>A quiz is a form with personality. A Pop-Up is an interactive game designed to deliver a result worth sharing. People don't screenshot quiz results.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>"I don't have much traffic."</h3>
+                        <p>That's the point. Games get shared. One person plays, shares their result, brings three more. Your Pop-Up becomes a growth loop, not a dead end.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>"Will it work with my email platform?"</h3>
+                        <p>Yes. ConvertKit, Mailchimp, HubSpot, ActiveCampaign — whatever you're running.</p>
+                    </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <section class="contact-section" id="contact">
-                <h2>Your turn</h2>
-                <p class="contact-intro">Tell me what you sell. I'll reply with the game I'd build — no call, no pitch, just the idea.</p>
+        <!-- Pricing -->
+        <section>
+            <div class="container-wide">
+                <div class="container">
+                    <p class="section-label">Pricing</p>
+                    <h2>Two ways to work with us</h2>
+                </div>
+                <div class="pricing-grid">
+                    <div class="pricing-card featured">
+                        <p class="pricing-name">The Pop-Up</p>
+                        <p class="pricing-price">$2,500</p>
+                        <p class="pricing-desc">One custom interactive game, designed and built for your business.</p>
+                        <ul class="pricing-list">
+                            <li>Strategy session</li>
+                            <li>Custom design and build</li>
+                            <li>Landing page included</li>
+                            <li>Email capture and integration</li>
+                            <li>Mobile-friendly</li>
+                            <li>One revision round</li>
+                            <li>Live in two weeks</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-card">
+                        <p class="pricing-name">Pop-Up Partner</p>
+                        <p class="pricing-price">$1,500<span>/mo</span></p>
+                        <p class="pricing-desc">Interactive games as an ongoing growth channel.</p>
+                        <ul class="pricing-list">
+                            <li>Everything above to start</li>
+                            <li>New games quarterly</li>
+                            <li>A/B testing and optimization</li>
+                            <li>Performance analytics</li>
+                            <li>Priority turnarounds</li>
+                            <li>Ongoing strategy</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA -->
+        <section class="final-cta" id="contact">
+            <div class="container">
+                <h2>Your next lead magnet shouldn't be a file. It should be a moment.</h2>
+                <p class="subhead">Tell us about your business. We'll tell you what your Pop-Up should be.</p>
 
                 <form class="contact-form" id="contactForm">
                     <div class="form-group">
@@ -482,23 +1007,124 @@
                         <input type="email" id="email" name="email" required>
                     </div>
                     <div class="form-group">
-                        <label for="business">What do you sell, and to whom?</label>
-                        <textarea id="business" name="business" placeholder="e.g. I run a med spa in Dallas. Most clients find us on Google or through referrals."></textarea>
+                        <label for="business">What's your business?</label>
+                        <textarea id="business" name="business" placeholder="Tell us what you do and who you serve..."></textarea>
                     </div>
-                    <button type="submit" class="cta-button">Get Your Game Idea</button>
+                    <button type="submit" class="cta-button">Let's Build Yours</button>
                 </form>
-            </section>
-        </main>
+            </div>
+        </section>
+    </main>
 
-        <footer>
-            <p>Pop-Up — A Field Work Company</p>
-        </footer>
-    </div>
+    <footer>
+        <div class="container">
+            <p>Pop-Up is a Field Work company.</p>
+        </div>
+    </footer>
 
     <script>
+        // Demo game logic
+        let answers = { age: 35, savings: null, spend: 4000, retireAge: null };
+
+        document.getElementById('ageSlider').addEventListener('input', function() {
+            answers.age = parseInt(this.value);
+            document.getElementById('ageValue').textContent = this.value;
+        });
+
+        document.getElementById('spendSlider').addEventListener('input', function() {
+            answers.spend = parseInt(this.value);
+            document.getElementById('spendValue').textContent = '$' + parseInt(this.value).toLocaleString();
+        });
+
+        function selectOption(button, step) {
+            const options = button.parentElement.querySelectorAll('.demo-option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            button.classList.add('selected');
+
+            if (step === 2) answers.savings = button.dataset.value;
+            if (step === 4) answers.retireAge = parseInt(button.dataset.value);
+
+            button.closest('.demo-step').querySelector('.demo-next').disabled = false;
+        }
+
+        function nextStep(current) {
+            const steps = document.querySelectorAll('.demo-step');
+            const dots = document.querySelectorAll('.demo-progress-dot');
+
+            steps[current - 1].classList.remove('active');
+            steps[current].classList.add('active');
+
+            if (current < 4) {
+                dots[current].classList.add('active');
+            }
+        }
+
+        function showResult() {
+            const steps = document.querySelectorAll('.demo-step');
+            steps.forEach(s => s.classList.remove('active'));
+            document.querySelector('[data-step="result"]').classList.add('active');
+
+            // Calculate a "score"
+            let score = 50;
+            const yearsToRetire = answers.retireAge - answers.age;
+
+            if (answers.savings === 'very-high') score += 30;
+            else if (answers.savings === 'high') score += 20;
+            else if (answers.savings === 'medium') score += 10;
+            else score -= 10;
+
+            if (yearsToRetire > 25) score += 15;
+            else if (yearsToRetire > 15) score += 5;
+            else score -= 10;
+
+            if (answers.spend < 5000) score += 10;
+            else if (answers.spend > 10000) score -= 15;
+
+            score = Math.max(20, Math.min(95, score));
+
+            document.getElementById('resultScore').textContent = score + '%';
+
+            if (score >= 80) {
+                document.getElementById('resultLabel').textContent = 'Looking Strong';
+                document.getElementById('resultDetail').textContent = 'You\'re ahead of most people your age. A few optimizations could lock in your timeline.';
+            } else if (score >= 60) {
+                document.getElementById('resultLabel').textContent = 'On Track (With Changes)';
+                document.getElementById('resultDetail').textContent = 'At your current pace, you\'ll have about ' + score + '% of what you need. Small adjustments now could close the gap entirely.';
+            } else {
+                document.getElementById('resultLabel').textContent = 'Needs Attention';
+                document.getElementById('resultDetail').textContent = 'There\'s a gap between where you are and where you want to be. The good news: you have time to fix it.';
+            }
+        }
+
+        function resetDemo() {
+            const steps = document.querySelectorAll('.demo-step');
+            const dots = document.querySelectorAll('.demo-progress-dot');
+
+            steps.forEach(s => s.classList.remove('active'));
+            steps[0].classList.add('active');
+
+            dots.forEach((d, i) => {
+                if (i === 0) d.classList.add('active');
+                else d.classList.remove('active');
+            });
+
+            document.querySelectorAll('.demo-option').forEach(opt => opt.classList.remove('selected'));
+            document.querySelectorAll('.demo-next').forEach(btn => {
+                if (btn.closest('[data-step="2"]') || btn.closest('[data-step="4"]')) {
+                    btn.disabled = true;
+                }
+            });
+
+            answers = { age: 35, savings: null, spend: 4000, retireAge: null };
+            document.getElementById('ageSlider').value = 35;
+            document.getElementById('ageValue').textContent = '35';
+            document.getElementById('spendSlider').value = 4000;
+            document.getElementById('spendValue').textContent = '$4,000';
+        }
+
+        // Form submission
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
-
             const form = this;
             const button = form.querySelector('button');
 
@@ -515,7 +1141,7 @@
                     business: form.business.value
                 })
             }).then(() => {
-                form.innerHTML = '<div style="text-align: center; padding: 40px 0;"><p style="font-family: Instrument Serif, Georgia, serif; font-size: 1.75rem; margin-bottom: 12px;">Got it.</p><p style="color: #666;">I\'ll send your game idea within 24 hours.</p></div>';
+                form.innerHTML = '<div style="text-align: center; padding: 40px 0;"><p style="font-family: Instrument Serif, Georgia, serif; font-size: 2rem; margin-bottom: 12px;">We\'ll be in touch.</p><p style="color: #666;">Expect to hear from us within 24 hours.</p></div>';
             });
         });
     </script>
