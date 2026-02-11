@@ -977,6 +977,11 @@
             display: none;
         }
 
+        /* Scroll hint - hidden by default, shown on mobile */
+        .scroll-hint {
+            display: none;
+        }
+
         /* Back link - hidden by default, shown on mobile */
         .playbook-back-link {
             display: none;
@@ -1137,6 +1142,21 @@
                 padding: 12px 16px;
                 font-size: 0.8125rem;
                 border-radius: 8px;
+            }
+
+            .scroll-hint {
+                display: block;
+                text-align: center;
+                margin-top: 24px;
+                font-size: 1.25rem;
+                color: var(--text-muted);
+                opacity: 0.4;
+                animation: gentle-bounce 2s ease-in-out infinite;
+            }
+
+            @keyframes gentle-bounce {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(4px); }
             }
         }
     </style>
@@ -1322,6 +1342,7 @@
                     <a href="/#contact" class="playbook-visit-site">Build my POP-UP →</a>
                     <button class="playbook-play-again" onclick="resetGame()">Play Again</button>
                 </div>
+                <div class="scroll-hint">↓</div>
             </div>
         </div>
     </div>
