@@ -198,20 +198,39 @@
         }
 
         /* What We Build */
-        .build-grid {
+        .build-cards {
             display: grid;
-            gap: 32px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
             margin-top: 40px;
         }
 
-        .build-item h3 {
-            color: var(--accent);
-            margin-bottom: 8px;
+        .build-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px;
+            text-align: center;
         }
 
-        .build-item p {
+        .build-icon {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .build-card h3 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .build-card p {
             color: var(--text-muted);
-            margin-bottom: 0;
+            font-size: 0.9375rem;
+            margin: 0;
+            line-height: 1.5;
         }
 
         /* Manifesto */
@@ -571,6 +590,15 @@
             .built-by {
                 margin-top: 32px;
             }
+
+            .build-cards {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .build-card {
+                padding: 24px;
+            }
         }
 
         @media (min-width: 1024px) {
@@ -615,27 +643,26 @@
         <section>
             <div class="container">
                 <p class="section-label">What We Build</p>
-                <h2>Interactive experiences that capture attention</h2>
-                <div class="build-grid">
-                    <div class="build-item">
-                        <h3>Mini-games</h3>
-                        <p>Match, swipe, build, rank. Fast, fun, and engineered to get shared.</p>
+                <div class="build-cards">
+                    <div class="build-card">
+                        <span class="build-icon">🎮</span>
+                        <h3>Games</h3>
+                        <p>Swipe, match, rank. People actually finish these.</p>
                     </div>
-                    <div class="build-item">
+                    <div class="build-card">
+                        <span class="build-icon">🎯</span>
                         <h3>Simulators</h3>
-                        <p>Make decisions, see outcomes. High stakes, high engagement, impossible to abandon halfway through.</p>
+                        <p>Make choices, see consequences. Hard to stop halfway.</p>
                     </div>
-                    <div class="build-item">
-                        <h3>Visual assessments</h3>
-                        <p>Tap what's wrong, drag to prioritize. People engage differently when they're interacting, not reading.</p>
-                    </div>
-                    <div class="build-item">
+                    <div class="build-card">
+                        <span class="build-icon">🔢</span>
                         <h3>Calculators</h3>
-                        <p>Show me what I'm losing. Show me what I'd gain. Nothing motivates like a dollar amount.</p>
+                        <p>Give them a number they can't ignore.</p>
                     </div>
-                    <div class="build-item">
-                        <h3>Diagnostic tools</h3>
-                        <p>Audit my business, score my profile, grade my strategy. Everyone wants to know their number.</p>
+                    <div class="build-card">
+                        <span class="build-icon">📊</span>
+                        <h3>Assessments</h3>
+                        <p>Score something about them. Everyone wants to know where they stand.</p>
                     </div>
                 </div>
             </div>
