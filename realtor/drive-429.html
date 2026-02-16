@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Drive the 429 | Horizon West</title>
+  <meta name="description" content="Take a virtual drive down Florida's 429 and discover the villages of Horizon West. Interactive neighborhood explorer.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚗</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      background: #1a1a2e;
+      overflow: hidden;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    #gameCanvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    /* Start Screen */
+    .start-screen {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(180deg, #FF8C42 0%, #FF5E5B 50%, #4A2C5A 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      transition: opacity 0.5s, visibility 0.5s;
+    }
+    .start-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .start-screen h1 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: clamp(48px, 12vw, 80px);
+      color: #fff;
+      text-align: center;
+      margin-bottom: 8px;
+      text-shadow: 0 4px 30px rgba(0,0,0,0.3);
+    }
+    .start-screen .subtitle {
+      font-size: clamp(16px, 4vw, 20px);
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 48px;
+    }
+    .start-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a1a2e;
+      background: #fff;
+      border: none;
+      padding: 20px 48px;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+    }
+    .start-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+    }
+    .start-controls {
+      margin-top: 32px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* HUD */
+    .hud {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      z-index: 50;
+      color: #fff;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    .hud.visible { opacity: 1; }
+    .hud-speed {
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 4px;
+    }
+    .hud-mph {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 48px;
+      line-height: 1;
+    }
+    .hud-mph span {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .hud-distance {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 50;
+      text-align: right;
+      color: #fff;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    .hud-distance.visible { opacity: 1; }
+    .hud-distance-label {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 4px;
+    }
+    .hud-distance-value {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 32px;
+    }
+
+    /* Accelerate hint */
+    .accelerate-hint {
+      position: fixed;
+      bottom: 48px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(10px);
+      padding: 16px 32px;
+      border-radius: 100px;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 500;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .accelerate-hint.visible { opacity: 1; }
+    .accelerate-hint .key {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 4px 12px;
+      border-radius: 6px;
+      margin: 0 4px;
+      font-weight: 600;
+    }
+
+    /* Village Card */
+    .village-card {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      z-index: 80;
+      background: #fff;
+      border-radius: 24px;
+      padding: 40px;
+      max-width: 400px;
+      width: calc(100% - 48px);
+      text-align: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .village-card.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    .village-card-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #FF8C42;
+      background: rgba(255,140,66,0.1);
+      padding: 8px 16px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+    }
+    .village-card h2 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 36px;
+      font-weight: 400;
+      color: #1a1a2e;
+      margin-bottom: 8px;
+    }
+    .village-card-vibe {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 24px;
+    }
+    .village-card-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .village-card-stat {
+      text-align: center;
+    }
+    .village-card-stat-value {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 24px;
+      color: #1a1a2e;
+    }
+    .village-card-stat-label {
+      font-size: 12px;
+      color: #999;
+      margin-top: 4px;
+    }
+    .village-card-btn {
+      display: inline-block;
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, #FF8C42 0%, #FF5E5B 100%);
+      padding: 16px 32px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: transform 0.2s;
+      margin-right: 12px;
+    }
+    .village-card-btn:hover { transform: scale(1.05); }
+    .village-card-close {
+      display: inline-block;
+      font-size: 15px;
+      font-weight: 500;
+      color: #666;
+      background: #f0f0f0;
+      padding: 16px 32px;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .village-card-close:hover { background: #e0e0e0; }
+
+    /* Results Screen */
+    .results-screen {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(180deg, #1a1a2e 0%, #2d2d4a 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s, visibility 0.5s;
+    }
+    .results-screen.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+    .results-card {
+      background: linear-gradient(180deg, #FF8C42 0%, #FF5E5B 100%);
+      border-radius: 32px;
+      padding: 48px 40px;
+      max-width: 380px;
+      width: calc(100% - 48px);
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .results-card-header {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 8px;
+    }
+    .results-card h2 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 32px;
+      font-weight: 400;
+      color: #fff;
+      margin-bottom: 32px;
+    }
+    .results-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+    .results-stat-value {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 28px;
+      color: #fff;
+    }
+    .results-stat-label {
+      font-size: 11px;
+      color: rgba(255,255,255,0.7);
+      margin-top: 4px;
+    }
+    .results-vibe-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 8px;
+    }
+    .results-vibe {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 28px;
+      color: #fff;
+      margin-bottom: 32px;
+    }
+    .results-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .results-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 16px 32px;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s;
+      text-decoration: none;
+      display: block;
+    }
+    .results-btn:hover { transform: scale(1.03); }
+    .results-btn-primary {
+      background: #fff;
+      color: #1a1a2e;
+    }
+    .results-btn-secondary {
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+    }
+    .results-powered {
+      margin-top: 32px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+    }
+    .results-powered a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 600px) {
+      .hud { top: 16px; left: 16px; }
+      .hud-mph { font-size: 36px; }
+      .hud-distance { top: 16px; right: 16px; }
+      .hud-distance-value { font-size: 24px; }
+      .village-card { padding: 32px 24px; }
+      .village-card h2 { font-size: 28px; }
+      .village-card-stats { gap: 12px; }
+      .village-card-stat-value { font-size: 20px; }
+      .results-card { padding: 40px 28px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas"></canvas>
+
+  <!-- Start Screen -->
+  <div class="start-screen" id="startScreen">
+    <h1>Drive the 429</h1>
+    <p class="subtitle">Discover the villages of Horizon West</p>
+    <button class="start-btn" id="startBtn">Start Driving</button>
+    <p class="start-controls" id="controlsHint">Hold <span class="key">↑</span> or <span class="key">SPACE</span> to accelerate</p>
+  </div>
+
+  <!-- HUD -->
+  <div class="hud" id="hud">
+    <div class="hud-speed">SPEED</div>
+    <div class="hud-mph"><span id="speedValue">0</span> <span>mph</span></div>
+  </div>
+  <div class="hud-distance" id="hudDistance">
+    <div class="hud-distance-label">MILE</div>
+    <div class="hud-distance-value" id="distanceValue">0.0</div>
+  </div>
+
+  <!-- Accelerate Hint -->
+  <div class="accelerate-hint" id="accelerateHint">
+    <span class="desktop-hint">Hold <span class="key">↑</span> to drive</span>
+    <span class="mobile-hint" style="display:none;">Hold anywhere to drive</span>
+  </div>
+
+  <!-- Village Card -->
+  <div class="village-card" id="villageCard">
+    <div class="village-card-badge" id="villageBadge">Exit 12</div>
+    <h2 id="villageName">Lakeside</h2>
+    <p class="village-card-vibe" id="villageVibe">Peaceful, nature-focused living</p>
+    <div class="village-card-stats">
+      <div class="village-card-stat">
+        <div class="village-card-stat-value" id="villagePrice">$520K</div>
+        <div class="village-card-stat-label">Median Price</div>
+      </div>
+      <div class="village-card-stat">
+        <div class="village-card-stat-value" id="villageSchool">A</div>
+        <div class="village-card-stat-label">Schools</div>
+      </div>
+      <div class="village-card-stat">
+        <div class="village-card-stat-value" id="villageCommute">25m</div>
+        <div class="village-card-stat-label">To Downtown</div>
+      </div>
+    </div>
+    <a href="/realtor/horizon-west.html" class="village-card-btn">Explore More</a>
+    <button class="village-card-close" id="villageCardClose">Keep Driving</button>
+  </div>
+
+  <!-- Results Screen -->
+  <div class="results-screen" id="resultsScreen">
+    <div class="results-card">
+      <div class="results-card-header">You Drove The 429</div>
+      <h2>Road Trip Complete</h2>
+      <div class="results-stats">
+        <div class="results-stat">
+          <div class="results-stat-value" id="resultMiles">0</div>
+          <div class="results-stat-label">Miles</div>
+        </div>
+        <div class="results-stat">
+          <div class="results-stat-value" id="resultVillages">0</div>
+          <div class="results-stat-label">Villages</div>
+        </div>
+        <div class="results-stat">
+          <div class="results-stat-value" id="resultTime">0s</div>
+          <div class="results-stat-label">Drive Time</div>
+        </div>
+      </div>
+      <div class="results-vibe-label">You slowed down most at</div>
+      <div class="results-vibe" id="resultFavorite">Lakeside</div>
+      <div class="results-actions">
+        <a href="/realtor/horizon-west.html" class="results-btn results-btn-primary">Explore Horizon West</a>
+        <button class="results-btn results-btn-secondary" id="driveAgainBtn">Drive Again</button>
+      </div>
+    </div>
+    <p class="results-powered">Powered by <a href="https://popup.company">POP-UP</a></p>
+  </div>
+
+  <script>
+    // Game State
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let gameState = 'start'; // start, playing, paused, ended
+    let speed = 0;
+    let maxSpeed = 120;
+    let acceleration = 0.5;
+    let deceleration = 0.3;
+    let distance = 0; // in game units (convert to miles)
+    let totalDistance = 5000; // game units for full drive
+    let startTime = 0;
+    let isAccelerating = false;
+    let showHint = true;
+    let hintTimer = 0;
+
+    // Time of day (0-1, affects sky color)
+    let timeOfDay = 0;
+
+    // Track village visits
+    let villageVisits = {};
+    let slowdownTracker = {};
+    let currentVillage = null;
+
+    // Villages along the 429
+    const villages = [
+      {
+        name: "Village F",
+        displayName: "Westside",
+        exit: 6,
+        position: 800,
+        vibe: "Affordable starter homes, family-friendly",
+        price: "$380K",
+        school: "B+",
+        commute: "28m",
+        color: "#4CAF50"
+      },
+      {
+        name: "Bridgewater",
+        displayName: "Bridgewater",
+        exit: 8,
+        position: 1600,
+        vibe: "Established community, great schools",
+        price: "$450K",
+        school: "A",
+        commute: "26m",
+        color: "#2196F3"
+      },
+      {
+        name: "Lakeside",
+        displayName: "Lakeside",
+        exit: 10,
+        position: 2400,
+        vibe: "Peaceful, nature-focused, premium lots",
+        price: "$620K",
+        school: "A",
+        commute: "25m",
+        color: "#00BCD4"
+      },
+      {
+        name: "Town Center",
+        displayName: "Hamlin Town Center",
+        exit: 12,
+        position: 3200,
+        vibe: "Walkable, restaurants, entertainment",
+        price: "$520K",
+        school: "A",
+        commute: "24m",
+        color: "#FF9800"
+      },
+      {
+        name: "Ovation",
+        displayName: "Ovation at Hamlin",
+        exit: 14,
+        position: 4000,
+        vibe: "55+, resort-style, low maintenance",
+        price: "$480K",
+        school: "A",
+        commute: "22m",
+        color: "#9C27B0"
+      }
+    ];
+
+    // Road elements
+    let roadLines = [];
+    let trees = [];
+    let signs = [];
+    let buildings = [];
+
+    // Initialize
+    function init() {
+      resizeCanvas();
+      initRoadElements();
+
+      // Check if mobile
+      if ('ontouchstart' in window) {
+        document.querySelector('.desktop-hint').style.display = 'none';
+        document.querySelector('.mobile-hint').style.display = 'inline';
+        document.getElementById('controlsHint').innerHTML = 'Hold anywhere to accelerate';
+      }
+
+      // Event listeners
+      window.addEventListener('resize', resizeCanvas);
+
+      // Desktop controls
+      window.addEventListener('keydown', (e) => {
+        if ((e.key === 'ArrowUp' || e.key === ' ' || e.key === 'w' || e.key === 'W') && gameState === 'playing') {
+          e.preventDefault();
+          isAccelerating = true;
+          hideHint();
+        }
+        if (e.key === ' ' && gameState === 'start') {
+          e.preventDefault();
+          startGame();
+        }
+      });
+
+      window.addEventListener('keyup', (e) => {
+        if (e.key === 'ArrowUp' || e.key === ' ' || e.key === 'w' || e.key === 'W') {
+          isAccelerating = false;
+        }
+      });
+
+      // Mobile controls
+      canvas.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        if (gameState === 'playing') {
+          isAccelerating = true;
+          hideHint();
+        }
+      });
+
+      canvas.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        isAccelerating = false;
+      });
+
+      // UI buttons
+      document.getElementById('startBtn').addEventListener('click', startGame);
+      document.getElementById('villageCardClose').addEventListener('click', closeVillageCard);
+      document.getElementById('driveAgainBtn').addEventListener('click', restartGame);
+
+      // Start render loop
+      requestAnimationFrame(gameLoop);
+    }
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth * window.devicePixelRatio;
+      canvas.height = window.innerHeight * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+
+    function initRoadElements() {
+      // Create road dashes
+      roadLines = [];
+      for (let i = 0; i < 30; i++) {
+        roadLines.push({ y: i * 60, x: 0 });
+      }
+
+      // Create trees
+      trees = [];
+      for (let i = 0; i < 50; i++) {
+        trees.push({
+          y: Math.random() * 2000 - 500,
+          side: Math.random() > 0.5 ? 'left' : 'right',
+          size: 20 + Math.random() * 30,
+          type: Math.floor(Math.random() * 3)
+        });
+      }
+
+      // Create highway signs
+      signs = [];
+      villages.forEach(v => {
+        signs.push({
+          village: v,
+          y: v.position - 400, // Sign appears before the exit
+          passed: false
+        });
+      });
+    }
+
+    function startGame() {
+      gameState = 'playing';
+      document.getElementById('startScreen').classList.add('hidden');
+      document.getElementById('hud').classList.add('visible');
+      document.getElementById('hudDistance').classList.add('visible');
+
+      setTimeout(() => {
+        document.getElementById('accelerateHint').classList.add('visible');
+      }, 500);
+
+      startTime = Date.now();
+
+      // Reset
+      speed = 0;
+      distance = 0;
+      timeOfDay = 0;
+      villageVisits = {};
+      slowdownTracker = {};
+      signs.forEach(s => s.passed = false);
+    }
+
+    function hideHint() {
+      showHint = false;
+      document.getElementById('accelerateHint').classList.remove('visible');
+    }
+
+    function gameLoop(timestamp) {
+      update();
+      render();
+      requestAnimationFrame(gameLoop);
+    }
+
+    function update() {
+      if (gameState !== 'playing') return;
+
+      // Speed
+      if (isAccelerating && gameState === 'playing') {
+        speed = Math.min(speed + acceleration, maxSpeed);
+      } else {
+        speed = Math.max(speed - deceleration, 0);
+      }
+
+      // Distance
+      const moveAmount = speed * 0.05;
+      distance += moveAmount;
+
+      // Time of day progression
+      timeOfDay = Math.min(distance / totalDistance, 1);
+
+      // Update HUD
+      document.getElementById('speedValue').textContent = Math.round(speed);
+      document.getElementById('distanceValue').textContent = (distance / 1000 * 2.5).toFixed(1);
+
+      // Track slowdowns near villages
+      villages.forEach(v => {
+        const distToVillage = Math.abs(distance - v.position);
+        if (distToVillage < 300) {
+          if (!slowdownTracker[v.name]) slowdownTracker[v.name] = 0;
+          if (speed < 40) {
+            slowdownTracker[v.name] += 1;
+          }
+        }
+      });
+
+      // Check for sign passes (trigger village card)
+      signs.forEach(sign => {
+        if (!sign.passed && distance > sign.village.position) {
+          sign.passed = true;
+          villageVisits[sign.village.name] = true;
+          showVillageCard(sign.village);
+        }
+      });
+
+      // Check if reached end
+      if (distance >= totalDistance) {
+        endGame();
+      }
+
+      // Update road elements
+      roadLines.forEach(line => {
+        line.y += moveAmount;
+        if (line.y > window.innerHeight + 100) {
+          line.y = -60;
+        }
+      });
+
+      trees.forEach(tree => {
+        tree.y += moveAmount * 0.8;
+        if (tree.y > window.innerHeight + 200) {
+          tree.y = -200 - Math.random() * 300;
+          tree.size = 20 + Math.random() * 30;
+        }
+      });
+    }
+
+    function render() {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+
+      // Sky gradient (changes with time of day)
+      const skyGradient = ctx.createLinearGradient(0, 0, 0, h);
+
+      if (timeOfDay < 0.3) {
+        // Golden hour start
+        skyGradient.addColorStop(0, '#FF8C42');
+        skyGradient.addColorStop(0.4, '#FF7043');
+        skyGradient.addColorStop(0.7, '#FF5E5B');
+        skyGradient.addColorStop(1, '#4A2C5A');
+      } else if (timeOfDay < 0.6) {
+        // Dusk
+        skyGradient.addColorStop(0, '#FF5E5B');
+        skyGradient.addColorStop(0.4, '#8E4585');
+        skyGradient.addColorStop(0.7, '#4A2C5A');
+        skyGradient.addColorStop(1, '#1a1a2e');
+      } else {
+        // Night approaching
+        skyGradient.addColorStop(0, '#4A2C5A');
+        skyGradient.addColorStop(0.4, '#2d2d4a');
+        skyGradient.addColorStop(1, '#1a1a2e');
+      }
+
+      ctx.fillStyle = skyGradient;
+      ctx.fillRect(0, 0, w, h);
+
+      // Sun/moon
+      const sunY = 80 + timeOfDay * 150;
+      const sunSize = 60 - timeOfDay * 20;
+      const sunAlpha = 1 - timeOfDay * 0.5;
+      ctx.fillStyle = `rgba(255, 200, 100, ${sunAlpha})`;
+      ctx.beginPath();
+      ctx.arc(w * 0.75, sunY, sunSize, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Stars (appear as time passes)
+      if (timeOfDay > 0.5) {
+        const starAlpha = (timeOfDay - 0.5) * 2;
+        ctx.fillStyle = `rgba(255, 255, 255, ${starAlpha * 0.6})`;
+        for (let i = 0; i < 50; i++) {
+          const sx = (Math.sin(i * 234.5) * 0.5 + 0.5) * w;
+          const sy = (Math.sin(i * 123.4) * 0.5 + 0.3) * h * 0.5;
+          ctx.beginPath();
+          ctx.arc(sx, sy, 1 + Math.sin(i) * 0.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // Ground/horizon
+      const horizonY = h * 0.55;
+      const groundGradient = ctx.createLinearGradient(0, horizonY, 0, h);
+      groundGradient.addColorStop(0, '#3d5c3d');
+      groundGradient.addColorStop(0.3, '#2d4a2d');
+      groundGradient.addColorStop(1, '#1e321e');
+      ctx.fillStyle = groundGradient;
+      ctx.fillRect(0, horizonY, w, h - horizonY);
+
+      // Road
+      const roadWidth = 200;
+      const roadX = w / 2 - roadWidth / 2;
+
+      // Road shadow
+      ctx.fillStyle = 'rgba(0,0,0,0.3)';
+      ctx.fillRect(roadX - 10, horizonY, roadWidth + 20, h - horizonY);
+
+      // Road surface
+      ctx.fillStyle = '#2a2a2a';
+      ctx.fillRect(roadX, horizonY, roadWidth, h - horizonY);
+
+      // Road shoulder lines
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 3;
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      ctx.moveTo(roadX + 5, horizonY);
+      ctx.lineTo(roadX + 5, h);
+      ctx.moveTo(roadX + roadWidth - 5, horizonY);
+      ctx.lineTo(roadX + roadWidth - 5, h);
+      ctx.stroke();
+
+      // Center dashes
+      ctx.strokeStyle = '#FFD700';
+      ctx.lineWidth = 4;
+      ctx.setLineDash([30, 30]);
+      roadLines.forEach(line => {
+        if (line.y > horizonY && line.y < h) {
+          ctx.beginPath();
+          ctx.moveTo(w / 2, line.y);
+          ctx.lineTo(w / 2, line.y + 20);
+          ctx.stroke();
+        }
+      });
+      ctx.setLineDash([]);
+
+      // Trees
+      trees.forEach(tree => {
+        if (tree.y > horizonY - 50 && tree.y < h + 100) {
+          const treeX = tree.side === 'left'
+            ? roadX - 80 - Math.random() * 100
+            : roadX + roadWidth + 80 + Math.random() * 100;
+
+          // Tree shadow
+          ctx.fillStyle = 'rgba(0,0,0,0.2)';
+          ctx.beginPath();
+          ctx.ellipse(treeX + 10, tree.y + tree.size * 0.8, tree.size * 0.5, tree.size * 0.2, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Tree trunk
+          ctx.fillStyle = '#4a3728';
+          ctx.fillRect(treeX - 3, tree.y, 6, tree.size * 0.4);
+
+          // Tree foliage
+          const foliageColors = ['#2d5a2d', '#3d6b3d', '#4a7c4a'];
+          ctx.fillStyle = foliageColors[tree.type];
+          ctx.beginPath();
+          ctx.arc(treeX, tree.y - tree.size * 0.2, tree.size * 0.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+
+      // Highway signs
+      signs.forEach(sign => {
+        const signY = h - (sign.y - distance + 400);
+        if (signY > 100 && signY < h - 100 && !sign.passed) {
+          const signX = w / 2;
+          const signWidth = 180;
+          const signHeight = 100;
+
+          // Sign post
+          ctx.fillStyle = '#666';
+          ctx.fillRect(signX - 4, signY, 8, 150);
+
+          // Sign board
+          ctx.fillStyle = '#006B3C';
+          ctx.fillRect(signX - signWidth/2, signY - signHeight, signWidth, signHeight);
+
+          // Sign border
+          ctx.strokeStyle = '#fff';
+          ctx.lineWidth = 3;
+          ctx.strokeRect(signX - signWidth/2 + 5, signY - signHeight + 5, signWidth - 10, signHeight - 10);
+
+          // Sign text
+          ctx.fillStyle = '#fff';
+          ctx.font = 'bold 14px DM Sans';
+          ctx.textAlign = 'center';
+          ctx.fillText(`EXIT ${sign.village.exit}`, signX, signY - signHeight + 30);
+          ctx.font = 'bold 18px DM Sans';
+          ctx.fillText(sign.village.displayName, signX, signY - signHeight + 55);
+          ctx.font = '12px DM Sans';
+          ctx.fillText('1 MILE', signX, signY - signHeight + 75);
+        }
+      });
+
+      // Car (player)
+      const carX = w / 2;
+      const carY = h - 120;
+
+      // Car shadow
+      ctx.fillStyle = 'rgba(0,0,0,0.3)';
+      ctx.beginPath();
+      ctx.ellipse(carX, carY + 25, 25, 8, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Car body
+      ctx.fillStyle = '#e74c3c';
+      ctx.beginPath();
+      ctx.roundRect(carX - 20, carY - 25, 40, 60, 8);
+      ctx.fill();
+
+      // Car roof
+      ctx.fillStyle = '#c0392b';
+      ctx.beginPath();
+      ctx.roundRect(carX - 15, carY - 10, 30, 25, 4);
+      ctx.fill();
+
+      // Windshield
+      ctx.fillStyle = '#85C1E9';
+      ctx.beginPath();
+      ctx.roundRect(carX - 12, carY - 8, 24, 12, 2);
+      ctx.fill();
+
+      // Headlights glow (at night)
+      if (timeOfDay > 0.4) {
+        const glowAlpha = (timeOfDay - 0.4) * 1.5;
+        const gradient = ctx.createRadialGradient(carX, carY - 30, 0, carX, carY - 30, 100);
+        gradient.addColorStop(0, `rgba(255, 255, 200, ${glowAlpha * 0.4})`);
+        gradient.addColorStop(1, 'rgba(255, 255, 200, 0)');
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.moveTo(carX - 30, carY - 25);
+        ctx.lineTo(carX + 30, carY - 25);
+        ctx.lineTo(carX + 60, carY - 200);
+        ctx.lineTo(carX - 60, carY - 200);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      // Speed lines (when going fast)
+      if (speed > 60) {
+        const lineAlpha = (speed - 60) / 60 * 0.3;
+        ctx.strokeStyle = `rgba(255,255,255,${lineAlpha})`;
+        ctx.lineWidth = 2;
+        for (let i = 0; i < 5; i++) {
+          const lx = roadX + 20 + Math.random() * (roadWidth - 40);
+          const ly = h - 50 - Math.random() * 200;
+          ctx.beginPath();
+          ctx.moveTo(lx, ly);
+          ctx.lineTo(lx, ly + 30 + speed * 0.3);
+          ctx.stroke();
+        }
+      }
+    }
+
+    function showVillageCard(village) {
+      gameState = 'paused';
+      currentVillage = village;
+
+      document.getElementById('villageBadge').textContent = `Exit ${village.exit}`;
+      document.getElementById('villageName').textContent = village.displayName;
+      document.getElementById('villageVibe').textContent = village.vibe;
+      document.getElementById('villagePrice').textContent = village.price;
+      document.getElementById('villageSchool').textContent = village.school;
+      document.getElementById('villageCommute').textContent = village.commute;
+
+      document.getElementById('villageCard').classList.add('visible');
+    }
+
+    function closeVillageCard() {
+      document.getElementById('villageCard').classList.remove('visible');
+      gameState = 'playing';
+      currentVillage = null;
+    }
+
+    function endGame() {
+      gameState = 'ended';
+
+      const driveTime = Math.round((Date.now() - startTime) / 1000);
+      const miles = (distance / 1000 * 2.5).toFixed(1);
+      const villagesVisited = Object.keys(villageVisits).length;
+
+      // Find favorite village (most slowdown time)
+      let favorite = villages[0].name;
+      let maxSlowdown = 0;
+      Object.entries(slowdownTracker).forEach(([name, time]) => {
+        if (time > maxSlowdown) {
+          maxSlowdown = time;
+          favorite = name;
+        }
+      });
+
+      document.getElementById('resultMiles').textContent = miles;
+      document.getElementById('resultVillages').textContent = villagesVisited;
+      document.getElementById('resultTime').textContent = `${driveTime}s`;
+      document.getElementById('resultFavorite').textContent = favorite;
+
+      setTimeout(() => {
+        document.getElementById('resultsScreen').classList.add('visible');
+      }, 500);
+    }
+
+    function restartGame() {
+      document.getElementById('resultsScreen').classList.remove('visible');
+
+      // Reset everything
+      distance = 0;
+      speed = 0;
+      timeOfDay = 0;
+      villageVisits = {};
+      slowdownTracker = {};
+      signs.forEach(s => s.passed = false);
+      initRoadElements();
+
+      gameState = 'playing';
+      startTime = Date.now();
+    }
+
+    // Start
+    init();
+  </script>
+</body>
+</html>
