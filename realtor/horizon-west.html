@@ -1015,35 +1015,43 @@ const VILLAGE_DATA = {
 };
 
 const SCORING_RULES = {
+  // Budget: Match villages to price ranges they actually serve well
+  // Lakeside: $387K–$1.1M+ | Bridgewater: $350K–$700K | Town Center: $450K–$1M+
+  // Village F: $325K–$650K | Village H: $430K–$900K+ | Ovation: $400K–$800K
   budget: {
-    "350-450": { bridgewater: 3, villagef: 3, lakeside: 1 },
-    "450-550": { bridgewater: 3, villagef: 2, ovation: 2, lakeside: 1, towncenter: 1 },
-    "550-700": { bridgewater: 2, villagef: 2, ovation: 2, towncenter: 2, villageh: 2, lakeside: 2 },
-    "700+": { towncenter: 3, villageh: 3, lakeside: 2, ovation: 1 },
+    "350-450": { villagef: 4, bridgewater: 3, ovation: 2 },  // Entry level - F and Bridgewater dominate
+    "450-550": { ovation: 3, bridgewater: 3, villagef: 2, villageh: 2, towncenter: 1 },  // Ovation sweet spot
+    "550-700": { towncenter: 3, villageh: 3, ovation: 2, bridgewater: 2, lakeside: 2 },  // Mid-premium range
+    "700+": { lakeside: 4, towncenter: 3, villageh: 3 },  // Luxury - Lakeside has highest ceiling
   },
+  // Household: Who lives where
   household: {
-    "single": { towncenter: 3, villageh: 1 },
-    "couple": { towncenter: 2, villageh: 2, villagef: 1 },
-    "young-kids": { bridgewater: 3, lakeside: 2, ovation: 1 },
-    "school-age": { bridgewater: 3, towncenter: 2, lakeside: 1 },
-    "teens": { towncenter: 3, lakeside: 2 },
-    "empty-nest": { towncenter: 2, villageh: 2, villagef: 1 },
+    "single": { towncenter: 4, villagef: 1 },  // Singles want walkability and nightlife
+    "couple": { towncenter: 3, villageh: 2, villagef: 2, ovation: 1 },  // Couples want lifestyle + space options
+    "young-kids": { bridgewater: 4, lakeside: 2, ovation: 2, villagef: 1 },  // Bridgewater = playgrounds everywhere
+    "school-age": { bridgewater: 3, lakeside: 2, towncenter: 2, villageh: 1 },  // Schools + activities
+    "teens": { towncenter: 3, lakeside: 2, bridgewater: 1 },  // Teens want things to do
+    "empty-nest": { villageh: 3, towncenter: 3, villagef: 2, lakeside: 1 },  // Upscale quiet or walkable
   },
+  // Commute: Actual drive times from each village
+  // Disney: Ovation 7min, Village H 8min, Village F 10min, Bridgewater 12min, Town Center 12min, Lakeside 15min
+  // Downtown: Lakeside 25min, Town Center 28min, Bridgewater 30min, Village F 30min, Village H 32min, Ovation 35min
   commute: {
-    "disney": { ovation: 3, villageh: 3, villagef: 2 },
-    "downtown": { lakeside: 2, towncenter: 2, bridgewater: 1 },
-    "remote": { towncenter: 2, villagef: 1, ovation: 1 },
-    "lake-nona": { lakeside: 1, bridgewater: 1 },
-    "winter-garden": { lakeside: 3, bridgewater: 2 },
-    "other": {},
+    "disney": { ovation: 4, villageh: 3, villagef: 2, bridgewater: 1, towncenter: 1 },  // Ovation is closest
+    "downtown": { lakeside: 3, towncenter: 3, bridgewater: 2, villagef: 1 },  // Lakeside/TC best for downtown
+    "remote": { villagef: 2, ovation: 2, villageh: 2, towncenter: 2 },  // Nice views for home office
+    "lake-nona": { lakeside: 2, bridgewater: 2, towncenter: 1 },  // Tough commute from anywhere
+    "winter-garden": { lakeside: 4, bridgewater: 2, towncenter: 1 },  // Lakeside is right there
+    "other": { towncenter: 1, lakeside: 1, bridgewater: 1 },  // Flexible/retired - slight bump for amenities
   },
+  // Priority: What matters most to them
   priority: {
-    "schools": { bridgewater: 3, towncenter: 2, lakeside: 1 },
-    "walkability": { towncenter: 4 },
-    "new-construction": { ovation: 3, villageh: 2 },
-    "space": { bridgewater: 2, villagef: 2, villageh: 1 },
-    "disney-close": { ovation: 3, villageh: 2, villagef: 1 },
-    "nature": { ovation: 3, villagef: 2, villageh: 1 },
+    "schools": { bridgewater: 4, lakeside: 2, towncenter: 2, villageh: 1 },  // Independence Elem is A-rated
+    "walkability": { towncenter: 5 },  // Town Center is the only truly walkable option
+    "new-construction": { ovation: 3, villageh: 3 },  // Both are newest villages
+    "space": { villageh: 3, lakeside: 3, bridgewater: 2, ovation: 2, villagef: 1 },  // H has spacious lots, Lakeside has big established homes
+    "disney-close": { ovation: 4, villageh: 3, villagef: 2 },  // Ovation is 7 min to western entrance
+    "nature": { ovation: 4, villagef: 3, villageh: 2 },  // Ovation = conservation, Village F = trails/lakes
   },
 };
 
@@ -1146,37 +1154,78 @@ function VillageFinder() {
     const household = answers.household;
     const hasKids = ["young-kids", "school-age", "teens"].includes(household);
 
+    // Home size based on budget tier
     const homeSize = budget === "700+" ? v.typicalHome.high :
                      budget === "550-700" ? v.typicalHome.mid :
                      budget === "450-550" ? v.typicalHome.mid :
                      v.typicalHome.low;
 
-    const pricePoint = budget === "700+" ? "$720K" :
-                       budget === "550-700" ? "$580K" :
-                       budget === "450-550" ? "$490K" :
-                       "$390K";
+    // Price points vary by village AND budget (more realistic)
+    const pricePoints = {
+      lakeside: { "350-450": "$420K", "450-550": "$510K", "550-700": "$620K", "700+": "$850K" },
+      bridgewater: { "350-450": "$380K", "450-550": "$480K", "550-700": "$580K", "700+": "$650K" },
+      towncenter: { "350-450": "$460K", "450-550": "$520K", "550-700": "$620K", "700+": "$800K" },
+      villagef: { "350-450": "$370K", "450-550": "$480K", "550-700": "$550K", "700+": "$620K" },
+      villageh: { "350-450": "$450K", "450-550": "$510K", "550-700": "$640K", "700+": "$820K" },
+      ovation: { "350-450": "$420K", "450-550": "$490K", "550-700": "$580K", "700+": "$720K" },
+    };
+    const pricePoint = pricePoints[villageKey]?.[budget] || "$550K";
 
     let narrative = [];
 
-    // Morning
-    narrative.push(`Your ${homeSize} in ${v.name} runs about ${pricePoint} — ${v.vibe}.`);
+    // Opening varies by budget tier
+    if (budget === "700+") {
+      narrative.push(`Your ${homeSize} in ${v.name} lists around ${pricePoint} — ${v.vibe}.`);
+    } else {
+      narrative.push(`Your ${homeSize} in ${v.name} runs about ${pricePoint} — ${v.vibe}.`);
+    }
 
     // Kids/School section
     if (hasKids) {
       narrative.push(`Morning drop-off at ${v.school} is ${v.publixTime}. It's ${v.schoolGrade}-rated.`);
     }
 
-    // Commute
+    // Commute section - varies by work situation
     if (answers.commute === "disney") {
-      narrative.push(`Your commute to Disney's western entrance: ${v.disneyTime}. You'll be clocking out while your coworkers are still in I-4 traffic.`);
+      narrative.push(`Your commute to Disney's western entrance: ${v.disneyTime}. You'll be clocking out while your coworkers are still stuck on I-4.`);
     } else if (answers.commute === "downtown") {
-      narrative.push(`Downtown Orlando is ${v.downtownTime} — take 429 to I-4, skip the surface streets.`);
+      narrative.push(`Downtown Orlando is ${v.downtownTime} — take 429 to I-4, avoid the surface streets.`);
     } else if (answers.commute === "remote") {
-      narrative.push(`Working from home? Your back patio faces ${v.vibe.includes("preserve") || v.vibe.includes("nature") ? "the preserve" : "mature landscaping"}. Good luck staying focused.`);
+      const remoteView = v.vibe.includes("conservation") || v.vibe.includes("nature") || v.vibe.includes("lake")
+        ? "the preserve"
+        : villageKey === "towncenter" ? "the town center bustle" : "mature landscaping";
+      narrative.push(`Working from home? Your back patio faces ${remoteView}. Beats a cubicle.`);
+    } else if (answers.commute === "winter-garden") {
+      narrative.push(`Downtown Winter Garden is ${villageKey === "lakeside" ? "8 minutes" : "12-15 minutes"} away. Plant Street farmers market on Saturday mornings.`);
+    } else if (answers.commute === "lake-nona") {
+      narrative.push(`Lake Nona is a haul from anywhere in HW — about 35-40 minutes. But you'll be coming home to this, not leaving it.`);
+    } else if (answers.commute === "other") {
+      // Retired or flexible
+      if (household === "empty-nest") {
+        narrative.push(`No rush hour for you. Morning coffee on the patio, then whatever you want.`);
+      } else {
+        narrative.push(`Flexible schedule? Nice. You'll miss the traffic either way.`);
+      }
     }
 
-    // Weekend/Evening
-    narrative.push(`Saturdays? ${v.saturdayActivity}.`);
+    // Weekend/Evening - personalize by household
+    if (household === "empty-nest") {
+      if (villageKey === "towncenter") {
+        narrative.push(`Weekends? Walk to brunch at The French Café. Catch a movie at Cinépolis. No kids' sports schedules to work around.`);
+      } else if (villageKey === "villageh") {
+        narrative.push(`Weekends? Kayak on Hickory Nut Lake. Quiet dinners at Flamingo Crossings. The peace you earned.`);
+      } else {
+        narrative.push(`Saturdays? ${v.saturdayActivity}.`);
+      }
+    } else if (household === "single" || household === "couple") {
+      if (villageKey === "towncenter") {
+        narrative.push(`Weekends start at the farmers market, then brunch, then wherever the day takes you. All walkable.`);
+      } else {
+        narrative.push(`Saturdays? ${v.saturdayActivity}.`);
+      }
+    } else {
+      narrative.push(`Saturdays? ${v.saturdayActivity}.`);
+    }
 
     // Dining
     if (v.diningTime === "walk") {
@@ -1185,9 +1234,13 @@ function VillageFinder() {
       narrative.push(`Dinner at ${v.diningSpot} is ${v.diningTime} away.`);
     }
 
-    // Fireworks kicker
+    // Fireworks kicker (only if they'll appreciate it)
     if (v.fireworks) {
-      narrative.push(`Oh, and Disney fireworks at 9pm? You can see them from your backyard.`);
+      if (hasKids) {
+        narrative.push(`Oh, and Disney fireworks at 9pm? The kids can watch from the backyard in their pajamas.`);
+      } else {
+        narrative.push(`Disney fireworks at 9pm? You can see them from your backyard, drink in hand.`);
+      }
     }
 
     return narrative;
