@@ -1230,19 +1230,44 @@ function VillageFinder() {
             <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: "rgba(254,252,248,0.7)", marginBottom: 32, lineHeight: 1.7 }}>
               I'm putting together listings in {v.name} that match your budget. You'll have them within 24 hours.
             </div>
+
+            <div style={{
+              borderTop: "1px solid rgba(254,252,248,0.15)",
+              paddingTop: 32,
+              marginTop: 16,
+            }}>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "rgba(254,252,248,0.6)", marginBottom: 16 }}>
+                While you wait, keep exploring:
+              </div>
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 8,
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 14,
+                fontWeight: 500,
+                color: "#D4A44C",
+                animation: "gb 2.5s ease-in-out infinite",
+              }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+                Villages, schools, restaurants & more below
+              </div>
+            </div>
+
             <button
               onClick={resetQuiz}
               style={{
                 fontFamily: "'DM Sans', sans-serif",
                 fontSize: 13,
-                color: "rgba(254,252,248,0.5)",
+                color: "rgba(254,252,248,0.4)",
                 background: "none",
                 border: "none",
                 cursor: "pointer",
-                textDecoration: "underline",
+                marginTop: 32,
               }}
             >
-              Start over
+              ← Retake quiz
             </button>
           </div>
         </div>
@@ -1398,6 +1423,27 @@ function VillageFinder() {
             >
               ← Retake quiz
             </button>
+          </div>
+
+          <div style={{
+            borderTop: "1px solid rgba(254,252,248,0.1)",
+            marginTop: 40,
+            paddingTop: 32,
+            textAlign: "center",
+          }}>
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 14,
+              color: "rgba(254,252,248,0.5)",
+              animation: "gb 2.5s ease-in-out infinite",
+            }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+              Keep scrolling for schools, restaurants & more
+            </div>
           </div>
         </div>
       </div>
@@ -1759,9 +1805,6 @@ function HorizonWestGuide() {
         </div>
       </section>
 
-      {/* ===== VILLAGE FINDER QUIZ ===== */}
-      <VillageFinder />
-
       <div className="dl" />
 
       {/* ===== MARKET DATA ===== */}
@@ -1797,6 +1840,9 @@ function HorizonWestGuide() {
           </p>
         </FadeIn>
       </section>
+
+      {/* ===== VILLAGE FINDER QUIZ ===== */}
+      <VillageFinder />
 
       <div className="dl" />
 
