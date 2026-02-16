@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Realtor Lead Page Demo — Horizon West | POP-UP</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Demo: A local-expert lead generation page for Florida realtors. This Horizon West example shows villages, schools, prices, and 3 lead capture points.">
+  <meta name="author" content="POP-UP">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Realtor Lead Page Demo — Horizon West | POP-UP">
+  <meta property="og:description" content="A local-expert lead generation page for Florida realtors. Position yourself as THE neighborhood authority. 3 lead captures. Mobile + SEO ready.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200&h=630&fit=crop&q=80">
+  <meta property="og:url" content="https://popup.company/realtor/horizon-west">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Realtor Lead Page Demo — Horizon West | POP-UP">
+  <meta name="twitter:description" content="A local-expert lead generation page for Florida realtors. Position yourself as THE neighborhood authority.">
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200&h=630&fit=crop&q=80">
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+const AGENT = {
+  name: "Your Name Here",
+  title: "Realtor® · Horizon West",
+  phone: "(407) 555-0123",
+  email: "agent@example.com",
+  photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23E8F0E8'/%3E%3Ccircle cx='50' cy='36' r='16' fill='%232D4A2D'/%3E%3Cpath d='M50 56c-20 0-32 12-32 28v16h64v-16c0-16-12-28-32-28z' fill='%232D4A2D'/%3E%3Cpath d='M50 56c-4 0-7 2-7 2l7 14 7-14s-3-2-7-2z' fill='%23FEFCF8'/%3E%3C/svg%3E", // Replace with actual headshot
+  brokerage: "Your Brokerage Name",
+  license: "FL License #12345678",
+  yearsInHW: "5",
+  transactionCount: "100+",
+};
+
+const VILLAGES = [
+  {
+    id: "lakeside",
+    name: "Lakeside Village",
+    vibe: "The OG. Established in 1997, Lakeside was the first village in Horizon West. Mature landscaping, the biggest commercial variety in the area, and the Lakeside Village Center + Westside Shoppes hub. Has its own Publix, banks, restaurants, and medical offices — you can go weeks without leaving the village. Some homes catch Disney fireworks. It feels lived-in — in the best way.",
+    priceRange: "$387K – $1.1M+",
+    bestFor: "Families wanting established neighborhoods + convenience",
+    hoa: "$130–$250/quarter depending on community",
+    units: "Up to 8,915 residential units",
+    keyFeature: "Lakeside Village Center & Westside Shoppes — largest commercial hub in HW",
+  },
+  {
+    id: "bridgewater",
+    name: "Village of Bridgewater",
+    vibe: "The most populated village in all of Horizon West — 10,450 approved units. Family-friendly with parks and playgrounds in every single neighborhood. Main Street-style mom and pop businesses mixed with walkable village design. Publix anchors the village center along with a growing mix of dining and retail. If you want affordable single-family homes close to top-rated schools and the Town Center, this is it.",
+    priceRange: "$350K – $700K",
+    bestFor: "Families on a budget, first-time buyers, school-focused",
+    hoa: "$130–$280/quarter",
+    units: "10,450 residential units (largest village)",
+    keyFeature: "Parks & playgrounds in every neighborhood. Mixed-use village center.",
+  },
+  {
+    id: "towncenter",
+    name: "Town Center — Hamlin & Silver Leaf",
+    vibe: "The beating heart. Hamlin Town Center is waterfront dining on Lake Hancock, Cinépolis luxury movies, PopStroke mini golf (Tiger Woods-backed), farmers markets, community yoga. 3,624 acres with 2M+ sqft of commercial space still being built out. Publix on Hamlin Groves Trail is the de facto community gathering spot — everyone runs into someone they know. If you want walkable urban energy inside a suburb, this is your spot.",
+    priceRange: "$450K – $1M+",
+    bestFor: "Young professionals, foodies, walkability lovers, social butterflies",
+    hoa: "$150–$300/quarter",
+    units: "Up to 4,870 residential units",
+    keyFeature: "Hamlin Town Center — waterfront dining, PopStroke, Cinépolis, Lake Hancock boardwalk",
+  },
+  {
+    id: "villagef",
+    name: "Village F",
+    vibe: "Known for lake views, nature trails, and The Mark — a walkable shopping and dining district right in the village. Publix at Lakeview Pointe anchors the commercial core. Homes near conservation zones and waterways. Disney fireworks visible from many neighborhoods. Good mix of single-family, townhomes, and apartments. A quieter energy than Hamlin, but everything you need is close.",
+    priceRange: "$325K – $650K",
+    bestFor: "Nature lovers, Disney cast members, families wanting walkability",
+    hoa: "$100–$250/quarter",
+    units: "Up to 3,891 residential units",
+    keyFeature: "The Mark shopping district + Disney fireworks views from home",
+  },
+  {
+    id: "villageh",
+    name: "Village H — Hickory Nut",
+    vibe: "Prestigious new neighborhoods centered around Hickory Nut Lake. Spacious single-family homes and more affordable townhome options. Easy access to Disney-owned FLAMINGO CROSSINGS Town Center for shopping and dining. Publix nearby on New Independence Parkway. This village feels more upscale and private, with a strong neighborhood identity being built.",
+    priceRange: "$430K – $900K+",
+    bestFor: "Buyers wanting newer construction + proximity to Disney/Flamingo Crossings",
+    hoa: "$130–$300/quarter",
+    units: "Up to 6,548 residential units",
+    keyFeature: "Hickory Nut Lake + FLAMINGO CROSSINGS Town Center access",
+  },
+  {
+    id: "villagei",
+    name: "Village I — Ovation",
+    vibe: "The final village. Unlike others that grew organically, Ovation has a single master developer's unified vision. Homes near conservation zones and waterways. Kayaking, birdwatching, walking trails built into the design. Still being developed — best new-construction options and potential for appreciation as it matures. Direct Western Way access to both Disney and FLAMINGO CROSSINGS Town Center. Closest Publix is at Waterleigh Village.",
+    priceRange: "$400K – $800K",
+    bestFor: "New construction seekers, nature-centered living, long-term investment",
+    hoa: "$100–$250/quarter",
+    units: "TBD — still being planned and developed",
+    keyFeature: "Nature-forward design + direct access to Disney & Flamingo Crossings via Western Way",
+  },
+];
+
+const SCHOOLS = [
+  { name: "Independence Elementary", type: "Elementary · Bridgewater", grade: "A" },
+  { name: "Hamlin Elementary", type: "Elementary · Town Center", grade: "A-" },
+  { name: "Sunridge Elementary", type: "Elementary · Village F", grade: "A-" },
+  { name: "Water Spring Elementary", type: "Elementary · Ovation", grade: "A-" },
+  { name: "Bridgewater Middle", type: "Middle · Bridgewater", grade: "A-" },
+  { name: "Horizon West Middle", type: "Middle · Town Center", grade: "A-" },
+  { name: "Water Spring Middle", type: "Middle · Ovation", grade: "A-" },
+  { name: "Horizon High School", type: "High School · Horizon West", grade: "A-" },
+];
+
+const THINGS_TO_DO = [
+  { name: "PopStroke", type: "Mini Golf + Dining · Hamlin", note: "Tiger Woods-backed mini golf with two 18-hole putting courses. BarTenders restaurant on-site: smash burgers, wings, beer garden, enclosed playground. Best combo for families and date nights." },
+  { name: "Horizon West Regional Park", type: "Park · Now Open", note: "Phase 1A just opened January 2026. Playgrounds, splash pad, picnic pavilions, grills, lake views, ADA trails. Future phases add kayak launch on Lake Hartley and 6 miles of hiking trails." },
+  { name: "Downtown Winter Garden", type: "Historic District · 10 min", note: "Plant Street is the charm Horizon West borrows. Farmers market on Saturdays, the Garden Theatre for indie films and live shows, and a walkable strip of restaurants, ice cream shops, and boutiques." },
+  { name: "West Orange Trail", type: "Biking + Running · Connects to HW", note: "22-mile paved trail running from Apopka through Winter Garden. Connects to Horizon West's internal trail system. Runners, cyclists, and families use it daily. Flat and shaded." },
+  { name: "Cinépolis Luxury Cinemas", type: "Movies · Hamlin", note: "Recliners, full bar, food served to your seat. Not a regular movie theater. Tuesday matinees are practically empty — local secret." },
+  { name: "Lake Hancock Boardwalk", type: "Waterfront · Hamlin Town Center", note: "Walk along the water, catch a sunset, grab dinner after. Farmers market sets up here. Don the Beachcomber tiki bar opening soon on the boardwalk." },
+  { name: "Walt Disney World", type: "Theme Parks · 10 min", note: "You already know. But the real perk: annual passes make sense when you're 10 minutes away. Cast member families get discount housing consideration in Village F and Ovation." },
+  { name: "FLAMINGO CROSSINGS Town Center", type: "Shopping + Dining · 5–10 min", note: "Disney-owned town center with Target, restaurants, and expanding retail. Not touristy despite being Disney-adjacent. Feels like a normal, well-designed shopping center." },
+];
+
+const FOOD = [
+  { name: "Foxtail Coffee", type: "Coffee", note: "Skip the Starbucks on 535. This is where locals actually go. Outdoor patio, real baristas, Florida-roasted beans. Multiple locations around HW." },
+  { name: "Filigree Coffee", type: "Coffee", note: "Started as a cart inside Home State Brewing, now has their own standalone shop. Great espresso, local pastries. One of the better coffee spots in HW." },
+  { name: "The French Café", type: "Brunch · Hamlin", note: "Hamlin's favorite brunch spot. Indoor and outdoor seating on the water. Get the croque monsieur. Weekend line is worth the wait." },
+  { name: "Bosphorus Turkish Cuisine", type: "Dinner", note: "Date night secret weapon. Authentic Turkish food that would hold its own in any major city. Kebabs are the move. Surprisingly affordable." },
+  { name: "Maple Street Biscuit Company", type: "Breakfast · Hamlin", note: "Southern biscuit sandwiches, bottomless coffee refills, and they actually welcome laptop campers. Open 7am–3pm daily." },
+  { name: "Agave Bandido", type: "Mexican · Hamlin", note: "Brand new. Already drawing crowds on the waterfront — reservations recommended. Right next to Ford's Garage. Elevated Mexican, not a chain." },
+  { name: "Great Greek Mediterranean Grill", type: "Mediterranean · Hamlin", note: "Indoor and outdoor seating. Quality Mediterranean that hits when you're tired of burgers. Good spot for a working lunch — free WiFi, charging ports." },
+  { name: "Ford's Garage", type: "Burgers · Hamlin", note: "Craft burgers, solid beer list. Automotive theme is kitschy in the best way. Fun for families, good happy hour." },
+  { name: "Skyline Chili", type: "Cincinnati-style · Hamlin", note: "If you know, you know. Cincinnati chili over spaghetti. Not for everyone, but the people who love it LOVE it. Seasonal specials are creative." },
+];
+
+const COMING_SOON = [
+  { what: "Horizon West Regional Park — Phase 2+", detail: "Phase 1A is NOW OPEN with playgrounds, splash pad, picnic pavilions, grills, lake views, and ADA trails. Future phases add kayak launch on Lake Hartley and 6 miles of hiking trails.", status: "open" },
+  { what: "Orange County Library — HW Branch", detail: "20,000 sq ft. Study rooms, media lab, meeting rooms, outdoor performance stage with lawn seating. Right next to the regional park.", status: "coming" },
+  { what: "Don the Beachcomber", detail: "Tiki bar + Florida seafood restaurant on the Lake Hancock boardwalk. There's a speakeasy inside.", status: "coming" },
+  { what: "Lowe's Home Improvement", detail: "North of Walmart on Hamlin Groves Trail. No more driving to Ocoee or Winter Garden for a 2x4.", status: "coming" },
+  { what: "New Independence Parkway Extension", detail: "Connecting to Lake County. Will reduce commute times heading west.", status: "coming" },
+  { what: "Life Time Athletic Club", detail: "80,000 sq ft fitness club at Hamlin. Championship tennis courts, pickleball, aquatic facilities, full gym.", status: "coming" },
+  { what: "Dutch Bros Coffee", detail: "Drive-through on Hamlin Groves Trail. Oregon-based chain.", status: "coming" },
+  { what: "TJ Maxx", detail: "25,000 sq ft near Publix on Hamlin Groves Trail.", status: "coming" },
+];
+
+const COMMUTES = [
+  { to: "Walt Disney World (Western Entrance)", time: "7–12 min", rush: "Add 5–10 min during shift changes at 7am and 3pm" },
+  { to: "Downtown Winter Garden (Plant St.)", time: "8–12 min", rush: "Barely changes. Easiest commute from HW." },
+  { to: "FLAMINGO CROSSINGS Town Center", time: "5–10 min", rush: "Almost never traffic. Villages H and Ovation are right next to it." },
+  { to: "Dr. Phillips / Restaurant Row", time: "15–20 min", rush: "25 min via 535. Quick hop for date night." },
+  { to: "Downtown Orlando", time: "25–35 min", rush: "40–50 min at 8am. Take 429 to I-4, not surface streets." },
+  { to: "Orlando International Airport (MCO)", time: "30–40 min", rush: "Add 10–15 min. 528 toll road is your friend." },
+  { to: "Lake Nona / Medical City", time: "30–40 min", rush: "45+ min at 7:30am. No good shortcut exists." },
+  { to: "UCF / East Orlando", time: "35–45 min", rush: "50+ min. It's a haul — plan accordingly." },
+];
+
+const COMMUNITY_LINKS = [
+  { name: "Horizon West Happenings", type: "Community Hub", note: "THE source for events, business openings, and what's happening this weekend. Sign up for 'The Scoop' newsletter." },
+  { name: "Horizon West Happenings Community (Facebook)", type: "Facebook Group · 11K+ members", note: "Events, recommendations, community discussions. The most active and well-moderated HW group." },
+  { name: "Horizon West Magazine", type: "Local Media", note: "Print + digital. Restaurant reviews, village profiles, local business spotlights. The only printed guide made by and for HW residents." },
+  { name: "HorizonWestInfo.com", type: "Development News", note: "Track every new building, road project, and business permit. Has a Patreon for early updates. The nerdy (essential) source." },
+  { name: "Horizon West Development Discussion", type: "Facebook Group", note: "Tracks construction, zoning changes, new businesses. Where you learn what's coming before it's publicly announced." },
+  { name: "Horizon West Moms", type: "Facebook Group", note: "Pediatrician recs, babysitter swaps, school intel, playdate coordination. The real MVP for new parents moving in." },
+  { name: "Horizon West Buy/Sell/Trade", type: "Facebook Group", note: "Furniture, baby gear, everything. Very active. Check here before buying retail." },
+  { name: "Nextdoor – Horizon West", type: "App", note: "Neighborhood-level updates. Good for lost pets, contractor recs, and knowing what's happening on your specific street." },
+  { name: "r/orlando", type: "Reddit", note: "Broader Orlando community. Good for restaurant recs, event tips, and unfiltered local opinions." },
+];
+
+const PRICE_TIERS = [
+  {
+    range: "$325K – $450K",
+    type: "Townhome",
+    size: "1,400–2,000 sqft · 3 bed / 2.5 bath",
+    where: "Waterleigh, Orchard Hills, Storey Grove, Summerlake, Ovation",
+    reality: "This is your entry point into Horizon West. Newer townhome communities with 2-car garages, community pools, and solid HOAs. Waterleigh starts in the high $200s for smaller units. Storey Grove and Summerlake have great amenities with low HOA and no CDD. Still zoned for the same A-rated schools as the $800K houses down the street.",
+    vibe: "Smart entry point",
+  },
+  {
+    range: "$450K – $550K",
+    type: "Townhome or small single-family",
+    size: "1,700–2,200 sqft · 3–4 bed / 2.5 bath",
+    where: "Ovation, Bridgewater, Village F, Hamlin edges",
+    reality: "Nicer townhomes or entry-level single-family homes. Dream Finders and Pulte build in this range — rear-loaded bungalow-style homes around 1,800 sqft. Townhomes in Hamlin with walkability to Town Center fall here. You get a 2-car garage and community amenities. Good value tier if you don't need 2,500+ sqft.",
+    vibe: "Best value tier",
+  },
+  {
+    range: "$550K – $700K",
+    type: "Single-family home",
+    size: "2,000–2,800 sqft · 3–4 bed / 2–3 bath",
+    where: "Bridgewater, Village F, Town Center, Village H, Ovation",
+    reality: "The Horizon West median is $583K — this is the heart of the market. Standard single-family homes, 2-car garage, open floor plans, community pool access. Taylor Morrison's Harvest at Ovation starts around $500K. You'll see Meritage, Pulte, and Dream Finders building here. Most families land in this range.",
+    vibe: "The HW standard",
+  },
+  {
+    range: "$700K – $900K",
+    type: "Upgraded single-family",
+    size: "2,800–3,500 sqft · 4–5 bed / 3+ bath",
+    where: "Hamlin, Village H, Silverleaf, Lakeshore",
+    reality: "60-foot lots, premium finishes, upgraded everything. Toll Brothers builds in this range. Silverleaf townhomes start in the $430s but single-family runs $520K+, with the nicer stuff pushing $850K. You start seeing conservation views, water views, and builder upgrades as standard. This is where it starts to feel fancy.",
+    vibe: "Premium tier",
+  },
+  {
+    range: "$900K – $2M+",
+    type: "Luxury / lakefront / estate",
+    size: "3,500–6,500+ sqft · 5–7 bed / 4–6 bath",
+    where: "Isles of Lake Hancock, Lakeshore Preserve, lakefront lots",
+    reality: "70-foot homesites, lakefront on Lake Hancock, custom builds. Isles of Lake Hancock is the gold standard — gated, private docks, Disney fireworks from your backyard. Lakeshore has Toll Brothers builds up to 6,200 sqft. These move fast when they hit the market. Expect $1M+ for true lakefront.",
+    vibe: "The full package",
+  },
+];
+
+const HOA_DATA = [
+  { village: "Lakeside", range: "$130–$250", included: "Common areas, community pool (in select neighborhoods), landscaping of common areas. Older communities = lower fees, fewer amenities." },
+  { village: "Bridgewater", range: "$130–$280", included: "Community pool, playground, fitness center in newer communities. CDD on top in some neighborhoods ($500–$800/yr)." },
+  { village: "Town Center (Hamlin)", range: "$150–$300", included: "Pool, fitness, clubhouse. Premium for waterfront communities. Some include lawn care." },
+  { village: "Village F", range: "$100–$250", included: "Conservation area maintenance, community pool. Lower end of HW overall." },
+  { village: "Village H", range: "$130–$300", included: "Newer amenity centers, resort-style pools, lake access in some communities. CDD overlay in most ($600–$1,000/yr)." },
+  { village: "Ovation", range: "$100–$250", included: "Still building out amenities. Trail system, nature preserves. Expect increases as community matures." },
+];
+
+const BUILDERS = [
+  { name: "Ashton Woods", focus: "Single-family homes", areas: "Ovation, Northlake" },
+  { name: "Dream Finders Homes", focus: "Townhomes & single-family", areas: "Hamlin, Ovation, Silverleaf" },
+  { name: "K. Hovnanian Homes", focus: "Single-family homes", areas: "Osprey Ranch" },
+  { name: "Lennar", focus: "Single-family & townhomes", areas: "Multiple communities" },
+  { name: "M/I Homes", focus: "Single-family homes", areas: "Encore, Hamlin area" },
+  { name: "Meritage Homes", focus: "Single-family homes", areas: "Silverleaf, Bridgewater" },
+  { name: "Pulte Homes", focus: "Townhomes & single-family", areas: "Silverleaf, Del Webb (55+)" },
+  { name: "Taylor Morrison", focus: "Single-family & townhomes", areas: "Harvest at Ovation, Hamlin" },
+  { name: "Toll Brothers", focus: "Luxury single-family & townhomes", areas: "Westhaven at Ovation, Lakeshore" },
+];
+
+const CHECKLIST_ITEMS = [
+  {
+    group: "Utilities & Services",
+    items: [
+      { text: "OUC (Orlando Utilities Commission) — electric & water. Set up 2 weeks before closing. (407) 423-9018" },
+      { text: "Spectrum or AT&T for internet. Spectrum is more widely available in HW; AT&T Fiber in newer communities." },
+      { text: "Waste collection: Orange County Utilities. Trash Tue/Fri, recycling Wed, yard waste Thu. Large item pickup by appointment." },
+      { text: "Set up OUC autopay — they charge a deposit otherwise." },
+    ],
+  },
+  {
+    group: "Government & Admin",
+    items: [
+      { text: "Update driver's license at DMV (closest: Ocoee or Clermont). Florida gives you 30 days." },
+      { text: "Register to vote: Orange County Supervisor of Elections. Online at ocfelections.gov." },
+      { text: "Homestead exemption: File with Orange County Property Appraiser by March 1 for that tax year. Saves $50K+ off assessed value. Don't miss this." },
+      { text: "If you have kids: enroll at your zoned school ASAP. Bring proof of residency, immunization records, previous school records." },
+    ],
+  },
+  {
+    group: "HOA & Community",
+    items: [
+      { text: "Contact your HOA management company within first week. Get the rules, architectural guidelines, and amenity access cards." },
+      { text: "Introduce yourself to neighbors. Seriously. HW is friendly — people will tell you everything you need to know." },
+      { text: "Join your neighborhood's specific Facebook group or WhatsApp chat. Your neighbors will invite you." },
+    ],
+  },
+  {
+    group: "Life Setup",
+    items: [
+      { text: "Find your Publix. Every village has one. Learn which one is \"yours.\"" },
+      { text: "Download the Nextdoor app. Set your neighborhood." },
+      { text: "Find a pediatrician early if you have kids — the popular ones (Nemours, Orlando Health) have waitlists." },
+      { text: "Get your SunPass or E-Pass for toll roads. You'll use 429 constantly." },
+    ],
+  },
+];
+
+const CHILDCARE = [
+  {
+    category: "Daycare & Preschool",
+    items: [
+      { name: "Primrose School of Horizon West", ages: "6 weeks – Pre-K", location: "Winter Garden (Old Seidel Rd)", note: "Balanced Learning curriculum. Infant through pre-K programs." },
+      { name: "The Learning Experience", ages: "6 weeks – 6 years", location: "Windermere (Lake Smith Cir)", note: "L.E.A.P. curriculum. Enrichment programs include sign language, music, yoga." },
+      { name: "KLA Schools of Horizon West", ages: "1 – 4 years", location: "Summerlake", note: "Reggio Emilia-inspired curriculum. Near Hamlin Town Center." },
+      { name: "The Goddard School", ages: "6 weeks – 6 years", location: "Winter Garden", note: "Play-based learning. New Hamlin location opening." },
+      { name: "Bright Horizons", ages: "Infant – Pre-K", location: "Winter Garden", note: "NAEYC accredited. Military childcare partner (MCCYN)." },
+      { name: "Lightbridge Academy", ages: "6 weeks – Pre-K", location: "Bridgewater area", note: "ParentView webcam access. Circle of Care backup program." },
+      { name: "Kiddie Academy", ages: "6 weeks – 12 years", location: "Winter Garden/Oakland", note: "Infant through after-school programs." },
+      { name: "The Nest Schools", ages: "Infant – Pre-K", location: "Winter Garden", note: "Local childcare and preschool programs." },
+    ],
+  },
+  {
+    category: "Private Schools (nearby)",
+    items: [
+      { name: "Windermere Preparatory School", ages: "Pre-K – 12", location: "Windermere (10 min)", note: "IB programme. Strong athletics and arts." },
+      { name: "Foundation Academy", ages: "Pre-K – 12", location: "Winter Garden (12 min)", note: "Christian school. Smaller class sizes." },
+      { name: "St. John Vianney Catholic School", ages: "Pre-K – 8", location: "South Orlando (20 min)", note: "Catholic school. Traditional curriculum." },
+    ],
+  },
+];
+
+const NAV_ITEMS = [
+  { id: "market", label: "Market" },
+  { id: "villages", label: "Villages" },
+  { id: "schools", label: "Schools" },
+  { id: "lifestyle", label: "Lifestyle" },
+  { id: "budget", label: "Budget" },
+  { id: "moving", label: "Moving Here" },
+  { id: "community", label: "Community" },
+];
+
+function Counter({ end, duration = 1500, prefix = "", suffix = "" }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const started = useRef(false);
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !started.current) {
+        started.current = true;
+        const start = performance.now();
+        const animate = (now) => {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          setCount(Math.floor(eased * end));
+          if (progress < 1) requestAnimationFrame(animate);
+        };
+        requestAnimationFrame(animate);
+      }
+    }, { threshold: 0.3 });
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [end, duration]);
+  return <span ref={ref}>{prefix}{count.toLocaleString()}{suffix}</span>;
+}
+
+function FadeIn({ children, delay = 0 }) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) setVisible(true); }, { threshold: 0.1 });
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+  return (
+    <div ref={ref} style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(30px)", transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms` }}>
+      {children}
+    </div>
+  );
+}
+
+function StickyNav({ activeSection, onNavClick, visible }) {
+  return (
+    <nav style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      right: 0,
+      zIndex: 100,
+      background: "#FEFCF8",
+      borderBottom: "1px solid #E8E2D8",
+      transform: visible ? "translateY(0)" : "translateY(-100%)",
+      transition: "transform 0.3s ease",
+    }}>
+      <div style={{
+        maxWidth: 1100,
+        margin: "0 auto",
+        padding: "0 24px",
+        display: "flex",
+        height: 48,
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+          <img src={AGENT.photo} alt={AGENT.name} style={{ width: 32, height: 32, borderRadius: "50%", objectFit: "cover" }} />
+          <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500, color: "#1A1A18" }}>{AGENT.name}</span>
+        </div>
+        <div style={{
+          display: "flex",
+          gap: 4,
+          alignItems: "center",
+          overflowX: "auto",
+          msOverflowStyle: "none",
+          scrollbarWidth: "none",
+          marginLeft: 20,
+        }}>
+          {NAV_ITEMS.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => onNavClick(item.id)}
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 11,
+                fontWeight: 500,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                color: activeSection === item.id ? "#2D4A2D" : "#A69E93",
+                background: "none",
+                border: "none",
+                padding: "8px 10px",
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+                transition: "color 0.2s",
+                borderBottom: activeSection === item.id ? "2px solid #2D4A2D" : "2px solid transparent",
+              }}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+function IntakeForm({ variant = "compact", hook, subtext }) {
+  const [formData, setFormData] = useState({
+    budget: "",
+    timeline: "",
+    household: [],
+    priorities: [],
+    commute: "",
+    email: "",
+    name: "",
+  });
+  const [expanded, setExpanded] = useState(variant === "full");
+  const [submitted, setSubmitted] = useState(false);
+
+  const budgetOptions = ["$400K–500K", "$500K–600K", "$600K–750K", "$750K+"];
+  const timelineOptions = ["Ready now", "3–6 months", "6–12 months", "Just exploring"];
+  const householdOptions = ["Single or couple", "Young kids (0–5)", "School-age kids", "Teens", "Empty nesters"];
+  const priorityOptions = ["Best schools", "Walkability & dining", "Newest construction", "Most space for the money", "Closest to Disney", "Nature & trails"];
+  const commuteOptions = ["Disney", "Downtown Orlando", "Remote/hybrid", "Lake Nona", "UCF/East Orlando", "Winter Garden", "Other"];
+
+  const handlePillSelect = (field, value, multi = false) => {
+    if (multi) {
+      setFormData(prev => ({
+        ...prev,
+        [field]: prev[field].includes(value)
+          ? prev[field].filter(v => v !== value)
+          : prev[field].length < 3 ? [...prev[field], value] : prev[field]
+      }));
+    } else {
+      setFormData(prev => ({ ...prev, [field]: value }));
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (formData.email) {
+      setSubmitted(true);
+    }
+  };
+
+  if (submitted) {
+    return (
+      <div style={{
+        background: variant === "full" ? "#2D4A2D" : "linear-gradient(180deg, #F5F0E8, #EDE6D8)",
+        padding: variant === "full" ? "80px 24px" : "60px 24px",
+      }}>
+        <div style={{ textAlign: "center", padding: "40px 0" }}>
+          <div style={{ fontSize: 32, marginBottom: 16, color: variant === "full" ? "#FEFCF8" : "#2D4A2D" }}>✓</div>
+          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 18, fontWeight: 500, color: variant === "full" ? "#FEFCF8" : "#2D4A2D", marginBottom: 8 }}>
+            Your personalized plan is on its way
+          </div>
+          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: variant === "full" ? "rgba(254,252,248,0.7)" : "#6B635A" }}>
+            We'll match you with villages, listings, and school zones based on what you told us.
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const PillGroup = ({ options, field, multi = false, selected }) => (
+    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+      {options.map(opt => (
+        <button
+          key={opt}
+          type="button"
+          onClick={() => handlePillSelect(field, opt, multi)}
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 13,
+            padding: "8px 16px",
+            borderRadius: 100,
+            border: "1px solid",
+            borderColor: (multi ? selected.includes(opt) : selected === opt) ? "#2D4A2D" : (variant === "full" ? "rgba(254,252,248,0.3)" : "#D4C9B8"),
+            background: (multi ? selected.includes(opt) : selected === opt) ? "#2D4A2D" : "transparent",
+            color: (multi ? selected.includes(opt) : selected === opt) ? "#FEFCF8" : (variant === "full" ? "rgba(254,252,248,0.8)" : "#5A5348"),
+            cursor: "pointer",
+            transition: "all 0.2s",
+          }}
+        >
+          {opt}
+        </button>
+      ))}
+    </div>
+  );
+
+  return (
+    <div style={{
+      background: variant === "full" ? "#2D4A2D" : "linear-gradient(180deg, #F5F0E8, #EDE6D8)",
+      padding: variant === "full" ? "80px 24px" : "60px 24px",
+    }}>
+      <div style={{ maxWidth: 540, margin: "0 auto" }}>
+        <div style={{
+          fontFamily: "'DM Sans', sans-serif",
+          fontSize: 11,
+          fontWeight: 500,
+          letterSpacing: "2.5px",
+          textTransform: "uppercase",
+          color: variant === "full" ? "rgba(254,252,248,0.6)" : "#2D4A2D",
+          marginBottom: 16,
+          textAlign: "center",
+        }}>
+          {variant === "full" ? "Get Started" : "Find Your Fit"}
+        </div>
+        <h3 style={{
+          fontFamily: "'Instrument Serif', Georgia, serif",
+          fontSize: "clamp(24px, 4vw, 36px)",
+          lineHeight: 1.1,
+          fontWeight: 400,
+          color: variant === "full" ? "#FEFCF8" : "#1A1A18",
+          marginBottom: 12,
+          textAlign: "center",
+        }}>
+          {hook}
+        </h3>
+        <p style={{
+          fontFamily: "'DM Sans', sans-serif",
+          fontSize: 15,
+          lineHeight: 1.6,
+          color: variant === "full" ? "rgba(254,252,248,0.7)" : "#6B635A",
+          marginBottom: 32,
+          textAlign: "center",
+        }}>
+          {subtext}
+        </p>
+
+        <form onSubmit={handleSubmit}>
+          <div style={{ marginBottom: 24 }}>
+            <label style={{
+              display: "block",
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 13,
+              fontWeight: 500,
+              color: variant === "full" ? "#FEFCF8" : "#5A5348",
+              marginBottom: 10,
+            }}>
+              Budget range
+            </label>
+            <PillGroup options={budgetOptions} field="budget" selected={formData.budget} />
+          </div>
+
+          <div style={{ marginBottom: 24 }}>
+            <label style={{
+              display: "block",
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 13,
+              fontWeight: 500,
+              color: variant === "full" ? "#FEFCF8" : "#5A5348",
+              marginBottom: 10,
+            }}>
+              What matters most? <span style={{ fontWeight: 400, color: variant === "full" ? "rgba(254,252,248,0.5)" : "#A69E93" }}>(pick up to 3)</span>
+            </label>
+            <PillGroup options={priorityOptions} field="priorities" multi selected={formData.priorities} />
+          </div>
+
+          {(expanded || variant === "full") && (
+            <>
+              <div style={{ marginBottom: 24 }}>
+                <label style={{
+                  display: "block",
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: 13,
+                  fontWeight: 500,
+                  color: variant === "full" ? "#FEFCF8" : "#5A5348",
+                  marginBottom: 10,
+                }}>
+                  Timeline
+                </label>
+                <PillGroup options={timelineOptions} field="timeline" selected={formData.timeline} />
+              </div>
+
+              <div style={{ marginBottom: 24 }}>
+                <label style={{
+                  display: "block",
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: 13,
+                  fontWeight: 500,
+                  color: variant === "full" ? "#FEFCF8" : "#5A5348",
+                  marginBottom: 10,
+                }}>
+                  Household
+                </label>
+                <PillGroup options={householdOptions} field="household" multi selected={formData.household} />
+              </div>
+
+              <div style={{ marginBottom: 24 }}>
+                <label style={{
+                  display: "block",
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: 13,
+                  fontWeight: 500,
+                  color: variant === "full" ? "#FEFCF8" : "#5A5348",
+                  marginBottom: 10,
+                }}>
+                  Where will you commute?
+                </label>
+                <PillGroup options={commuteOptions} field="commute" selected={formData.commute} />
+              </div>
+
+              <div style={{ marginBottom: 24 }}>
+                <label style={{
+                  display: "block",
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: 13,
+                  fontWeight: 500,
+                  color: variant === "full" ? "#FEFCF8" : "#5A5348",
+                  marginBottom: 10,
+                }}>
+                  Name <span style={{ fontWeight: 400, color: variant === "full" ? "rgba(254,252,248,0.5)" : "#A69E93" }}>(optional)</span>
+                </label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                  placeholder="Your name"
+                  style={{
+                    width: "100%",
+                    padding: "14px 18px",
+                    border: "1px solid",
+                    borderColor: variant === "full" ? "rgba(254,252,248,0.3)" : "#D4C9B8",
+                    borderRadius: 8,
+                    background: variant === "full" ? "rgba(254,252,248,0.1)" : "#FEFCF8",
+                    color: variant === "full" ? "#FEFCF8" : "#1A1A18",
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: 15,
+                    outline: "none",
+                  }}
+                />
+              </div>
+            </>
+          )}
+
+          <div style={{ marginBottom: 24 }}>
+            <label style={{
+              display: "block",
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 13,
+              fontWeight: 500,
+              color: variant === "full" ? "#FEFCF8" : "#5A5348",
+              marginBottom: 10,
+            }}>
+              Email
+            </label>
+            <input
+              type="email"
+              required
+              value={formData.email}
+              onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+              placeholder="your@email.com"
+              style={{
+                width: "100%",
+                padding: "14px 18px",
+                border: "1px solid",
+                borderColor: variant === "full" ? "rgba(254,252,248,0.3)" : "#D4C9B8",
+                borderRadius: 8,
+                background: variant === "full" ? "rgba(254,252,248,0.1)" : "#FEFCF8",
+                color: variant === "full" ? "#FEFCF8" : "#1A1A18",
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 15,
+                outline: "none",
+              }}
+            />
+          </div>
+
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
+            {!expanded && variant !== "full" && (
+              <button
+                type="button"
+                onClick={() => setExpanded(true)}
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: 14,
+                  fontWeight: 500,
+                  padding: "14px 28px",
+                  border: "1px solid #2D4A2D",
+                  borderRadius: 8,
+                  background: "transparent",
+                  color: "#2D4A2D",
+                  cursor: "pointer",
+                }}
+              >
+                Tell us more
+              </button>
+            )}
+            <button
+              type="submit"
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 14,
+                fontWeight: 500,
+                padding: "14px 28px",
+                border: "none",
+                borderRadius: 8,
+                background: variant === "full" ? "#D4A44C" : "#D4A44C",
+                color: "#FEFCF8",
+                cursor: "pointer",
+              }}
+            >
+              {variant === "full" ? "Get my personalized plan" : "Send me matches"}
+            </button>
+          </div>
+
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 10,
+            marginTop: 20,
+            paddingTop: 20,
+            borderTop: "1px solid",
+            borderColor: variant === "full" ? "rgba(254,252,248,0.2)" : "#E8E2D8",
+          }}>
+            <img src={AGENT.photo} alt={AGENT.name} style={{ width: 36, height: 36, borderRadius: "50%", objectFit: "cover" }} />
+            <div style={{ textAlign: "left" }}>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, fontWeight: 500, color: variant === "full" ? "#FEFCF8" : "#1A1A18" }}>
+                Goes directly to {AGENT.name}
+              </div>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: variant === "full" ? "rgba(254,252,248,0.6)" : "#A69E93" }}>
+                No spam. No sharing. Just me.
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function FloatingContact() {
+  const [expanded, setExpanded] = useState(false);
+  return (
+    <div style={{
+      position: "fixed",
+      bottom: 24,
+      right: 24,
+      zIndex: 99,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "flex-end",
+      gap: 12,
+    }}>
+      {expanded && (
+        <div style={{
+          background: "#FEFCF8",
+          borderRadius: 12,
+          padding: 20,
+          boxShadow: "0 4px 24px rgba(0,0,0,0.15)",
+          border: "1px solid #E8E2D8",
+          width: 220,
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+            <img src={AGENT.photo} alt={AGENT.name} style={{ width: 40, height: 40, borderRadius: "50%", objectFit: "cover" }} />
+            <div>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 500, color: "#1A1A18" }}>{AGENT.name}</div>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#A69E93" }}>{AGENT.title}</div>
+            </div>
+          </div>
+          <a href={`tel:${AGENT.phone}`} style={{
+            display: "block",
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 13,
+            fontWeight: 500,
+            color: "#FEFCF8",
+            background: "#D4A44C",
+            padding: "10px 16px",
+            borderRadius: 8,
+            textDecoration: "none",
+            textAlign: "center",
+            marginBottom: 8,
+          }}>Call {AGENT.phone}</a>
+          <a href={`mailto:${AGENT.email}`} style={{
+            display: "block",
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 13,
+            fontWeight: 500,
+            color: "#2D4A2D",
+            background: "transparent",
+            padding: "10px 16px",
+            borderRadius: 8,
+            textDecoration: "none",
+            textAlign: "center",
+            border: "1px solid #2D4A2D",
+          }}>Email Me</a>
+        </div>
+      )}
+      <button
+        onClick={() => setExpanded(!expanded)}
+        style={{
+          width: 56,
+          height: 56,
+          borderRadius: "50%",
+          background: "#D4A44C",
+          border: "none",
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          boxShadow: "0 4px 16px rgba(212,164,76,0.4)",
+          transition: "transform 0.2s",
+        }}
+      >
+        {expanded ? (
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FEFCF8" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        ) : (
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FEFCF8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        )}
+      </button>
+    </div>
+  );
+}
+
+function Checklist() {
+  const [checked, setChecked] = useState({});
+
+  const toggleCheck = (groupIdx, itemIdx) => {
+    const key = `${groupIdx}-${itemIdx}`;
+    setChecked(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  return (
+    <div>
+      {CHECKLIST_ITEMS.map((group, groupIdx) => (
+        <div key={group.group} style={{ marginBottom: 32 }}>
+          <h4 style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 14,
+            fontWeight: 600,
+            color: "#2D4A2D",
+            marginBottom: 16,
+            textTransform: "uppercase",
+            letterSpacing: "1px",
+          }}>
+            {group.group}
+          </h4>
+          {group.items.map((item, itemIdx) => {
+            const key = `${groupIdx}-${itemIdx}`;
+            const isChecked = checked[key];
+            return (
+              <div
+                key={itemIdx}
+                onClick={() => toggleCheck(groupIdx, itemIdx)}
+                style={{
+                  display: "flex",
+                  gap: 14,
+                  padding: "14px 0",
+                  borderBottom: "1px solid #EDE8E0",
+                  cursor: "pointer",
+                  opacity: isChecked ? 0.5 : 1,
+                  transition: "opacity 0.2s",
+                }}
+              >
+                <div style={{
+                  width: 22,
+                  height: 22,
+                  border: "2px solid",
+                  borderColor: isChecked ? "#2D4A2D" : "#D4C9B8",
+                  borderRadius: 4,
+                  background: isChecked ? "#2D4A2D" : "transparent",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                  marginTop: 1,
+                }}>
+                  {isChecked && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FEFCF8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
+                </div>
+                <span style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: 14,
+                  lineHeight: 1.6,
+                  color: "#5A5348",
+                  textDecoration: isChecked ? "line-through" : "none",
+                }}>
+                  {item.text}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function HorizonWestGuide() {
+  const [activeVillage, setActiveVillage] = useState(null);
+  const [expandedSchool, setExpandedSchool] = useState(null);
+  const [showAllFood, setShowAllFood] = useState(false);
+  const [navVisible, setNavVisible] = useState(false);
+  const [activeSection, setActiveSection] = useState("market");
+
+  const heroRef = useRef(null);
+  const sectionRefs = useRef({});
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (heroRef.current) {
+        const heroBottom = heroRef.current.getBoundingClientRect().bottom;
+        setNavVisible(heroBottom < 0);
+      }
+
+      const sections = Object.entries(sectionRefs.current);
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const [id, ref] = sections[i];
+        if (ref) {
+          const rect = ref.getBoundingClientRect();
+          if (rect.top <= 100) {
+            setActiveSection(id);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToSection = (id) => {
+    const ref = sectionRefs.current[id];
+    if (ref) {
+      const offset = 60;
+      const top = ref.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  };
+
+  const displayedFood = showAllFood ? FOOD : FOOD.slice(0, 5);
+
+  return (
+    <div style={{ fontFamily: "'Instrument Serif', 'Georgia', serif", background: "#FEFCF8", color: "#1A1A18", minHeight: "100vh", overflowX: "hidden" }}>
+      {/* Demo Banner */}
+      <div style={{
+        background: "#1A1A18",
+        color: "#FEFCF8",
+        padding: "12px 24px",
+        textAlign: "center",
+        fontFamily: "'DM Sans', sans-serif",
+        fontSize: 14,
+        position: "sticky",
+        top: 0,
+        zIndex: 1000,
+      }}>
+        <span style={{ opacity: 0.7 }}>This is a demo.</span>
+        {" "}
+        <a href="https://popup.company" style={{ color: "#D4A44C", textDecoration: "none", fontWeight: 500 }}>
+          Get one for your neighborhood →
+        </a>
+      </div>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        ::selection { background: #2D4A2D; color: #FEFCF8; }
+        .bf { font-family: 'DM Sans', -apple-system, sans-serif; }
+        .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 24px; background: linear-gradient(180deg, #FEFCF8 0%, #F5F0E8 50%, #EDE6D8 100%); }
+        .badge { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; color: #7A6F5F; margin-bottom: 32px; padding: 8px 20px; border: 1px solid #D4C9B8; border-radius: 100px; }
+        .ht { font-size: clamp(42px, 7vw, 88px); line-height: 0.95; font-weight: 400; color: #1A1A18; margin-bottom: 28px; max-width: 900px; }
+        .ht em { font-style: italic; color: #D4A44C; }
+        .hs { font-family: 'DM Sans', sans-serif; font-size: clamp(15px, 2vw, 19px); line-height: 1.6; color: #6B635A; max-width: 540px; margin-bottom: 48px; font-weight: 300; }
+        .sh { font-family: 'DM Sans', sans-serif; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #A69E93; animation: gb 2.5s ease-in-out infinite; }
+        @keyframes gb { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+        .sec { padding: 80px 24px; max-width: 860px; margin: 0 auto; }
+        .sl { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; color: #2D4A2D; margin-bottom: 16px; }
+        .st { font-size: clamp(32px, 5vw, 52px); line-height: 1.05; font-weight: 400; margin-bottom: 20px; }
+        .st em { font-style: italic; color: #D4A44C; }
+        .sd { font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.7; color: #6B635A; max-width: 600px; margin-bottom: 48px; font-weight: 300; }
+        .vc { padding: 28px; border: 1px solid #E8E2D8; border-radius: 12px; margin-bottom: 16px; cursor: pointer; transition: all 0.3s ease; background: #FEFCF8; }
+        .vc:hover { border-color: #2D4A2D; box-shadow: 0 4px 20px rgba(45,74,45,0.06); }
+        .vc.act { border-color: #2D4A2D; background: linear-gradient(135deg, #FEFCF8, #F5F2EC); }
+        .vh { display: flex; justify-content: space-between; align-items: center; }
+        .vn { font-size: 22px; font-weight: 400; }
+        .ve { font-size: 24px; }
+        .vd { margin-top: 20px; padding-top: 20px; border-top: 1px solid #E8E2D8; font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.7; color: #5A5348; }
+        .vr { display: flex; gap: 8px; margin-bottom: 10px; }
+        .vl { font-weight: 500; color: #2D4A2D; min-width: 100px; flex-shrink: 0; }
+        .skc { padding: 24px; border: 1px solid #E8E2D8; border-radius: 12px; margin-bottom: 12px; background: #FEFCF8; }
+        .skh { display: flex; justify-content: space-between; align-items: center; font-family: 'DM Sans', sans-serif; }
+        .skn { font-size: 17px; font-weight: 500; }
+        .skg { font-size: 13px; font-weight: 600; color: #2D4A2D; background: #E8F0E8; padding: 4px 12px; border-radius: 100px; }
+        .skt { font-family: 'DM Sans', sans-serif; font-size: 12px; color: #A69E93; margin-top: 4px; }
+        .skrt { margin-top: 16px; padding-top: 16px; border-top: 1px solid #E8E2D8; font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.7; color: #5A5348; font-style: italic; }
+        .fc { display: flex; gap: 16px; padding: 20px 0; border-bottom: 1px solid #EDE8E0; }
+        .fi { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
+        .fn { font-size: 18px; font-weight: 400; margin-bottom: 2px; }
+        .ft { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: #A69E93; margin-bottom: 6px; }
+        .fno { font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.6; color: #6B635A; font-weight: 300; }
+        .sg { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 24px; margin-bottom: 48px; }
+        .sc { padding: 28px; border: 1px solid #E8E2D8; border-radius: 12px; text-align: center; }
+        .sn { font-size: 36px; font-weight: 400; color: #D4A44C; margin-bottom: 8px; }
+        .sla { font-family: 'DM Sans', sans-serif; font-size: 13px; color: #A69E93; font-weight: 400; }
+        .cr { display: flex; justify-content: space-between; align-items: baseline; padding: 16px 0; border-bottom: 1px solid #EDE8E0; font-family: 'DM Sans', sans-serif; }
+        .cto { font-size: 15px; font-weight: 400; flex: 1; }
+        .ctm { font-size: 15px; font-weight: 500; color: #D4A44C; text-align: right; min-width: 90px; }
+        .cru { font-size: 12px; color: #A69E93; margin-top: 4px; }
+        .cc { display: grid; grid-template-columns: 110px 1fr; gap: 20px; padding: 20px 0; border-bottom: 1px solid #EDE8E0; align-items: start; }
+        .cw { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; padding: 6px 12px; border-radius: 100px; white-space: nowrap; display: inline-block; text-align: center; }
+        .cwo { background: #2D4A2D; color: #FEFCF8; }
+        .cwb { background: #E8F0E8; color: #2D4A2D; }
+        .cwh { font-size: 18px; margin-bottom: 6px; }
+        .cwd { font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.6; color: #6B635A; font-weight: 300; }
+        .clc { display: flex; justify-content: space-between; align-items: flex-start; padding: 20px 0; border-bottom: 1px solid #EDE8E0; gap: 16px; }
+        .cln { font-size: 17px; margin-bottom: 2px; }
+        .clt { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: #A69E93; margin-bottom: 4px; }
+        .clno { font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.6; color: #6B635A; font-weight: 300; }
+        .as { padding: 60px 24px; max-width: 860px; margin: 0 auto; text-align: center; }
+        .adiv { width: 40px; height: 1px; background: #D4C9B8; margin: 0 auto 32px; }
+        .an { font-size: 24px; margin-bottom: 4px; }
+        .att { font-family: 'DM Sans', sans-serif; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: #A69E93; margin-bottom: 20px; }
+        .ab { font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.7; color: #6B635A; max-width: 500px; margin: 0 auto 24px; font-weight: 300; }
+        .ac { font-family: 'DM Sans', sans-serif; font-size: 14px; color: #2D4A2D; font-weight: 500; }
+        .smb { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; color: #2D4A2D; background: none; border: 1px solid #2D4A2D; padding: 10px 24px; border-radius: 100px; cursor: pointer; margin-top: 24px; transition: all 0.3s; }
+        .smb:hover { background: #2D4A2D; color: #FEFCF8; }
+        .dl { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, #D4C9B8, transparent); margin: 0; }
+        .dl-accent { display: flex; align-items: center; justify-content: center; padding: 32px 0; }
+        .dl-accent svg { opacity: 0.15; }
+        .ftr { padding: 32px 24px; text-align: center; font-family: 'DM Sans', sans-serif; font-size: 12px; color: #C4B8A4; }
+        .price-card { padding: 28px; border: 1px solid #E8E2D8; border-left: 4px solid #2D4A2D; border-radius: 12px; margin-bottom: 16px; background: #FEFCF8; }
+        .price-range { font-size: 24px; font-weight: 400; color: #D4A44C; margin-bottom: 8px; }
+        .price-vibe { display: inline-block; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: #2D4A2D; background: #E8F0E8; padding: 4px 12px; border-radius: 100px; margin-bottom: 16px; }
+        .price-detail { font-family: 'DM Sans', sans-serif; font-size: 13px; color: #A69E93; margin-bottom: 4px; }
+        .price-detail strong { color: #5A5348; }
+        .price-reality { font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.7; color: #5A5348; margin-top: 12px; }
+        .hoa-table { width: 100%; border-collapse: collapse; }
+        .hoa-table th, .hoa-table td { font-family: 'DM Sans', sans-serif; font-size: 14px; text-align: left; padding: 16px; border-bottom: 1px solid #EDE8E0; }
+        .hoa-table th { font-weight: 500; color: #2D4A2D; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+        .hoa-table td { color: #5A5348; }
+        .hoa-note { font-family: 'DM Sans', sans-serif; font-size: 13px; line-height: 1.7; color: #6B635A; background: #F5F2EC; padding: 20px; border-radius: 8px; margin-top: 24px; }
+        .builder-card { padding: 24px; border: 1px solid #E8E2D8; border-radius: 12px; margin-bottom: 16px; background: #FEFCF8; }
+        .builder-name { font-size: 20px; font-weight: 400; margin-bottom: 10px; }
+        .builder-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+        .builder-tag { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; color: #2D4A2D; background: #E8F0E8; padding: 4px 10px; border-radius: 100px; }
+        .builder-section { font-family: 'DM Sans', sans-serif; font-size: 13px; margin-bottom: 8px; }
+        .builder-label { font-weight: 500; color: #2D4A2D; }
+        .builder-text { color: #5A5348; line-height: 1.6; }
+        .safety-prose { font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.8; color: #5A5348; }
+        .safety-prose p { margin-bottom: 20px; }
+        .safety-notes { background: #F5F2EC; padding: 20px; border-radius: 8px; margin-top: 24px; }
+        .safety-notes ul { margin: 12px 0 0 0; padding-left: 20px; }
+        .safety-notes li { margin-bottom: 8px; }
+        .childcare-group { margin-bottom: 40px; }
+        .childcare-label { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: #2D4A2D; margin-bottom: 20px; }
+        .childcare-card { padding: 20px; border: 1px solid #E8E2D8; border-radius: 12px; margin-bottom: 12px; background: #FEFCF8; }
+        .childcare-name { font-size: 17px; font-weight: 400; margin-bottom: 4px; }
+        .childcare-meta { font-family: 'DM Sans', sans-serif; font-size: 12px; color: #A69E93; margin-bottom: 10px; }
+        .childcare-intel { font-family: 'DM Sans', sans-serif; font-size: 13px; line-height: 1.6; color: #6B635A; }
+        .hoa-mobile { display: none; }
+        @media (max-width: 700px) {
+          .hoa-table { display: none; }
+          .hoa-mobile { display: block; }
+          .hoa-mobile-card { padding: 20px; border: 1px solid #E8E2D8; border-radius: 12px; margin-bottom: 12px; background: #FEFCF8; }
+          .hoa-mobile-village { font-size: 17px; font-weight: 400; margin-bottom: 6px; }
+          .hoa-mobile-range { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; color: #2D4A2D; margin-bottom: 8px; }
+          .hoa-mobile-included { font-family: 'DM Sans', sans-serif; font-size: 13px; color: #5A5348; line-height: 1.6; }
+        }
+        @media (max-width: 768px) {
+          .sec { padding: 60px 20px; }
+          .hero { padding: 60px 20px; min-height: auto; }
+          .ht { font-size: clamp(32px, 9vw, 56px); }
+          .st { font-size: clamp(28px, 7vw, 42px); }
+          .sg { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+          .sc { padding: 20px 16px; }
+          .sn { font-size: 28px; }
+          .vc { padding: 20px; }
+          .vn { font-size: 18px; }
+          .vr { flex-direction: column; gap: 2px; }
+          .vl { min-width: auto; }
+          .skc { padding: 18px; }
+          .skn { font-size: 15px; }
+          .fc { padding: 16px 0; }
+          .fn { font-size: 16px; }
+          .fi { font-size: 24px; }
+          .cr { flex-direction: column; gap: 4px; }
+          .ctm { text-align: left; }
+          .clc { flex-direction: column; }
+          .cc { grid-template-columns: 1fr; gap: 10px; }
+          .cw { align-self: flex-start; }
+          .price-card { padding: 20px; }
+          .price-range { font-size: 20px; }
+          .builder-card { padding: 18px; }
+          .builder-name { font-size: 17px; }
+          .childcare-card { padding: 16px; }
+          .childcare-name { font-size: 15px; }
+          nav > div { padding: 0 16px; gap: 4px; }
+          nav button { padding: 8px 10px; font-size: 11px; }
+        }
+        @media (max-width: 480px) {
+          .sec { padding: 48px 16px; }
+          .hero { padding: 60px 16px; min-height: auto; }
+          .badge { font-size: 10px; padding: 6px 14px; }
+          .hs { font-size: 14px; }
+          .sl { font-size: 10px; }
+          .sd { font-size: 14px; }
+          .sg { grid-template-columns: 1fr 1fr; gap: 8px; }
+          .sc { padding: 16px 12px; }
+          .sn { font-size: 24px; }
+          .sla { font-size: 11px; }
+          .vc { padding: 16px; margin-bottom: 12px; }
+          .vn { font-size: 16px; }
+          .vd { font-size: 13px; }
+          .skc { padding: 14px; margin-bottom: 10px; }
+          .fc { gap: 12px; }
+          .fno { font-size: 13px; }
+          .hoa-note { padding: 16px; font-size: 12px; }
+          .safety-prose { font-size: 14px; }
+          .safety-notes { padding: 16px; }
+          .as { padding: 48px 16px; }
+          .an { font-size: 20px; }
+          .ab { font-size: 14px; }
+        }
+      `}</style>
+
+      <StickyNav activeSection={activeSection} onNavClick={scrollToSection} visible={navVisible} />
+      <FloatingContact />
+
+      {/* ===== HERO ===== */}
+      <section className="hero" ref={heroRef}>
+        <div className="badge bf">From a local realtor</div>
+        <h1 className="ht">Thinking about<br /><em>Horizon West?</em></h1>
+        <p className="hs bf">I've helped dozens of families move here. This is everything I wish someone had told me before I bought.</p>
+        <div style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 16,
+          marginBottom: 48,
+          background: "#FEFCF8",
+          padding: "12px 24px 12px 12px",
+          borderRadius: 100,
+          boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
+          border: "1px solid #E8E2D8",
+        }}>
+          <div style={{
+            width: 52,
+            height: 52,
+            borderRadius: "50%",
+            background: "#E8F0E8",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            overflow: "hidden",
+          }}>
+            <img src={AGENT.photo} alt={AGENT.name} style={{ width: 52, height: 52 }} />
+          </div>
+          <div style={{ textAlign: "left" }}>
+            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, fontWeight: 600, color: "#1A1A18", marginBottom: 2 }}>{AGENT.name}</div>
+            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "#6B635A" }}>{AGENT.title}</div>
+          </div>
+        </div>
+        <div className="sh bf" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+          Start scrolling
+        </div>
+      </section>
+
+      <div className="dl" />
+
+      {/* ===== MARKET DATA ===== */}
+      <section className="sec" ref={(el) => (sectionRefs.current.market = el)} id="market">
+        <FadeIn>
+          <div className="sl">The Numbers</div>
+          <h2 className="st">What homes are actually<br /><em>selling for right now</em></h2>
+          <p className="sd">Forget the listing prices. Here's what people are actually paying right now.</p>
+        </FadeIn>
+        <FadeIn delay={150}>
+          <div className="sg">
+            <div className="sc">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2D4A2D" strokeWidth="1.5" style={{ marginBottom: 12, opacity: 0.6 }}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              <div className="sn"><Counter prefix="$" end={583} suffix="K" /></div><div className="sla">Median Sale Price</div>
+            </div>
+            <div className="sc">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2D4A2D" strokeWidth="1.5" style={{ marginBottom: 12, opacity: 0.6 }}><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3v4M8 3v4M2 11h20"/></svg>
+              <div className="sn"><Counter prefix="$" end={251} /></div><div className="sla">Price Per Sq Ft</div>
+            </div>
+            <div className="sc">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2D4A2D" strokeWidth="1.5" style={{ marginBottom: 12, opacity: 0.6 }}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <div className="sn"><Counter end={65} suffix=" days" /></div><div className="sla">Avg Days on Market</div>
+            </div>
+            <div className="sc">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2D4A2D" strokeWidth="1.5" style={{ marginBottom: 12, opacity: 0.6 }}><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <div className="sn"><Counter end={70} suffix="K+" /></div><div className="sla">Current Residents</div>
+            </div>
+          </div>
+        </FadeIn>
+        <FadeIn delay={300}>
+          <p className="sd" style={{ fontSize: 14, color: "#A69E93" }}>
+            Prices down ~1% year-over-year. Homes sitting longer than peak. Good news for buyers: you have negotiating room that didn't exist 18 months ago. High-quality resale homes in top school zones still move fast — expect $250+/sqft and competitive offers for the best inventory.
+          </p>
+        </FadeIn>
+      </section>
+
+      <div className="dl" />
+
+      {/* ===== VILLAGES ===== */}
+      <section className="sec" ref={(el) => (sectionRefs.current.villages = el)} id="villages">
+        <FadeIn>
+          <div className="sl">The Villages</div>
+          <h2 className="st">Six villages,<br /><em>six different vibes</em></h2>
+          <p className="sd">Each village has its own personality. Some feel established, some feel brand new. All of them have a Publix. Tap any village — I'll tell you who actually lives there.</p>
+        </FadeIn>
+        {VILLAGES.map((v, i) => (
+          <FadeIn key={v.id} delay={i * 80}>
+            <div className={`vc ${activeVillage === v.id ? "act" : ""}`} onClick={() => setActiveVillage(activeVillage === v.id ? null : v.id)}>
+              <div className="vh">
+                <span className="vn">{v.name}</span>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#2D4A2D"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{
+                    transition: "transform 0.3s ease",
+                    transform: activeVillage === v.id ? "rotate(180deg)" : "rotate(0deg)",
+                    flexShrink: 0,
+                  }}
+                >
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </div>
+              {activeVillage === v.id && (
+                <div className="vd">
+                  <p style={{ marginBottom: 16, fontSize: 15, lineHeight: 1.7 }}>{v.vibe}</p>
+                  <div className="vr"><span className="vl">Price Range</span><span>{v.priceRange}</span></div>
+                  <div className="vr"><span className="vl">Best For</span><span>{v.bestFor}</span></div>
+                  <div className="vr"><span className="vl">HOA Range</span><span>{v.hoa}</span></div>
+                  <div className="vr"><span className="vl">Size</span><span>{v.units}</span></div>
+                  <div className="vr"><span className="vl">Key Feature</span><span>{v.keyFeature}</span></div>
+                </div>
+              )}
+            </div>
+          </FadeIn>
+        ))}
+      </section>
+
+      <div className="dl" />
+
+      {/* ===== SCHOOLS ===== */}
+      <section className="sec" ref={(el) => (sectionRefs.current.schools = el)} id="schools">
+        <FadeIn>
+          <div className="sl">Schools — Real Talk</div>
+          <h2 className="st">Not just ratings.<br /><em>What parents actually say.</em></h2>
+          <p className="sd">Every school here is A-rated. That's table stakes. Here's the quick rundown on each one.</p>
+        </FadeIn>
+        {SCHOOLS.map((s, i) => (
+          <FadeIn key={s.name} delay={i * 60}>
+            <div className="skc" style={{ cursor: "default" }}>
+              <div className="skh">
+                <div><div className="skn">{s.name}</div><div className="skt">{s.type}</div></div>
+                <div className="skg">{s.grade}</div>
+              </div>
+            </div>
+          </FadeIn>
+        ))}
+      </section>
+
+      {/* ===== CTA #1 ===== */}
+      <IntakeForm
+        variant="compact"
+        hook="Not sure which village fits?"
+        subtext="Tell me a bit about your family and I'll send you the neighborhoods that actually make sense — plus what's on the market there right now."
+      />
+
+      <div className="dl" />
+
+      {/* ===== THINGS TO DO ===== */}
+      <section className="sec" ref={(el) => (sectionRefs.current.lifestyle = el)} id="lifestyle">
+        <FadeIn>
+          <div className="sl">Things to Do</div>
+          <h2 className="st">More than just<br /><em>a place to sleep</em></h2>
+          <p className="sd">Yes, Disney's 10 minutes away. But here's what you'll actually do on a random Tuesday or a Saturday morning when you're not fighting tourists.</p>
+        </FadeIn>
+        {THINGS_TO_DO.map((t, i) => (
+          <FadeIn key={t.name} delay={i * 60}>
+            <div className="fc">
+              <div>
+                <div className="ft bf">{t.type}</div>
+                <div className="fn">{t.name}</div>
+                <div className="fno">{t.note}</div>
+              </div>
+            </div>
+          </FadeIn>
+        ))}
+      </section>
+
+      <div className="dl" />
+
+      {/* ===== LOCAL EATS ===== */}
+      <section className="sec">
+        <FadeIn>
+          <div className="sl">Local Favorites</div>
+          <h2 className="st">Where locals<br /><em>actually eat</em></h2>
+          <p className="sd">Skip the Yelp rabbit hole. These are the places you'll end up going back to.</p>
+        </FadeIn>
+        {displayedFood.map((f, i) => (
+          <FadeIn key={f.name} delay={i * 60}>
+            <div className="fc">
+              <div>
+                <div className="ft bf">{f.type}</div>
+                <div className="fn">{f.name}</div>
+                <div className="fno">{f.note}</div>
+              </div>
+            </div>
+          </FadeIn>
+        ))}
+        {!showAllFood && (
+          <div style={{ textAlign: "center" }}>
+            <button className="smb" onClick={() => setShowAllFood(true)}>Show all {FOOD.length} spots</button>
+          </div>
+        )}
+      </section>
+
+      <div className="dl" />
+
+      {/* ===== WHAT DOES $X GET YOU ===== */}
+      <section className="sec" ref={(el) => (sectionRefs.current.budget = el)} id="budget">
+        <FadeIn>
+          <div className="sl">Real Price Points</div>
+          <h2 className="st">What does your budget<br /><em>actually buy?</em></h2>
+          <p className="sd">I get this question constantly. Here's a straight answer — what your budget actually gets you out here.</p>
+        </FadeIn>
+        {PRICE_TIERS.map((tier, i) => (
+          <FadeIn key={tier.range} delay={i * 80}>
+            <div className="price-card">
+              <div className="price-range">{tier.range}</div>
+              <div className="price-vibe">{tier.vibe}</div>
+              <div className="price-detail"><strong>Type:</strong> {tier.type}</div>
+              <div className="price-detail"><strong>Size:</strong> {tier.size}</div>
+              <div className="price-detail"><strong>Where:</strong> {tier.where}</div>
+              <div className="price-reality">{tier.reality}</div>
+            </div>
+          </FadeIn>
+        ))}
+      </section>
+
+      <div className="dl" />
+
+      {/* ===== HOA COMPARISON ===== */}
+      <section className="sec">
+        <FadeIn>
+          <div className="sl">The Real Cost</div>
+          <h2 className="st">HOAs: what you're<br /><em>actually paying</em></h2>
+          <p className="sd">Yep, everywhere here has an HOA. Nobody loves paying them, but here's what you're looking at — and what you actually get.</p>
+        </FadeIn>
+        <FadeIn delay={100}>
+          <table className="hoa-table">
+            <thead>
+              <tr>
+                <th>Village</th>
+                <th>Quarterly</th>
+                <th>What's Included</th>
+              </tr>
+            </thead>
+            <tbody>
+              {HOA_DATA.map((row) => (
+                <tr key={row.village}>
+                  <td style={{ fontWeight: 500 }}>{row.village}</td>
+                  <td style={{ color: "#2D4A2D", fontWeight: 500 }}>{row.range}</td>
+                  <td>{row.included}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="hoa-mobile">
+            {HOA_DATA.map((row) => (
+              <div key={row.village} className="hoa-mobile-card">
+                <div className="hoa-mobile-village">{row.village}</div>
+                <div className="hoa-mobile-range">{row.range}/quarter</div>
+                <div className="hoa-mobile-included">{row.included}</div>
+              </div>
+            ))}
+          </div>
+          <div className="hoa-note">
+            <strong>CDD (Community Development District)</strong> fees are separate from HOA and fund infrastructure — roads, water management, parks. They're tax-deductible. Always ask for the TOTAL annual cost: HOA + CDD + property taxes. A $500K home in HW typically runs $8,000–$12,000/year all-in for taxes + HOA + CDD.
+          </div>
+        </FadeIn>
+      </section>
+
+      <div className="dl" />
+
+      {/* ===== BUILDERS ===== */}
+      <section className="sec">
+        <FadeIn>
+          <div className="sl">New Construction</div>
+          <h2 className="st">Who's building<br /><em>in Horizon West</em></h2>
+          <p className="sd">Builders are competing for buyers right now — most are offering closing cost credits, rate buydowns, or design upgrades. Here's who's active.</p>
+        </FadeIn>
+        <FadeIn delay={100}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: 12 }}>
+            {BUILDERS.map((b) => (
+              <div key={b.name} className="builder-card">
+                <div className="builder-name">{b.name}</div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: "#5A5348", marginBottom: 4 }}>{b.focus}</div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "#A69E93" }}>{b.areas}</div>
+              </div>
+            ))}
+          </div>
+        </FadeIn>
+        <FadeIn delay={200}>
+          <div className="hoa-note" style={{ marginTop: 24 }}>
+            <strong>A note on incentives:</strong> Most builders are offering something right now — closing cost credits, rate buydowns, design center allowances, or appliance packages. Incentives change monthly and vary by community. Always ask what's on the table, and have your agent negotiate on your behalf. Builders expect it.
+          </div>
+        </FadeIn>
+      </section>
+
+      {/* ===== ABOUT YOUR GUIDE ===== */}
+      <section style={{ padding: "60px 24px", background: "#F5F2EC" }}>
+        <div style={{ maxWidth: 700, margin: "0 auto", display: "flex", gap: 24, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
+          <img src={AGENT.photo} alt={AGENT.name} style={{ width: 100, height: 100, borderRadius: "50%", objectFit: "cover", border: "3px solid #FEFCF8", boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }} />
+          <div style={{ flex: 1, minWidth: 280 }}>
+            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 500, letterSpacing: "2px", textTransform: "uppercase", color: "#2D4A2D", marginBottom: 8 }}>Your Local Realtor</div>
+            <div style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontSize: 22, color: "#1A1A18", marginBottom: 8 }}>{AGENT.name}</div>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, lineHeight: 1.7, color: "#5A5348", marginBottom: 12 }}>
+              I've lived in Horizon West for {AGENT.yearsInHW} years and helped {AGENT.transactionCount} families buy and sell here. If you have questions — about a neighborhood, a school, or just whether HW is right for you — I'm happy to help.
+            </p>
+            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "#A69E93" }}>{AGENT.brokerage} · {AGENT.license}</div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== CTA #2 ===== */}
+      <IntakeForm
+        variant="compact"
+        hook="Want to see what's actually available?"
+        subtext="Give me your price range and I'll send you the stuff worth looking at — no fluff."
+      />
+
+      <div className="dl" />
+
+      {/* ===== COMMUTES ===== */}
+      <section className="sec" ref={(el) => (sectionRefs.current.moving = el)} id="moving">
+        <FadeIn>
+          <div className="sl">Real Commute Times</div>
+          <h2 className="st">How long it <em>actually</em><br />takes to get places</h2>
+          <p className="sd">Real times, at 7:30am on a weekday. Not the optimistic Google Maps estimate from a Sunday afternoon.</p>
+        </FadeIn>
+        {COMMUTES.map((c, i) => (
+          <FadeIn key={c.to} delay={i * 50}>
+            <div className="cr">
+              <div><div className="cto">{c.to}</div><div className="cru">{c.rush}</div></div>
+              <div className="ctm">{c.time}</div>
+            </div>
+          </FadeIn>
+        ))}
+      </section>
+
+      <div className="dl" />
+
+      {/* ===== WHAT'S COMING ===== */}
+      <section className="sec">
+        <FadeIn>
+          <div className="sl">What's Here + What's Coming</div>
+          <h2 className="st">This area is still<br /><em>being built</em></h2>
+          <p className="sd">This place is still being built out — which is part of the appeal. Here's what just opened and what's coming soon.</p>
+        </FadeIn>
+        {COMING_SOON.map((c, i) => (
+          <FadeIn key={c.what} delay={i * 60}>
+            <div className="cc">
+              <span className={`cw ${c.status === "open" ? "cwo" : "cwb"}`}>{c.status === "open" ? "Now Open" : "Coming Soon"}</span>
+              <div><div className="cwh">{c.what}</div><div className="cwd">{c.detail}</div></div>
+            </div>
+          </FadeIn>
+        ))}
+      </section>
+
+      <div className="dl" />
+
+      {/* ===== SAFETY ===== */}
+      <section className="sec">
+        <FadeIn>
+          <div className="sl">Safety</div>
+          <h2 className="st">Is Horizon West<br /><em>safe?</em></h2>
+          <p className="sd">Short answer: yes. Here's the context.</p>
+        </FadeIn>
+        <FadeIn delay={100}>
+          <div className="safety-prose">
+            <p>
+              Horizon West consistently ranks among the safest areas in Orange County. The area is patrolled by the Orange County Sheriff's Office, with a dedicated district covering the 34787 zip code. Violent crime is extremely rare — most reported incidents are property-related (car break-ins, package theft) and concentrated near commercial areas, not residential streets.
+            </p>
+            <p>
+              Every village has well-lit streets, sidewalks on both sides, and most newer communities are gated or have controlled access points. The trail system is well-maintained and feels safe for evening walks and early morning runs.
+            </p>
+            <div className="safety-notes">
+              <strong>A few practical notes:</strong>
+              <ul>
+                <li>Lock your car. Unlocked car break-ins are the #1 reported crime. It's opportunistic, not targeted.</li>
+                <li>Package theft spikes around holidays. Most neighborhoods have adopted Ring/Nest cameras and active Nextdoor reporting.</li>
+                <li>The OCSO non-emergency line is (407) 836-4357. Save it.</li>
+                <li>There's no dedicated fire station yet, but Station 41 in Windermere and Station 82 near Four Corners serve the area. A new station is planned near the Regional Park.</li>
+              </ul>
+            </div>
+            <p style={{ marginTop: 20 }}>
+              Overall: families walk the trails at 9pm, kids ride bikes around the neighborhood, and nobody thinks twice about it. That's the vibe.
+            </p>
+          </div>
+        </FadeIn>
+      </section>
+
+      <div className="dl" />
+
+      {/* ===== NEW RESIDENT CHECKLIST ===== */}
+      <section className="sec">
+        <FadeIn>
+          <div className="sl">Moving Checklist</div>
+          <h2 className="st">Your first week in<br /><em>Horizon West</em></h2>
+          <p className="sd">Everything you need to set up after you close. Bookmark this.</p>
+        </FadeIn>
+        <FadeIn delay={100}>
+          <Checklist />
+        </FadeIn>
+      </section>
+
+      <div className="dl" />
+
+      {/* ===== DAYCARE & SCHOOLS ===== */}
+      <section className="sec">
+        <FadeIn>
+          <div className="sl">Childcare & Private Schools</div>
+          <h2 className="st">Daycare, preschool &<br /><em>private school</em> options</h2>
+          <p className="sd">Here's what's in the area. Most have waitlists, so start calling early.</p>
+        </FadeIn>
+        {CHILDCARE.map((group, gi) => (
+          <FadeIn key={group.category} delay={gi * 100}>
+            <div className="childcare-group">
+              <div className="childcare-label">{group.category}</div>
+              {group.items.map((item, ii) => (
+                <div key={item.name} className="childcare-card">
+                  <div className="childcare-name">{item.name}</div>
+                  <div className="childcare-meta">{item.ages} · {item.location}</div>
+                  <div className="childcare-intel">{item.note}</div>
+                </div>
+              ))}
+            </div>
+          </FadeIn>
+        ))}
+              </section>
+
+      <div className="dl" />
+
+      {/* ===== COMMUNITY LINKS ===== */}
+      <section className="sec" ref={(el) => (sectionRefs.current.community = el)} id="community">
+        <FadeIn>
+          <div className="sl">Plug In Before You Move</div>
+          <h2 className="st">Join these groups<br /><em>before you get here</em></h2>
+          <p className="sd">Join these before you move. The real intel comes from people who already live here — not Zillow comments.</p>
+        </FadeIn>
+        {COMMUNITY_LINKS.map((c, i) => (
+          <FadeIn key={c.name} delay={i * 50}>
+            <div className="clc">
+              <div><div className="clt bf">{c.type}</div><div className="cln">{c.name}</div><div className="clno">{c.note}</div></div>
+            </div>
+          </FadeIn>
+        ))}
+      </section>
+
+      {/* ===== CTA #3 (FULL FORM) ===== */}
+      <IntakeForm
+        variant="full"
+        hook="Let me put something together for you"
+        subtext="You've done your homework. Now let's get specific — tell me what you're looking for and I'll send you a plan that actually makes sense for your situation."
+      />
+
+            <footer style={{ padding: "48px 24px", background: "#1A1A18", color: "#FEFCF8" }}>
+        <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 20 }}>
+            <img src={AGENT.photo} alt={AGENT.name} style={{ width: 48, height: 48, borderRadius: "50%", objectFit: "cover" }} />
+            <div style={{ textAlign: "left" }}>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, fontWeight: 500 }}>{AGENT.name}</div>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "rgba(254,252,248,0.6)" }}>{AGENT.title}</div>
+            </div>
+          </div>
+          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, marginBottom: 8 }}>
+            <a href={`tel:${AGENT.phone}`} style={{ color: "#FEFCF8", textDecoration: "none" }}>{AGENT.phone}</a>
+            <span style={{ margin: "0 12px", color: "rgba(254,252,248,0.3)" }}>·</span>
+            <a href={`mailto:${AGENT.email}`} style={{ color: "#FEFCF8", textDecoration: "none" }}>{AGENT.email}</a>
+          </div>
+          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "rgba(254,252,248,0.5)", marginBottom: 24 }}>
+            {AGENT.brokerage} · {AGENT.license}
+          </div>
+          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "rgba(254,252,248,0.4)", lineHeight: 1.7, maxWidth: 500, margin: "0 auto", marginBottom: 24 }}>
+            Data from MLS, Orange County, OCPS & the residents of Horizon West. Information deemed reliable but not guaranteed. Equal Housing Opportunity.
+          </div>
+          <div style={{ borderTop: "1px solid rgba(254,252,248,0.1)", paddingTop: 20 }}>
+            <a href="https://popup.company" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "rgba(254,252,248,0.5)", textDecoration: "none" }}>
+              Powered by <span style={{ color: "#D4A44C", fontWeight: 500 }}>POP-UP</span>
+            </a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<HorizonWestGuide />);
+  </script>
+</body>
+</html>

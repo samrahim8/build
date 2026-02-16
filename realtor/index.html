@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Realtor Lead Pages | POP-UP</title>
+  <meta name="description" content="Local-expert lead generation pages for Florida realtors. Position yourself as THE neighborhood authority.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Realtor Lead Pages | POP-UP">
+  <meta property="og:description" content="Local-expert lead generation pages for Florida realtors. Position yourself as THE neighborhood authority.">
+  <meta property="og:url" content="https://popup.company/realtor">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 44'><path d='M0 14 C0 6, 6 2, 12 10 C18 2, 24 2, 24 10 C30 2, 36 6, 36 14 L36 18 L0 18 Z' fill='%23C4704C'/><rect x='0' y='18' width='36' height='2' fill='%23A85A3A'/><rect x='4' y='20' width='3' height='20' fill='%232D3B2D' rx='1'/><rect x='29' y='20' width='3' height='20' fill='%232D3B2D' rx='1'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    ::selection { background: #2D4A2D; color: #FEFCF8; }
+
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      background: #FEFCF8;
+      color: #1A1A18;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+
+    .back {
+      font-size: 13px;
+      color: #A69E93;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 48px;
+    }
+    .back:hover { color: #1A1A18; }
+
+    .badge {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #2D4A2D;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: clamp(36px, 6vw, 52px);
+      font-weight: 400;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    h1 em { font-style: italic; color: #D4A44C; }
+
+    .subtitle {
+      font-size: 17px;
+      color: #6B635A;
+      max-width: 500px;
+      margin-bottom: 48px;
+      line-height: 1.7;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #A69E93;
+      margin-bottom: 20px;
+    }
+
+    .demo-card {
+      display: block;
+      padding: 24px;
+      border: 1px solid #E8E2D8;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s;
+    }
+    .demo-card:hover {
+      border-color: #2D4A2D;
+      box-shadow: 0 4px 20px rgba(45,74,45,0.08);
+    }
+
+    .demo-name {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+
+    .demo-meta {
+      font-size: 13px;
+      color: #A69E93;
+      margin-bottom: 12px;
+    }
+
+    .demo-cta {
+      font-size: 13px;
+      font-weight: 500;
+      color: #D4A44C;
+    }
+
+    .coming-soon {
+      padding: 20px 24px;
+      background: #F5F2EC;
+      border-radius: 12px;
+      margin-bottom: 16px;
+    }
+    .coming-soon-name {
+      font-size: 16px;
+      margin-bottom: 2px;
+    }
+    .coming-soon-meta {
+      font-size: 13px;
+      color: #A69E93;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #D4C9B8, transparent);
+      margin: 48px 0;
+    }
+
+    .cta-section {
+      text-align: center;
+      padding: 48px 24px;
+      background: #2D4A2D;
+      border-radius: 16px;
+      margin-top: 48px;
+    }
+
+    .cta-section h2 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: #FEFCF8;
+      margin-bottom: 12px;
+    }
+
+    .cta-section p {
+      font-size: 15px;
+      color: rgba(254,252,248,0.7);
+      margin-bottom: 24px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 14px 32px;
+      background: #D4A44C;
+      color: #FEFCF8;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .cta-button:hover { background: #C4943C; }
+
+    .price {
+      margin-top: 16px;
+      font-size: 13px;
+      color: rgba(254,252,248,0.5);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 48px 24px;
+      font-size: 12px;
+      color: #A69E93;
+    }
+    .footer a { color: #A69E93; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="https://popup.company" class="back">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to POP-UP
+    </a>
+
+    <div class="badge">For Florida Realtors</div>
+    <h1>Become the <em>local expert</em></h1>
+    <p class="subtitle">
+      A lead generation page that positions you as THE authority in your neighborhood. Villages, schools, prices, what's coming — everything buyers actually want to know.
+    </p>
+
+    <div class="section-label">Live Demo</div>
+
+    <a href="horizon-west" class="demo-card">
+      <div class="demo-name">Horizon West</div>
+      <div class="demo-meta">Orlando · 6 villages · 8 schools · 70K+ residents</div>
+      <div class="demo-cta">View demo →</div>
+    </a>
+
+    <div class="divider"></div>
+
+    <div class="section-label">Coming Soon</div>
+
+    <div class="coming-soon">
+      <div class="coming-soon-name">Lake Nona</div>
+      <div class="coming-soon-meta">Orlando</div>
+    </div>
+
+    <div class="coming-soon">
+      <div class="coming-soon-name">Celebration</div>
+      <div class="coming-soon-meta">Kissimmee</div>
+    </div>
+
+    <div class="coming-soon">
+      <div class="coming-soon-name">Nocatee</div>
+      <div class="coming-soon-meta">Jacksonville</div>
+    </div>
+
+    <div class="coming-soon">
+      <div class="coming-soon-name">Lakewood Ranch</div>
+      <div class="coming-soon-meta">Sarasota</div>
+    </div>
+
+    <div class="cta-section">
+      <h2>Want one for your neighborhood?</h2>
+      <p>We'll research your area and build a page that makes you the obvious choice.</p>
+      <a href="mailto:sam@popup.company?subject=Realtor%20Lead%20Page&body=Neighborhood%3A%20%0AYour%20name%3A%20%0APhone%3A%20" class="cta-button">Get started — $1,500</a>
+      <div class="price">Delivered in 5 business days. Rush available.</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <a href="https://popup.company">POP-UP</a> · Lead magnets as a service
+  </div>
+</body>
+</html>
