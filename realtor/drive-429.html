@@ -31,30 +31,42 @@
     .start-screen {
       position: fixed;
       inset: 0;
-      background: linear-gradient(180deg, #FF8C42 0%, #FF5E5B 50%, #4A2C5A 100%);
+      background: linear-gradient(180deg, #87CEEB 0%, #FF8C42 40%, #FF5E5B 70%, #4A2C5A 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       z-index: 100;
-      transition: opacity 0.5s, visibility 0.5s;
+      transition: opacity 0.8s ease, visibility 0.8s;
     }
     .start-screen.hidden {
       opacity: 0;
       visibility: hidden;
+      pointer-events: none;
+    }
+    .start-logo {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 24px;
     }
     .start-screen h1 {
       font-family: 'Instrument Serif', Georgia, serif;
-      font-size: clamp(48px, 12vw, 80px);
+      font-size: clamp(56px, 14vw, 96px);
+      font-weight: 400;
       color: #fff;
       text-align: center;
       margin-bottom: 8px;
-      text-shadow: 0 4px 30px rgba(0,0,0,0.3);
+      text-shadow: 0 4px 40px rgba(0,0,0,0.3);
+      line-height: 1;
     }
     .start-screen .subtitle {
-      font-size: clamp(16px, 4vw, 20px);
-      color: rgba(255,255,255,0.8);
-      margin-bottom: 48px;
+      font-size: clamp(16px, 4vw, 22px);
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 56px;
+      font-weight: 400;
     }
     .start-btn {
       font-family: 'DM Sans', sans-serif;
@@ -63,20 +75,25 @@
       color: #1a1a2e;
       background: #fff;
       border: none;
-      padding: 20px 48px;
+      padding: 20px 56px;
       border-radius: 100px;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.25);
     }
     .start-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 50px rgba(0,0,0,0.3);
+    }
+    .start-btn:active {
+      transform: translateY(0);
     }
     .start-controls {
-      margin-top: 32px;
+      margin-top: 40px;
       font-size: 14px;
-      color: rgba(255,255,255,0.6);
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      line-height: 1.8;
     }
 
     /* HUD */
@@ -87,28 +104,33 @@
       z-index: 50;
       color: #fff;
       opacity: 0;
-      transition: opacity 0.5s;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
     }
     .hud.visible { opacity: 1; }
-    .hud-speed {
-      font-size: 14px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.6);
+    .hud-speed-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
       margin-bottom: 4px;
     }
-    .hud-mph {
+    .hud-speed {
       font-family: 'Instrument Serif', Georgia, serif;
-      font-size: 48px;
+      font-size: 56px;
       line-height: 1;
-    }
-    .hud-mph span {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
       font-weight: 400;
-      color: rgba(255,255,255,0.6);
+    }
+    .hud-speed span {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.5);
+      margin-left: 4px;
     }
 
-    .hud-distance {
+    .hud-progress {
       position: fixed;
       top: 24px;
       right: 24px;
@@ -116,145 +138,176 @@
       text-align: right;
       color: #fff;
       opacity: 0;
-      transition: opacity 0.5s;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
     }
-    .hud-distance.visible { opacity: 1; }
-    .hud-distance-label {
-      font-size: 14px;
-      color: rgba(255,255,255,0.6);
+    .hud-progress.visible { opacity: 1; }
+    .hud-progress-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
       margin-bottom: 4px;
     }
-    .hud-distance-value {
-      font-family: 'Instrument Serif', Georgia, serif;
-      font-size: 32px;
+    .hud-progress-bar {
+      width: 120px;
+      height: 6px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .hud-progress-fill {
+      height: 100%;
+      background: #fff;
+      border-radius: 3px;
+      transition: width 0.1s ease;
+    }
+    .hud-villages {
+      margin-top: 12px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
     }
 
-    /* Accelerate hint */
-    .accelerate-hint {
+    /* Instruction hint */
+    .instruction-hint {
       position: fixed;
-      bottom: 48px;
+      bottom: 100px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 50;
-      background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(10px);
-      padding: 16px 32px;
-      border-radius: 100px;
       color: #fff;
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 500;
+      text-align: center;
       opacity: 0;
-      transition: opacity 0.3s;
+      transition: opacity 0.4s ease;
       pointer-events: none;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.5);
     }
-    .accelerate-hint.visible { opacity: 1; }
-    .accelerate-hint .key {
+    .instruction-hint.visible { opacity: 1; }
+    .instruction-hint .key {
       display: inline-block;
-      background: rgba(255,255,255,0.2);
-      padding: 4px 12px;
-      border-radius: 6px;
+      background: rgba(255,255,255,0.25);
+      padding: 8px 16px;
+      border-radius: 8px;
       margin: 0 4px;
       font-weight: 600;
+      backdrop-filter: blur(10px);
     }
 
-    /* Village Card */
-    .village-card {
+    /* Village Sign Popup */
+    .village-popup {
       position: fixed;
-      left: 50%;
       top: 50%;
-      transform: translate(-50%, -50%) scale(0.9);
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.95);
       z-index: 80;
       background: #fff;
       border-radius: 24px;
-      padding: 40px;
-      max-width: 400px;
+      padding: 48px;
+      max-width: 440px;
       width: calc(100% - 48px);
       text-align: center;
       opacity: 0;
       visibility: hidden;
-      transition: all 0.3s ease;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 25px 80px rgba(0,0,0,0.5);
     }
-    .village-card.visible {
+    .village-popup.visible {
       opacity: 1;
       visibility: visible;
       transform: translate(-50%, -50%) scale(1);
     }
-    .village-card-badge {
+    .village-popup-exit {
       display: inline-block;
       font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 1.5px;
+      font-weight: 700;
+      letter-spacing: 2px;
       text-transform: uppercase;
-      color: #FF8C42;
-      background: rgba(255,140,66,0.1);
-      padding: 8px 16px;
+      color: #fff;
+      background: #2D4A2D;
+      padding: 8px 20px;
       border-radius: 100px;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
-    .village-card h2 {
+    .village-popup h2 {
       font-family: 'Instrument Serif', Georgia, serif;
-      font-size: 36px;
+      font-size: 40px;
       font-weight: 400;
-      color: #1a1a2e;
-      margin-bottom: 8px;
+      color: #1a1a18;
+      margin-bottom: 12px;
+      line-height: 1.1;
     }
-    .village-card-vibe {
+    .village-popup-vibe {
       font-size: 16px;
-      color: #666;
-      margin-bottom: 24px;
+      color: #6B635A;
+      margin-bottom: 32px;
+      line-height: 1.6;
     }
-    .village-card-stats {
+    .village-popup-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 32px;
+      gap: 20px;
+      margin-bottom: 36px;
+      padding: 24px 0;
+      border-top: 1px solid #E8E2D8;
+      border-bottom: 1px solid #E8E2D8;
     }
-    .village-card-stat {
+    .village-popup-stat {
       text-align: center;
     }
-    .village-card-stat-value {
+    .village-popup-stat-value {
       font-family: 'Instrument Serif', Georgia, serif;
-      font-size: 24px;
-      color: #1a1a2e;
+      font-size: 28px;
+      color: #D4A44C;
     }
-    .village-card-stat-label {
-      font-size: 12px;
-      color: #999;
-      margin-top: 4px;
+    .village-popup-stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #A69E93;
+      margin-top: 6px;
     }
-    .village-card-btn {
-      display: inline-block;
+    .village-popup-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .village-popup-btn {
+      font-family: 'DM Sans', sans-serif;
       font-size: 15px;
       font-weight: 600;
-      color: #fff;
-      background: linear-gradient(135deg, #FF8C42 0%, #FF5E5B 100%);
-      padding: 16px 32px;
-      border-radius: 100px;
-      text-decoration: none;
-      transition: transform 0.2s;
-      margin-right: 12px;
-    }
-    .village-card-btn:hover { transform: scale(1.05); }
-    .village-card-close {
-      display: inline-block;
-      font-size: 15px;
-      font-weight: 500;
-      color: #666;
-      background: #f0f0f0;
-      padding: 16px 32px;
+      padding: 16px 28px;
       border-radius: 100px;
       border: none;
       cursor: pointer;
-      transition: background 0.2s;
+      text-decoration: none;
+      transition: all 0.2s ease;
     }
-    .village-card-close:hover { background: #e0e0e0; }
+    .village-popup-btn-primary {
+      background: #D4A44C;
+      color: #fff;
+    }
+    .village-popup-btn-primary:hover {
+      background: #C4943C;
+      transform: translateY(-1px);
+    }
+    .village-popup-btn-secondary {
+      background: #F5F2EC;
+      color: #1a1a18;
+    }
+    .village-popup-btn-secondary:hover {
+      background: #E8E2D8;
+    }
 
     /* Results Screen */
     .results-screen {
       position: fixed;
       inset: 0;
-      background: linear-gradient(180deg, #1a1a2e 0%, #2d2d4a 100%);
+      background: linear-gradient(180deg, #1a1a2e 0%, #2d2d4a 50%, #1a1a2e 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -262,64 +315,71 @@
       z-index: 100;
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.5s, visibility 0.5s;
+      transition: opacity 0.6s ease, visibility 0.6s;
     }
     .results-screen.visible {
       opacity: 1;
       visibility: visible;
     }
     .results-card {
-      background: linear-gradient(180deg, #FF8C42 0%, #FF5E5B 100%);
+      background: linear-gradient(135deg, #FF8C42 0%, #FF5E5B 50%, #E84A5F 100%);
       border-radius: 32px;
-      padding: 48px 40px;
-      max-width: 380px;
+      padding: 56px 48px;
+      max-width: 400px;
       width: calc(100% - 48px);
       text-align: center;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
     }
-    .results-card-header {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 2px;
+    .results-header {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
       text-transform: uppercase;
       color: rgba(255,255,255,0.7);
       margin-bottom: 8px;
     }
     .results-card h2 {
       font-family: 'Instrument Serif', Georgia, serif;
-      font-size: 32px;
+      font-size: 36px;
       font-weight: 400;
       color: #fff;
-      margin-bottom: 32px;
+      margin-bottom: 40px;
+      line-height: 1.2;
     }
     .results-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 16px;
-      margin-bottom: 32px;
+      margin-bottom: 40px;
       padding-bottom: 32px;
       border-bottom: 1px solid rgba(255,255,255,0.2);
     }
     .results-stat-value {
       font-family: 'Instrument Serif', Georgia, serif;
-      font-size: 28px;
+      font-size: 32px;
       color: #fff;
     }
     .results-stat-label {
       font-size: 11px;
-      color: rgba(255,255,255,0.7);
-      margin-top: 4px;
-    }
-    .results-vibe-label {
-      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
       color: rgba(255,255,255,0.6);
+      margin-top: 6px;
+    }
+    .results-favorite-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
       margin-bottom: 8px;
     }
-    .results-vibe {
+    .results-favorite {
       font-family: 'Instrument Serif', Georgia, serif;
-      font-size: 28px;
+      font-size: 32px;
       color: #fff;
-      margin-bottom: 32px;
+      margin-bottom: 40px;
     }
     .results-actions {
       display: flex;
@@ -330,44 +390,44 @@
       font-family: 'DM Sans', sans-serif;
       font-size: 16px;
       font-weight: 600;
-      padding: 16px 32px;
+      padding: 18px 32px;
       border-radius: 100px;
       border: none;
       cursor: pointer;
-      transition: transform 0.2s;
       text-decoration: none;
       display: block;
+      transition: all 0.2s ease;
     }
-    .results-btn:hover { transform: scale(1.03); }
+    .results-btn:hover { transform: translateY(-2px); }
     .results-btn-primary {
       background: #fff;
       color: #1a1a2e;
     }
     .results-btn-secondary {
-      background: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.15);
       color: #fff;
     }
     .results-powered {
-      margin-top: 32px;
+      margin-top: 40px;
       font-size: 13px;
-      color: rgba(255,255,255,0.4);
+      color: rgba(255,255,255,0.35);
     }
     .results-powered a {
-      color: rgba(255,255,255,0.6);
+      color: rgba(255,255,255,0.5);
       text-decoration: none;
     }
 
     /* Mobile adjustments */
     @media (max-width: 600px) {
       .hud { top: 16px; left: 16px; }
-      .hud-mph { font-size: 36px; }
-      .hud-distance { top: 16px; right: 16px; }
-      .hud-distance-value { font-size: 24px; }
-      .village-card { padding: 32px 24px; }
-      .village-card h2 { font-size: 28px; }
-      .village-card-stats { gap: 12px; }
-      .village-card-stat-value { font-size: 20px; }
-      .results-card { padding: 40px 28px; }
+      .hud-speed { font-size: 40px; }
+      .hud-progress { top: 16px; right: 16px; }
+      .village-popup { padding: 36px 28px; }
+      .village-popup h2 { font-size: 32px; }
+      .village-popup-stat-value { font-size: 22px; }
+      .results-card { padding: 44px 32px; }
+      .results-card h2 { font-size: 28px; }
+      .results-stat-value { font-size: 26px; }
     }
   </style>
 </head>
@@ -376,72 +436,81 @@
 
   <!-- Start Screen -->
   <div class="start-screen" id="startScreen">
+    <div class="start-logo">Horizon West</div>
     <h1>Drive the 429</h1>
-    <p class="subtitle">Discover the villages of Horizon West</p>
+    <p class="subtitle">Discover 6 villages in one sunset drive</p>
     <button class="start-btn" id="startBtn">Start Driving</button>
-    <p class="start-controls" id="controlsHint">Hold <span class="key">↑</span> or <span class="key">SPACE</span> to accelerate</p>
+    <div class="start-controls" id="controlsHint">
+      <span class="desktop-text">Hold <strong>W</strong> or <strong>↑</strong> to accelerate</span>
+      <span class="mobile-text" style="display:none;">Touch and hold to accelerate</span>
+    </div>
   </div>
 
   <!-- HUD -->
   <div class="hud" id="hud">
-    <div class="hud-speed">SPEED</div>
-    <div class="hud-mph"><span id="speedValue">0</span> <span>mph</span></div>
+    <div class="hud-speed-label">Speed</div>
+    <div class="hud-speed"><span id="speedValue">0</span><span>mph</span></div>
   </div>
-  <div class="hud-distance" id="hudDistance">
-    <div class="hud-distance-label">MILE</div>
-    <div class="hud-distance-value" id="distanceValue">0.0</div>
-  </div>
-
-  <!-- Accelerate Hint -->
-  <div class="accelerate-hint" id="accelerateHint">
-    <span class="desktop-hint">Hold <span class="key">↑</span> to drive</span>
-    <span class="mobile-hint" style="display:none;">Hold anywhere to drive</span>
+  <div class="hud-progress" id="hudProgress">
+    <div class="hud-progress-label">Progress</div>
+    <div class="hud-progress-bar">
+      <div class="hud-progress-fill" id="progressFill" style="width: 0%"></div>
+    </div>
+    <div class="hud-villages"><span id="villageCount">0</span>/6 villages</div>
   </div>
 
-  <!-- Village Card -->
-  <div class="village-card" id="villageCard">
-    <div class="village-card-badge" id="villageBadge">Exit 12</div>
-    <h2 id="villageName">Lakeside</h2>
-    <p class="village-card-vibe" id="villageVibe">Peaceful, nature-focused living</p>
-    <div class="village-card-stats">
-      <div class="village-card-stat">
-        <div class="village-card-stat-value" id="villagePrice">$520K</div>
-        <div class="village-card-stat-label">Median Price</div>
+  <!-- Instruction Hint -->
+  <div class="instruction-hint" id="instructionHint">
+    <span class="desktop-text">Hold <span class="key">W</span> to accelerate</span>
+    <span class="mobile-text" style="display:none;">Touch and hold to drive</span>
+  </div>
+
+  <!-- Village Popup -->
+  <div class="village-popup" id="villagePopup">
+    <div class="village-popup-exit" id="villageExit">Exit 12</div>
+    <h2 id="villageName">Lakeside Village</h2>
+    <p class="village-popup-vibe" id="villageVibe">The OG. Established 1997. Mature landscaping and the most commercial variety in Horizon West.</p>
+    <div class="village-popup-stats">
+      <div class="village-popup-stat">
+        <div class="village-popup-stat-value" id="villageHomes">2,800</div>
+        <div class="village-popup-stat-label">Homes</div>
       </div>
-      <div class="village-card-stat">
-        <div class="village-card-stat-value" id="villageSchool">A</div>
-        <div class="village-card-stat-label">Schools</div>
+      <div class="village-popup-stat">
+        <div class="village-popup-stat-value" id="villageHOA">$180</div>
+        <div class="village-popup-stat-label">Avg HOA</div>
       </div>
-      <div class="village-card-stat">
-        <div class="village-card-stat-value" id="villageCommute">25m</div>
-        <div class="village-card-stat-label">To Downtown</div>
+      <div class="village-popup-stat">
+        <div class="village-popup-stat-value" id="villageSchool">A</div>
+        <div class="village-popup-stat-label">Schools</div>
       </div>
     </div>
-    <a href="/realtor/horizon-west.html" class="village-card-btn">Explore More</a>
-    <button class="village-card-close" id="villageCardClose">Keep Driving</button>
+    <div class="village-popup-actions">
+      <a href="/realtor/horizon-west.html" class="village-popup-btn village-popup-btn-primary">Learn More</a>
+      <button class="village-popup-btn village-popup-btn-secondary" id="keepDrivingBtn">Keep Driving</button>
+    </div>
   </div>
 
   <!-- Results Screen -->
   <div class="results-screen" id="resultsScreen">
     <div class="results-card">
-      <div class="results-card-header">You Drove The 429</div>
-      <h2>Road Trip Complete</h2>
+      <div class="results-header">Drive Complete</div>
+      <h2>You drove the 429</h2>
       <div class="results-stats">
         <div class="results-stat">
-          <div class="results-stat-value" id="resultMiles">0</div>
+          <div class="results-stat-value" id="resultMiles">12.5</div>
           <div class="results-stat-label">Miles</div>
         </div>
         <div class="results-stat">
-          <div class="results-stat-value" id="resultVillages">0</div>
+          <div class="results-stat-value" id="resultVillages">6</div>
           <div class="results-stat-label">Villages</div>
         </div>
         <div class="results-stat">
-          <div class="results-stat-value" id="resultTime">0s</div>
-          <div class="results-stat-label">Drive Time</div>
+          <div class="results-stat-value" id="resultTime">45s</div>
+          <div class="results-stat-label">Time</div>
         </div>
       </div>
-      <div class="results-vibe-label">You slowed down most at</div>
-      <div class="results-vibe" id="resultFavorite">Lakeside</div>
+      <div class="results-favorite-label">You lingered at</div>
+      <div class="results-favorite" id="resultFavorite">Lakeside Village</div>
       <div class="results-actions">
         <a href="/realtor/horizon-west.html" class="results-btn results-btn-primary">Explore Horizon West</a>
         <button class="results-btn results-btn-secondary" id="driveAgainBtn">Drive Again</button>
@@ -451,538 +520,268 @@
   </div>
 
   <script>
-    // Game State
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
+    // ============================================
+    // GAME CONFIG
+    // ============================================
+    const CONFIG = {
+      // Physics
+      maxSpeed: 85,
+      accelerationRate: 45,      // mph per second
+      decelerationRate: 30,      // mph per second
 
-    let gameState = 'start'; // start, playing, paused, ended
-    let speed = 0;
-    let maxSpeed = 120;
-    let acceleration = 0.5;
-    let deceleration = 0.3;
-    let distance = 0; // in game units (convert to miles)
-    let totalDistance = 5000; // game units for full drive
-    let startTime = 0;
-    let isAccelerating = false;
-    let showHint = true;
-    let hintTimer = 0;
+      // Road
+      roadWidth: 0.35,           // percentage of screen width
+      horizonY: 0.38,            // where horizon sits (0-1)
 
-    // Time of day (0-1, affects sky color)
-    let timeOfDay = 0;
+      // Journey
+      totalMiles: 12.5,          // total drive distance
+      pixelsPerMile: 800,        // how many pixels = 1 mile
+    };
 
-    // Track village visits
-    let villageVisits = {};
-    let slowdownTracker = {};
-    let currentVillage = null;
-
-    // Villages along the 429
-    const villages = [
+    // ============================================
+    // VILLAGES (Accurate Horizon West Data)
+    // ============================================
+    const VILLAGES = [
       {
-        name: "Village F",
-        displayName: "Westside",
-        exit: 6,
-        position: 800,
-        vibe: "Affordable starter homes, family-friendly",
-        price: "$380K",
-        school: "B+",
-        commute: "28m",
+        id: "lakeside",
+        name: "Lakeside Village",
+        shortName: "Lakeside",
+        exit: 4,
+        mileMarker: 2.0,
+        tagline: "The OG. Established 1997.",
+        vibe: "Mature landscaping, largest commercial hub in HW. Lakeside Village Center has Publix, restaurants, banks. Some homes catch Disney fireworks.",
+        homes: "2,800+",
+        hoa: "$180",
+        school: "A",
         color: "#4CAF50"
       },
       {
-        name: "Bridgewater",
-        displayName: "Bridgewater",
-        exit: 8,
-        position: 1600,
-        vibe: "Established community, great schools",
-        price: "$450K",
+        id: "bridgewater",
+        name: "Village of Bridgewater",
+        shortName: "Bridgewater",
+        exit: 6,
+        mileMarker: 4.0,
+        tagline: "The most populated village in all of Horizon West.",
+        vibe: "10,450 approved units. Family-friendly with parks and playgrounds in every neighborhood. Main Street-style village center with Publix.",
+        homes: "10,450",
+        hoa: "$200",
         school: "A",
-        commute: "26m",
         color: "#2196F3"
       },
       {
-        name: "Lakeside",
-        displayName: "Lakeside",
-        exit: 10,
-        position: 2400,
-        vibe: "Peaceful, nature-focused, premium lots",
-        price: "$620K",
+        id: "towncenter",
+        name: "Town Center at Hamlin",
+        shortName: "Hamlin",
+        exit: 8,
+        mileMarker: 6.0,
+        tagline: "The walkable heart of Horizon West.",
+        vibe: "Mixed-use with restaurants, shopping, entertainment. Loop Trail connects neighborhoods. Where everyone ends up on Friday night.",
+        homes: "4,200+",
+        hoa: "$220",
         school: "A",
-        commute: "25m",
-        color: "#00BCD4"
-      },
-      {
-        name: "Town Center",
-        displayName: "Hamlin Town Center",
-        exit: 12,
-        position: 3200,
-        vibe: "Walkable, restaurants, entertainment",
-        price: "$520K",
-        school: "A",
-        commute: "24m",
         color: "#FF9800"
       },
       {
-        name: "Ovation",
-        displayName: "Ovation at Hamlin",
-        exit: 14,
-        position: 4000,
-        vibe: "55+, resort-style, low maintenance",
-        price: "$480K",
+        id: "villagef",
+        name: "Village F",
+        shortName: "Village F",
+        exit: 10,
+        mileMarker: 8.0,
+        tagline: "Lake views and The Mark.",
+        vibe: "Known for lake views, nature trails, and The Mark — a walkable shopping district. Disney fireworks visible from many neighborhoods.",
+        homes: "3,500+",
+        hoa: "$165",
+        school: "A-",
+        color: "#00BCD4"
+      },
+      {
+        id: "villageh",
+        name: "Village H — Hickory Nut",
+        shortName: "Hickory Nut",
+        exit: 12,
+        mileMarker: 10.0,
+        tagline: "Prestigious and private.",
+        vibe: "Centered around Hickory Nut Lake. Spacious single-family homes, upscale feel. Easy access to Flamingo Crossings for shopping.",
+        homes: "2,100+",
+        hoa: "$210",
         school: "A",
-        commute: "22m",
         color: "#9C27B0"
+      },
+      {
+        id: "ovation",
+        name: "Ovation",
+        shortName: "Ovation",
+        exit: 14,
+        mileMarker: 12.0,
+        tagline: "The final village. Conservation-focused.",
+        vibe: "Single master developer's unified vision. Homes near conservation zones. Kayaking, birdwatching, trails. Best new-construction options.",
+        homes: "1,800+",
+        hoa: "$170",
+        school: "A",
+        color: "#E91E63"
       }
     ];
 
-    // Road elements
-    let roadLines = [];
-    let trees = [];
-    let signs = [];
-    let buildings = [];
+    // ============================================
+    // GAME STATE
+    // ============================================
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
 
-    // Initialize
+    let state = {
+      phase: 'start',  // start, playing, paused, ended
+      speed: 0,        // current speed in mph
+      distance: 0,     // distance traveled in pixels
+      time: 0,         // time elapsed in seconds
+      isAccelerating: false,
+      showInstruction: true,
+      villagesPassed: [],
+      lingerTime: {},  // track time spent near each village
+      currentVillageIndex: -1,
+    };
+
+    let lastTime = 0;
+
+    // Road rendering
+    let roadStripes = [];
+
+    // ============================================
+    // INITIALIZATION
+    // ============================================
     function init() {
       resizeCanvas();
-      initRoadElements();
-
-      // Check if mobile
-      if ('ontouchstart' in window) {
-        document.querySelector('.desktop-hint').style.display = 'none';
-        document.querySelector('.mobile-hint').style.display = 'inline';
-        document.getElementById('controlsHint').innerHTML = 'Hold anywhere to accelerate';
-      }
-
-      // Event listeners
       window.addEventListener('resize', resizeCanvas);
 
+      // Detect mobile
+      const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      if (isMobile) {
+        document.querySelectorAll('.desktop-text').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.mobile-text').forEach(el => el.style.display = 'inline');
+      }
+
+      // Initialize road stripes
+      for (let i = 0; i < 20; i++) {
+        roadStripes.push({ z: i * 50 });
+      }
+
       // Desktop controls
-      window.addEventListener('keydown', (e) => {
-        if ((e.key === 'ArrowUp' || e.key === ' ' || e.key === 'w' || e.key === 'W') && gameState === 'playing') {
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W' || e.key === ' ') {
           e.preventDefault();
-          isAccelerating = true;
-          hideHint();
-        }
-        if (e.key === ' ' && gameState === 'start') {
-          e.preventDefault();
-          startGame();
+          if (state.phase === 'playing') {
+            state.isAccelerating = true;
+            hideInstruction();
+          } else if (state.phase === 'start') {
+            startGame();
+          }
         }
       });
 
-      window.addEventListener('keyup', (e) => {
-        if (e.key === 'ArrowUp' || e.key === ' ' || e.key === 'w' || e.key === 'W') {
-          isAccelerating = false;
+      document.addEventListener('keyup', (e) => {
+        if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W' || e.key === ' ') {
+          state.isAccelerating = false;
         }
       });
 
       // Mobile controls
       canvas.addEventListener('touchstart', (e) => {
         e.preventDefault();
-        if (gameState === 'playing') {
-          isAccelerating = true;
-          hideHint();
+        if (state.phase === 'playing') {
+          state.isAccelerating = true;
+          hideInstruction();
         }
-      });
+      }, { passive: false });
 
       canvas.addEventListener('touchend', (e) => {
         e.preventDefault();
-        isAccelerating = false;
-      });
+        state.isAccelerating = false;
+      }, { passive: false });
 
-      // UI buttons
+      // Buttons
       document.getElementById('startBtn').addEventListener('click', startGame);
-      document.getElementById('villageCardClose').addEventListener('click', closeVillageCard);
+      document.getElementById('keepDrivingBtn').addEventListener('click', closeVillagePopup);
       document.getElementById('driveAgainBtn').addEventListener('click', restartGame);
 
-      // Start render loop
+      // Start loop
       requestAnimationFrame(gameLoop);
     }
 
     function resizeCanvas() {
-      canvas.width = window.innerWidth * window.devicePixelRatio;
-      canvas.height = window.innerHeight * window.devicePixelRatio;
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(dpr, dpr);
     }
 
-    function initRoadElements() {
-      // Create road dashes
-      roadLines = [];
-      for (let i = 0; i < 30; i++) {
-        roadLines.push({ y: i * 60, x: 0 });
-      }
-
-      // Create trees
-      trees = [];
-      for (let i = 0; i < 50; i++) {
-        trees.push({
-          y: Math.random() * 2000 - 500,
-          side: Math.random() > 0.5 ? 'left' : 'right',
-          size: 20 + Math.random() * 30,
-          type: Math.floor(Math.random() * 3)
-        });
-      }
-
-      // Create highway signs
-      signs = [];
-      villages.forEach(v => {
-        signs.push({
-          village: v,
-          y: v.position - 400, // Sign appears before the exit
-          passed: false
-        });
-      });
-    }
-
+    // ============================================
+    // GAME CONTROLS
+    // ============================================
     function startGame() {
-      gameState = 'playing';
+      state.phase = 'playing';
+      state.speed = 0;
+      state.distance = 0;
+      state.time = 0;
+      state.villagesPassed = [];
+      state.lingerTime = {};
+      state.currentVillageIndex = -1;
+
       document.getElementById('startScreen').classList.add('hidden');
       document.getElementById('hud').classList.add('visible');
-      document.getElementById('hudDistance').classList.add('visible');
+      document.getElementById('hudProgress').classList.add('visible');
 
       setTimeout(() => {
-        document.getElementById('accelerateHint').classList.add('visible');
-      }, 500);
+        document.getElementById('instructionHint').classList.add('visible');
+      }, 400);
 
-      startTime = Date.now();
-
-      // Reset
-      speed = 0;
-      distance = 0;
-      timeOfDay = 0;
-      villageVisits = {};
-      slowdownTracker = {};
-      signs.forEach(s => s.passed = false);
+      lastTime = performance.now();
     }
 
-    function hideHint() {
-      showHint = false;
-      document.getElementById('accelerateHint').classList.remove('visible');
+    function hideInstruction() {
+      state.showInstruction = false;
+      document.getElementById('instructionHint').classList.remove('visible');
     }
 
-    function gameLoop(timestamp) {
-      update();
-      render();
-      requestAnimationFrame(gameLoop);
-    }
+    function showVillagePopup(village) {
+      state.phase = 'paused';
 
-    function update() {
-      if (gameState !== 'playing') return;
-
-      // Speed
-      if (isAccelerating && gameState === 'playing') {
-        speed = Math.min(speed + acceleration, maxSpeed);
-      } else {
-        speed = Math.max(speed - deceleration, 0);
-      }
-
-      // Distance
-      const moveAmount = speed * 0.05;
-      distance += moveAmount;
-
-      // Time of day progression
-      timeOfDay = Math.min(distance / totalDistance, 1);
-
-      // Update HUD
-      document.getElementById('speedValue').textContent = Math.round(speed);
-      document.getElementById('distanceValue').textContent = (distance / 1000 * 2.5).toFixed(1);
-
-      // Track slowdowns near villages
-      villages.forEach(v => {
-        const distToVillage = Math.abs(distance - v.position);
-        if (distToVillage < 300) {
-          if (!slowdownTracker[v.name]) slowdownTracker[v.name] = 0;
-          if (speed < 40) {
-            slowdownTracker[v.name] += 1;
-          }
-        }
-      });
-
-      // Check for sign passes (trigger village card)
-      signs.forEach(sign => {
-        if (!sign.passed && distance > sign.village.position) {
-          sign.passed = true;
-          villageVisits[sign.village.name] = true;
-          showVillageCard(sign.village);
-        }
-      });
-
-      // Check if reached end
-      if (distance >= totalDistance) {
-        endGame();
-      }
-
-      // Update road elements
-      roadLines.forEach(line => {
-        line.y += moveAmount;
-        if (line.y > window.innerHeight + 100) {
-          line.y = -60;
-        }
-      });
-
-      trees.forEach(tree => {
-        tree.y += moveAmount * 0.8;
-        if (tree.y > window.innerHeight + 200) {
-          tree.y = -200 - Math.random() * 300;
-          tree.size = 20 + Math.random() * 30;
-        }
-      });
-    }
-
-    function render() {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-
-      // Sky gradient (changes with time of day)
-      const skyGradient = ctx.createLinearGradient(0, 0, 0, h);
-
-      if (timeOfDay < 0.3) {
-        // Golden hour start
-        skyGradient.addColorStop(0, '#FF8C42');
-        skyGradient.addColorStop(0.4, '#FF7043');
-        skyGradient.addColorStop(0.7, '#FF5E5B');
-        skyGradient.addColorStop(1, '#4A2C5A');
-      } else if (timeOfDay < 0.6) {
-        // Dusk
-        skyGradient.addColorStop(0, '#FF5E5B');
-        skyGradient.addColorStop(0.4, '#8E4585');
-        skyGradient.addColorStop(0.7, '#4A2C5A');
-        skyGradient.addColorStop(1, '#1a1a2e');
-      } else {
-        // Night approaching
-        skyGradient.addColorStop(0, '#4A2C5A');
-        skyGradient.addColorStop(0.4, '#2d2d4a');
-        skyGradient.addColorStop(1, '#1a1a2e');
-      }
-
-      ctx.fillStyle = skyGradient;
-      ctx.fillRect(0, 0, w, h);
-
-      // Sun/moon
-      const sunY = 80 + timeOfDay * 150;
-      const sunSize = 60 - timeOfDay * 20;
-      const sunAlpha = 1 - timeOfDay * 0.5;
-      ctx.fillStyle = `rgba(255, 200, 100, ${sunAlpha})`;
-      ctx.beginPath();
-      ctx.arc(w * 0.75, sunY, sunSize, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Stars (appear as time passes)
-      if (timeOfDay > 0.5) {
-        const starAlpha = (timeOfDay - 0.5) * 2;
-        ctx.fillStyle = `rgba(255, 255, 255, ${starAlpha * 0.6})`;
-        for (let i = 0; i < 50; i++) {
-          const sx = (Math.sin(i * 234.5) * 0.5 + 0.5) * w;
-          const sy = (Math.sin(i * 123.4) * 0.5 + 0.3) * h * 0.5;
-          ctx.beginPath();
-          ctx.arc(sx, sy, 1 + Math.sin(i) * 0.5, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
-
-      // Ground/horizon
-      const horizonY = h * 0.55;
-      const groundGradient = ctx.createLinearGradient(0, horizonY, 0, h);
-      groundGradient.addColorStop(0, '#3d5c3d');
-      groundGradient.addColorStop(0.3, '#2d4a2d');
-      groundGradient.addColorStop(1, '#1e321e');
-      ctx.fillStyle = groundGradient;
-      ctx.fillRect(0, horizonY, w, h - horizonY);
-
-      // Road
-      const roadWidth = 200;
-      const roadX = w / 2 - roadWidth / 2;
-
-      // Road shadow
-      ctx.fillStyle = 'rgba(0,0,0,0.3)';
-      ctx.fillRect(roadX - 10, horizonY, roadWidth + 20, h - horizonY);
-
-      // Road surface
-      ctx.fillStyle = '#2a2a2a';
-      ctx.fillRect(roadX, horizonY, roadWidth, h - horizonY);
-
-      // Road shoulder lines
-      ctx.strokeStyle = '#fff';
-      ctx.lineWidth = 3;
-      ctx.setLineDash([]);
-      ctx.beginPath();
-      ctx.moveTo(roadX + 5, horizonY);
-      ctx.lineTo(roadX + 5, h);
-      ctx.moveTo(roadX + roadWidth - 5, horizonY);
-      ctx.lineTo(roadX + roadWidth - 5, h);
-      ctx.stroke();
-
-      // Center dashes
-      ctx.strokeStyle = '#FFD700';
-      ctx.lineWidth = 4;
-      ctx.setLineDash([30, 30]);
-      roadLines.forEach(line => {
-        if (line.y > horizonY && line.y < h) {
-          ctx.beginPath();
-          ctx.moveTo(w / 2, line.y);
-          ctx.lineTo(w / 2, line.y + 20);
-          ctx.stroke();
-        }
-      });
-      ctx.setLineDash([]);
-
-      // Trees
-      trees.forEach(tree => {
-        if (tree.y > horizonY - 50 && tree.y < h + 100) {
-          const treeX = tree.side === 'left'
-            ? roadX - 80 - Math.random() * 100
-            : roadX + roadWidth + 80 + Math.random() * 100;
-
-          // Tree shadow
-          ctx.fillStyle = 'rgba(0,0,0,0.2)';
-          ctx.beginPath();
-          ctx.ellipse(treeX + 10, tree.y + tree.size * 0.8, tree.size * 0.5, tree.size * 0.2, 0, 0, Math.PI * 2);
-          ctx.fill();
-
-          // Tree trunk
-          ctx.fillStyle = '#4a3728';
-          ctx.fillRect(treeX - 3, tree.y, 6, tree.size * 0.4);
-
-          // Tree foliage
-          const foliageColors = ['#2d5a2d', '#3d6b3d', '#4a7c4a'];
-          ctx.fillStyle = foliageColors[tree.type];
-          ctx.beginPath();
-          ctx.arc(treeX, tree.y - tree.size * 0.2, tree.size * 0.5, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      });
-
-      // Highway signs
-      signs.forEach(sign => {
-        const signY = h - (sign.y - distance + 400);
-        if (signY > 100 && signY < h - 100 && !sign.passed) {
-          const signX = w / 2;
-          const signWidth = 180;
-          const signHeight = 100;
-
-          // Sign post
-          ctx.fillStyle = '#666';
-          ctx.fillRect(signX - 4, signY, 8, 150);
-
-          // Sign board
-          ctx.fillStyle = '#006B3C';
-          ctx.fillRect(signX - signWidth/2, signY - signHeight, signWidth, signHeight);
-
-          // Sign border
-          ctx.strokeStyle = '#fff';
-          ctx.lineWidth = 3;
-          ctx.strokeRect(signX - signWidth/2 + 5, signY - signHeight + 5, signWidth - 10, signHeight - 10);
-
-          // Sign text
-          ctx.fillStyle = '#fff';
-          ctx.font = 'bold 14px DM Sans';
-          ctx.textAlign = 'center';
-          ctx.fillText(`EXIT ${sign.village.exit}`, signX, signY - signHeight + 30);
-          ctx.font = 'bold 18px DM Sans';
-          ctx.fillText(sign.village.displayName, signX, signY - signHeight + 55);
-          ctx.font = '12px DM Sans';
-          ctx.fillText('1 MILE', signX, signY - signHeight + 75);
-        }
-      });
-
-      // Car (player)
-      const carX = w / 2;
-      const carY = h - 120;
-
-      // Car shadow
-      ctx.fillStyle = 'rgba(0,0,0,0.3)';
-      ctx.beginPath();
-      ctx.ellipse(carX, carY + 25, 25, 8, 0, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Car body
-      ctx.fillStyle = '#e74c3c';
-      ctx.beginPath();
-      ctx.roundRect(carX - 20, carY - 25, 40, 60, 8);
-      ctx.fill();
-
-      // Car roof
-      ctx.fillStyle = '#c0392b';
-      ctx.beginPath();
-      ctx.roundRect(carX - 15, carY - 10, 30, 25, 4);
-      ctx.fill();
-
-      // Windshield
-      ctx.fillStyle = '#85C1E9';
-      ctx.beginPath();
-      ctx.roundRect(carX - 12, carY - 8, 24, 12, 2);
-      ctx.fill();
-
-      // Headlights glow (at night)
-      if (timeOfDay > 0.4) {
-        const glowAlpha = (timeOfDay - 0.4) * 1.5;
-        const gradient = ctx.createRadialGradient(carX, carY - 30, 0, carX, carY - 30, 100);
-        gradient.addColorStop(0, `rgba(255, 255, 200, ${glowAlpha * 0.4})`);
-        gradient.addColorStop(1, 'rgba(255, 255, 200, 0)');
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.moveTo(carX - 30, carY - 25);
-        ctx.lineTo(carX + 30, carY - 25);
-        ctx.lineTo(carX + 60, carY - 200);
-        ctx.lineTo(carX - 60, carY - 200);
-        ctx.closePath();
-        ctx.fill();
-      }
-
-      // Speed lines (when going fast)
-      if (speed > 60) {
-        const lineAlpha = (speed - 60) / 60 * 0.3;
-        ctx.strokeStyle = `rgba(255,255,255,${lineAlpha})`;
-        ctx.lineWidth = 2;
-        for (let i = 0; i < 5; i++) {
-          const lx = roadX + 20 + Math.random() * (roadWidth - 40);
-          const ly = h - 50 - Math.random() * 200;
-          ctx.beginPath();
-          ctx.moveTo(lx, ly);
-          ctx.lineTo(lx, ly + 30 + speed * 0.3);
-          ctx.stroke();
-        }
-      }
-    }
-
-    function showVillageCard(village) {
-      gameState = 'paused';
-      currentVillage = village;
-
-      document.getElementById('villageBadge').textContent = `Exit ${village.exit}`;
-      document.getElementById('villageName').textContent = village.displayName;
+      document.getElementById('villageExit').textContent = `Exit ${village.exit}`;
+      document.getElementById('villageName').textContent = village.name;
       document.getElementById('villageVibe').textContent = village.vibe;
-      document.getElementById('villagePrice').textContent = village.price;
+      document.getElementById('villageHomes').textContent = village.homes;
+      document.getElementById('villageHOA').textContent = `$${village.hoa.replace('$', '')}`;
       document.getElementById('villageSchool').textContent = village.school;
-      document.getElementById('villageCommute').textContent = village.commute;
 
-      document.getElementById('villageCard').classList.add('visible');
+      document.getElementById('villagePopup').classList.add('visible');
     }
 
-    function closeVillageCard() {
-      document.getElementById('villageCard').classList.remove('visible');
-      gameState = 'playing';
-      currentVillage = null;
+    function closeVillagePopup() {
+      document.getElementById('villagePopup').classList.remove('visible');
+      state.phase = 'playing';
+      lastTime = performance.now();
     }
 
     function endGame() {
-      gameState = 'ended';
+      state.phase = 'ended';
 
-      const driveTime = Math.round((Date.now() - startTime) / 1000);
-      const miles = (distance / 1000 * 2.5).toFixed(1);
-      const villagesVisited = Object.keys(villageVisits).length;
+      const miles = (state.distance / CONFIG.pixelsPerMile).toFixed(1);
+      const villagesCount = state.villagesPassed.length;
+      const timeStr = Math.round(state.time) + 's';
 
-      // Find favorite village (most slowdown time)
-      let favorite = villages[0].name;
-      let maxSlowdown = 0;
-      Object.entries(slowdownTracker).forEach(([name, time]) => {
-        if (time > maxSlowdown) {
-          maxSlowdown = time;
-          favorite = name;
+      // Find favorite village (most linger time)
+      let favorite = VILLAGES[0].name;
+      let maxLinger = 0;
+      Object.entries(state.lingerTime).forEach(([id, time]) => {
+        if (time > maxLinger) {
+          maxLinger = time;
+          const v = VILLAGES.find(v => v.id === id);
+          if (v) favorite = v.name;
         }
       });
 
       document.getElementById('resultMiles').textContent = miles;
-      document.getElementById('resultVillages').textContent = villagesVisited;
-      document.getElementById('resultTime').textContent = `${driveTime}s`;
+      document.getElementById('resultVillages').textContent = villagesCount;
+      document.getElementById('resultTime').textContent = timeStr;
       document.getElementById('resultFavorite').textContent = favorite;
 
       setTimeout(() => {
@@ -992,21 +791,358 @@
 
     function restartGame() {
       document.getElementById('resultsScreen').classList.remove('visible');
-
-      // Reset everything
-      distance = 0;
-      speed = 0;
-      timeOfDay = 0;
-      villageVisits = {};
-      slowdownTracker = {};
-      signs.forEach(s => s.passed = false);
-      initRoadElements();
-
-      gameState = 'playing';
-      startTime = Date.now();
+      startGame();
     }
 
-    // Start
+    // ============================================
+    // GAME LOOP
+    // ============================================
+    function gameLoop(currentTime) {
+      // Calculate delta time
+      const deltaTime = Math.min((currentTime - lastTime) / 1000, 0.1); // cap at 100ms
+      lastTime = currentTime;
+
+      if (state.phase === 'playing') {
+        update(deltaTime);
+      }
+
+      render();
+      requestAnimationFrame(gameLoop);
+    }
+
+    // ============================================
+    // UPDATE
+    // ============================================
+    function update(dt) {
+      // Smooth acceleration/deceleration
+      if (state.isAccelerating) {
+        state.speed += CONFIG.accelerationRate * dt;
+        if (state.speed > CONFIG.maxSpeed) {
+          state.speed = CONFIG.maxSpeed;
+        }
+      } else {
+        state.speed -= CONFIG.decelerationRate * dt;
+        if (state.speed < 0) {
+          state.speed = 0;
+        }
+      }
+
+      // Update distance (speed in mph -> pixels per second)
+      const pixelsPerSecond = state.speed * (CONFIG.pixelsPerMile / 3600) * 60;
+      state.distance += pixelsPerSecond * dt;
+      state.time += dt;
+
+      // Update HUD
+      document.getElementById('speedValue').textContent = Math.round(state.speed);
+      const progress = (state.distance / (CONFIG.totalMiles * CONFIG.pixelsPerMile)) * 100;
+      document.getElementById('progressFill').style.width = `${Math.min(progress, 100)}%`;
+      document.getElementById('villageCount').textContent = state.villagesPassed.length;
+
+      // Check village passes
+      const currentMile = state.distance / CONFIG.pixelsPerMile;
+
+      VILLAGES.forEach((village, index) => {
+        // Track linger time when near village
+        const distToVillage = Math.abs(currentMile - village.mileMarker);
+        if (distToVillage < 0.5) {
+          if (!state.lingerTime[village.id]) state.lingerTime[village.id] = 0;
+          state.lingerTime[village.id] += dt * (1 - state.speed / CONFIG.maxSpeed);
+        }
+
+        // Trigger village popup
+        if (currentMile >= village.mileMarker && !state.villagesPassed.includes(village.id)) {
+          state.villagesPassed.push(village.id);
+          showVillagePopup(village);
+        }
+      });
+
+      // Check if journey complete
+      if (currentMile >= CONFIG.totalMiles) {
+        endGame();
+      }
+
+      // Update road stripes
+      roadStripes.forEach(stripe => {
+        stripe.z -= pixelsPerSecond * dt * 0.02;
+        if (stripe.z < 0) {
+          stripe.z += 20 * 50;
+        }
+      });
+    }
+
+    // ============================================
+    // RENDER
+    // ============================================
+    function render() {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const progress = state.distance / (CONFIG.totalMiles * CONFIG.pixelsPerMile);
+      const horizonY = h * CONFIG.horizonY;
+
+      // ---- SKY ----
+      const skyGradient = ctx.createLinearGradient(0, 0, 0, horizonY);
+
+      // Time of day based on progress
+      if (progress < 0.25) {
+        // Early - bright blue to orange
+        skyGradient.addColorStop(0, '#87CEEB');
+        skyGradient.addColorStop(0.6, '#FFB347');
+        skyGradient.addColorStop(1, '#FF8C42');
+      } else if (progress < 0.5) {
+        // Mid - orange to pink
+        skyGradient.addColorStop(0, '#FFB347');
+        skyGradient.addColorStop(0.5, '#FF8C42');
+        skyGradient.addColorStop(1, '#FF5E5B');
+      } else if (progress < 0.75) {
+        // Late - pink to purple
+        skyGradient.addColorStop(0, '#FF8C42');
+        skyGradient.addColorStop(0.5, '#FF5E5B');
+        skyGradient.addColorStop(1, '#8E4585');
+      } else {
+        // Dusk - purple to dark
+        skyGradient.addColorStop(0, '#FF5E5B');
+        skyGradient.addColorStop(0.4, '#8E4585');
+        skyGradient.addColorStop(1, '#2d2d4a');
+      }
+
+      ctx.fillStyle = skyGradient;
+      ctx.fillRect(0, 0, w, horizonY);
+
+      // ---- SUN ----
+      const sunProgress = Math.min(progress * 1.5, 1);
+      const sunY = 60 + sunProgress * (horizonY - 40);
+      const sunX = w * 0.7 + sunProgress * (w * 0.1);
+      const sunRadius = 50 - sunProgress * 20;
+      const sunOpacity = 1 - sunProgress * 0.3;
+
+      ctx.fillStyle = `rgba(255, 220, 120, ${sunOpacity})`;
+      ctx.beginPath();
+      ctx.arc(sunX, sunY, sunRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Sun glow
+      const glowGradient = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, sunRadius * 3);
+      glowGradient.addColorStop(0, `rgba(255, 200, 100, ${sunOpacity * 0.4})`);
+      glowGradient.addColorStop(1, 'rgba(255, 200, 100, 0)');
+      ctx.fillStyle = glowGradient;
+      ctx.beginPath();
+      ctx.arc(sunX, sunY, sunRadius * 3, 0, Math.PI * 2);
+      ctx.fill();
+
+      // ---- STARS (appear late) ----
+      if (progress > 0.6) {
+        const starAlpha = (progress - 0.6) * 2.5;
+        ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(starAlpha, 0.8)})`;
+        for (let i = 0; i < 40; i++) {
+          const sx = ((Math.sin(i * 567.8) + 1) / 2) * w;
+          const sy = ((Math.sin(i * 234.5) + 1) / 2) * horizonY * 0.7;
+          const sr = 0.5 + Math.sin(i * 123) * 0.5;
+          ctx.beginPath();
+          ctx.arc(sx, sy, sr, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // ---- GROUND ----
+      const groundGradient = ctx.createLinearGradient(0, horizonY, 0, h);
+      groundGradient.addColorStop(0, '#4a7c4a');
+      groundGradient.addColorStop(0.3, '#3d6b3d');
+      groundGradient.addColorStop(1, '#2d4a2d');
+      ctx.fillStyle = groundGradient;
+      ctx.fillRect(0, horizonY, w, h - horizonY);
+
+      // ---- ROAD (with perspective) ----
+      const roadTopWidth = w * 0.08;
+      const roadBottomWidth = w * CONFIG.roadWidth;
+      const roadCenterX = w / 2;
+
+      // Road surface
+      ctx.fillStyle = '#333';
+      ctx.beginPath();
+      ctx.moveTo(roadCenterX - roadTopWidth / 2, horizonY);
+      ctx.lineTo(roadCenterX + roadTopWidth / 2, horizonY);
+      ctx.lineTo(roadCenterX + roadBottomWidth / 2, h);
+      ctx.lineTo(roadCenterX - roadBottomWidth / 2, h);
+      ctx.closePath();
+      ctx.fill();
+
+      // Road edge lines (white)
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(roadCenterX - roadTopWidth / 2 + 4, horizonY);
+      ctx.lineTo(roadCenterX - roadBottomWidth / 2 + 8, h);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(roadCenterX + roadTopWidth / 2 - 4, horizonY);
+      ctx.lineTo(roadCenterX + roadBottomWidth / 2 - 8, h);
+      ctx.stroke();
+
+      // Center dashes (yellow, with perspective)
+      ctx.strokeStyle = '#FFD93D';
+      ctx.lineWidth = 4;
+
+      roadStripes.forEach(stripe => {
+        const z = stripe.z;
+        if (z > 0 && z < 1000) {
+          const perspective = 1 - (z / 1000);
+          const y = horizonY + perspective * (h - horizonY);
+          const dashLength = 20 * perspective;
+
+          if (y > horizonY && y < h - 20) {
+            ctx.globalAlpha = 0.3 + perspective * 0.7;
+            ctx.beginPath();
+            ctx.moveTo(roadCenterX, y);
+            ctx.lineTo(roadCenterX, y + dashLength);
+            ctx.stroke();
+          }
+        }
+      });
+      ctx.globalAlpha = 1;
+
+      // ---- ROADSIDE ELEMENTS (trees) ----
+      const treeCount = 12;
+      for (let i = 0; i < treeCount; i++) {
+        const treeZ = ((i / treeCount) + (state.distance * 0.0001) % 1) % 1;
+        const perspective = treeZ;
+        const y = horizonY + perspective * (h - horizonY) * 0.9;
+
+        if (y > horizonY) {
+          const side = i % 2 === 0 ? -1 : 1;
+          const roadEdge = roadCenterX + side * (roadTopWidth / 2 + (roadBottomWidth / 2 - roadTopWidth / 2) * perspective);
+          const x = roadEdge + side * (30 + perspective * 80);
+          const treeSize = 8 + perspective * 25;
+
+          // Tree trunk
+          ctx.fillStyle = '#5D4037';
+          ctx.fillRect(x - 2, y - treeSize * 0.3, 4, treeSize * 0.4);
+
+          // Tree foliage
+          ctx.fillStyle = '#2E7D32';
+          ctx.beginPath();
+          ctx.arc(x, y - treeSize * 0.5, treeSize * 0.4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // ---- CAR ----
+      const carX = roadCenterX;
+      const carY = h - 80;
+      const carWidth = 36;
+      const carHeight = 60;
+
+      // Car shadow
+      ctx.fillStyle = 'rgba(0,0,0,0.25)';
+      ctx.beginPath();
+      ctx.ellipse(carX, carY + 28, carWidth * 0.8, 10, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Car body
+      ctx.fillStyle = '#E53935';
+      ctx.beginPath();
+      ctx.roundRect(carX - carWidth/2, carY - carHeight/2, carWidth, carHeight, 10);
+      ctx.fill();
+
+      // Car roof
+      ctx.fillStyle = '#C62828';
+      ctx.beginPath();
+      ctx.roundRect(carX - carWidth/2 + 5, carY - carHeight/2 + 18, carWidth - 10, 22, 5);
+      ctx.fill();
+
+      // Windshield
+      ctx.fillStyle = '#90CAF9';
+      ctx.beginPath();
+      ctx.roundRect(carX - carWidth/2 + 7, carY - carHeight/2 + 20, carWidth - 14, 10, 3);
+      ctx.fill();
+
+      // Headlights glow (appears as it gets dark)
+      if (progress > 0.5) {
+        const lightIntensity = (progress - 0.5) * 2;
+        const lightGradient = ctx.createRadialGradient(
+          carX, carY - carHeight/2 - 10, 0,
+          carX, carY - carHeight/2 - 10, 150
+        );
+        lightGradient.addColorStop(0, `rgba(255, 255, 200, ${lightIntensity * 0.5})`);
+        lightGradient.addColorStop(0.3, `rgba(255, 255, 150, ${lightIntensity * 0.2})`);
+        lightGradient.addColorStop(1, 'rgba(255, 255, 150, 0)');
+
+        ctx.fillStyle = lightGradient;
+        ctx.beginPath();
+        ctx.moveTo(carX - 40, carY - carHeight/2);
+        ctx.lineTo(carX + 40, carY - carHeight/2);
+        ctx.lineTo(carX + 80, carY - carHeight/2 - 200);
+        ctx.lineTo(carX - 80, carY - carHeight/2 - 200);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      // ---- SPEED EFFECT ----
+      if (state.speed > 50) {
+        const intensity = (state.speed - 50) / 35;
+        ctx.strokeStyle = `rgba(255, 255, 255, ${intensity * 0.15})`;
+        ctx.lineWidth = 2;
+
+        for (let i = 0; i < 4; i++) {
+          const lx = carX - roadBottomWidth/3 + Math.random() * (roadBottomWidth * 0.66);
+          const ly = carY - 50 - Math.random() * 150;
+          const len = 30 + state.speed * 0.5;
+
+          ctx.beginPath();
+          ctx.moveTo(lx, ly);
+          ctx.lineTo(lx, ly + len);
+          ctx.stroke();
+        }
+      }
+
+      // ---- UPCOMING VILLAGE SIGN ----
+      const currentMile = state.distance / CONFIG.pixelsPerMile;
+      const nextVillage = VILLAGES.find(v => v.mileMarker > currentMile && !state.villagesPassed.includes(v.id));
+
+      if (nextVillage) {
+        const distToVillage = nextVillage.mileMarker - currentMile;
+
+        if (distToVillage < 1.5 && distToVillage > 0.3) {
+          const signProgress = 1 - ((distToVillage - 0.3) / 1.2);
+          const signY = horizonY + signProgress * (h * 0.35 - horizonY);
+          const signScale = 0.4 + signProgress * 0.6;
+
+          // Sign post
+          ctx.fillStyle = '#666';
+          ctx.fillRect(roadCenterX - 3, signY, 6, 100 * signScale);
+
+          // Sign board
+          const signWidth = 160 * signScale;
+          const signHeight = 90 * signScale;
+
+          ctx.fillStyle = '#006B3C';
+          ctx.beginPath();
+          ctx.roundRect(roadCenterX - signWidth/2, signY - signHeight, signWidth, signHeight, 4);
+          ctx.fill();
+
+          // Sign border
+          ctx.strokeStyle = '#fff';
+          ctx.lineWidth = 2 * signScale;
+          ctx.beginPath();
+          ctx.roundRect(roadCenterX - signWidth/2 + 4, signY - signHeight + 4, signWidth - 8, signHeight - 8, 2);
+          ctx.stroke();
+
+          // Sign text
+          ctx.fillStyle = '#fff';
+          ctx.textAlign = 'center';
+          ctx.font = `bold ${12 * signScale}px "DM Sans", sans-serif`;
+          ctx.fillText(`EXIT ${nextVillage.exit}`, roadCenterX, signY - signHeight + 22 * signScale);
+          ctx.font = `bold ${16 * signScale}px "DM Sans", sans-serif`;
+          ctx.fillText(nextVillage.shortName, roadCenterX, signY - signHeight + 45 * signScale);
+          ctx.font = `${10 * signScale}px "DM Sans", sans-serif`;
+          const milesText = distToVillage < 1 ? `${Math.round(distToVillage * 10) / 10} MI` : '1 MILE';
+          ctx.fillText(milesText, roadCenterX, signY - signHeight + 65 * signScale);
+        }
+      }
+    }
+
+    // ============================================
+    // START
+    // ============================================
     init();
   </script>
 </body>
