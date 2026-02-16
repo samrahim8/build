@@ -896,6 +896,600 @@ function Checklist() {
   );
 }
 
+// Village Finder Quiz with Narrative Output
+const VILLAGE_DATA = {
+  lakeside: {
+    name: "Lakeside Village",
+    tagline: "The established one",
+    budgetRange: "$387K – $1.1M+",
+    typicalHome: { low: "1,800 sqft townhome", mid: "2,400 sqft single-family", high: "3,200 sqft with pool" },
+    school: "Sunridge Elementary",
+    schoolGrade: "A-",
+    publix: "Lakeside Village Center",
+    publixTime: "3 min",
+    disneyTime: "15 min",
+    downtownTime: "25 min",
+    parkName: "Lakeside trails",
+    parkTime: "5 min",
+    diningSpot: "Westside Shoppes restaurants",
+    diningTime: "5 min",
+    fireworks: false,
+    vibe: "mature oaks, established neighborhoods, everything you need within the village",
+    saturdayActivity: "farmers market at Winter Garden, then coffee at Foxtail",
+  },
+  bridgewater: {
+    name: "Bridgewater",
+    tagline: "The family favorite",
+    budgetRange: "$350K – $700K",
+    typicalHome: { low: "1,600 sqft townhome", mid: "2,400 sqft single-family", high: "2,800 sqft with upgraded lot" },
+    school: "Independence Elementary",
+    schoolGrade: "A",
+    publix: "Bridgewater Village Center",
+    publixTime: "4 min",
+    disneyTime: "12 min",
+    downtownTime: "30 min",
+    parkName: "one of the 14 neighborhood parks",
+    parkTime: "3 min",
+    diningSpot: "the growing Village Center",
+    diningTime: "5 min",
+    fireworks: false,
+    vibe: "playgrounds everywhere, families on bikes, the most kids per square mile in HW",
+    saturdayActivity: "the playground, then Maple Street Biscuit Company",
+  },
+  towncenter: {
+    name: "Town Center (Hamlin)",
+    tagline: "The walkable one",
+    budgetRange: "$450K – $1M+",
+    typicalHome: { low: "1,700 sqft townhome with rooftop", mid: "2,200 sqft single-family", high: "2,800 sqft near the water" },
+    school: "Hamlin Elementary",
+    schoolGrade: "A-",
+    publix: "Hamlin Groves Trail",
+    publixTime: "5 min",
+    disneyTime: "12 min",
+    downtownTime: "28 min",
+    parkName: "Lake Hancock boardwalk",
+    parkTime: "walk",
+    diningSpot: "The French Café, Ford's Garage, or Agave Bandido",
+    diningTime: "walk",
+    fireworks: false,
+    vibe: "waterfront dining, PopStroke mini golf, Cinépolis movies — urban energy in a suburb",
+    saturdayActivity: "brunch at The French Café, then the farmers market on the boardwalk",
+  },
+  villagef: {
+    name: "Village F",
+    tagline: "The nature lover",
+    budgetRange: "$325K – $650K",
+    typicalHome: { low: "1,500 sqft townhome", mid: "2,100 sqft single-family", high: "2,600 sqft near conservation" },
+    school: "Sunridge Elementary",
+    schoolGrade: "A-",
+    publix: "Lakeview Pointe",
+    publixTime: "5 min",
+    disneyTime: "10 min",
+    downtownTime: "30 min",
+    parkName: "the nature trails behind your house",
+    parkTime: "walk",
+    diningSpot: "The Mark shopping district",
+    diningTime: "6 min",
+    fireworks: true,
+    vibe: "lake views, nature trails, quieter pace — with Disney fireworks from your backyard",
+    saturdayActivity: "morning walk on the trails, then lunch at The Mark",
+  },
+  villageh: {
+    name: "Village H (Hickory Nut)",
+    tagline: "The upscale newcomer",
+    budgetRange: "$430K – $900K+",
+    typicalHome: { low: "1,800 sqft townhome", mid: "2,500 sqft single-family", high: "3,400 sqft lakefront" },
+    school: "Water Spring Elementary",
+    schoolGrade: "A-",
+    publix: "New Independence Parkway",
+    publixTime: "6 min",
+    disneyTime: "8 min",
+    downtownTime: "32 min",
+    parkName: "Hickory Nut Lake trails",
+    parkTime: "5 min",
+    diningSpot: "Flamingo Crossings Town Center",
+    diningTime: "5 min",
+    fireworks: true,
+    vibe: "newer construction, spacious lots, lake views, and a 5-minute drive to Flamingo Crossings",
+    saturdayActivity: "kayaking on Hickory Nut Lake, then Target run at Flamingo Crossings",
+  },
+  ovation: {
+    name: "Ovation",
+    tagline: "The nature-forward one",
+    budgetRange: "$400K – $800K",
+    typicalHome: { low: "1,600 sqft townhome", mid: "2,200 sqft single-family", high: "2,800 sqft backing to preserve" },
+    school: "Water Spring Elementary",
+    schoolGrade: "A-",
+    publix: "Waterleigh Village (closest)",
+    publixTime: "8 min",
+    disneyTime: "7 min",
+    downtownTime: "35 min",
+    parkName: "Horizon West Regional Park",
+    parkTime: "8 min",
+    diningSpot: "Flamingo Crossings",
+    diningTime: "6 min",
+    fireworks: true,
+    vibe: "conservation views, kayaking, birdwatching — the newest village with the most nature",
+    saturdayActivity: "the splash pad at Horizon West Regional Park, then early dinner at Flamingo Crossings",
+  },
+};
+
+const SCORING_RULES = {
+  budget: {
+    "350-450": { bridgewater: 3, villagef: 3, lakeside: 1 },
+    "450-550": { bridgewater: 3, villagef: 2, ovation: 2, lakeside: 1, towncenter: 1 },
+    "550-700": { bridgewater: 2, villagef: 2, ovation: 2, towncenter: 2, villageh: 2, lakeside: 2 },
+    "700+": { towncenter: 3, villageh: 3, lakeside: 2, ovation: 1 },
+  },
+  household: {
+    "single": { towncenter: 3, villageh: 1 },
+    "couple": { towncenter: 2, villageh: 2, villagef: 1 },
+    "young-kids": { bridgewater: 3, lakeside: 2, ovation: 1 },
+    "school-age": { bridgewater: 3, towncenter: 2, lakeside: 1 },
+    "teens": { towncenter: 3, lakeside: 2 },
+    "empty-nest": { towncenter: 2, villageh: 2, villagef: 1 },
+  },
+  commute: {
+    "disney": { ovation: 3, villageh: 3, villagef: 2 },
+    "downtown": { lakeside: 2, towncenter: 2, bridgewater: 1 },
+    "remote": { towncenter: 2, villagef: 1, ovation: 1 },
+    "lake-nona": { lakeside: 1, bridgewater: 1 },
+    "winter-garden": { lakeside: 3, bridgewater: 2 },
+    "other": {},
+  },
+  priority: {
+    "schools": { bridgewater: 3, towncenter: 2, lakeside: 1 },
+    "walkability": { towncenter: 4 },
+    "new-construction": { ovation: 3, villageh: 2 },
+    "space": { bridgewater: 2, villagef: 2, villageh: 1 },
+    "disney-close": { ovation: 3, villageh: 2, villagef: 1 },
+    "nature": { ovation: 3, villagef: 2, villageh: 1 },
+  },
+};
+
+function VillageFinder() {
+  const [step, setStep] = useState(0);
+  const [answers, setAnswers] = useState({});
+  const [result, setResult] = useState(null);
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+
+  const questions = [
+    {
+      key: "budget",
+      label: "Budget",
+      question: "What's your budget?",
+      options: [
+        { value: "350-450", label: "$350K – $450K" },
+        { value: "450-550", label: "$450K – $550K" },
+        { value: "550-700", label: "$550K – $700K" },
+        { value: "700+", label: "$700K+" },
+      ],
+    },
+    {
+      key: "household",
+      label: "Household",
+      question: "Who's moving?",
+      options: [
+        { value: "single", label: "Just me" },
+        { value: "couple", label: "Couple, no kids" },
+        { value: "young-kids", label: "Young kids (0–5)" },
+        { value: "school-age", label: "School-age kids" },
+        { value: "teens", label: "Teenagers" },
+        { value: "empty-nest", label: "Empty nesters" },
+      ],
+    },
+    {
+      key: "commute",
+      label: "Commute",
+      question: "Where will you work?",
+      options: [
+        { value: "disney", label: "Disney / theme parks" },
+        { value: "downtown", label: "Downtown Orlando" },
+        { value: "remote", label: "Remote / hybrid" },
+        { value: "lake-nona", label: "Lake Nona" },
+        { value: "winter-garden", label: "Winter Garden" },
+        { value: "other", label: "Other / retired" },
+      ],
+    },
+    {
+      key: "priority",
+      label: "Priority",
+      question: "What matters most?",
+      options: [
+        { value: "schools", label: "Best schools" },
+        { value: "walkability", label: "Walkability & dining" },
+        { value: "new-construction", label: "Newest construction" },
+        { value: "space", label: "Most space for money" },
+        { value: "disney-close", label: "Closest to Disney" },
+        { value: "nature", label: "Nature & trails" },
+      ],
+    },
+  ];
+
+  const calculateResult = (finalAnswers) => {
+    const scores = {
+      lakeside: 0,
+      bridgewater: 0,
+      towncenter: 0,
+      villagef: 0,
+      villageh: 0,
+      ovation: 0,
+    };
+
+    Object.entries(finalAnswers).forEach(([key, value]) => {
+      const rules = SCORING_RULES[key]?.[value] || {};
+      Object.entries(rules).forEach(([village, points]) => {
+        scores[village] += points;
+      });
+    });
+
+    const winner = Object.entries(scores).reduce((a, b) => (b[1] > a[1] ? b : a))[0];
+    return winner;
+  };
+
+  const handleSelect = (value) => {
+    const newAnswers = { ...answers, [questions[step].key]: value };
+    setAnswers(newAnswers);
+
+    if (step < questions.length - 1) {
+      setTimeout(() => setStep(step + 1), 300);
+    } else {
+      const winner = calculateResult(newAnswers);
+      setTimeout(() => setResult(winner), 300);
+    }
+  };
+
+  const generateNarrative = (villageKey) => {
+    const v = VILLAGE_DATA[villageKey];
+    const budget = answers.budget;
+    const household = answers.household;
+    const hasKids = ["young-kids", "school-age", "teens"].includes(household);
+
+    const homeSize = budget === "700+" ? v.typicalHome.high :
+                     budget === "550-700" ? v.typicalHome.mid :
+                     budget === "450-550" ? v.typicalHome.mid :
+                     v.typicalHome.low;
+
+    const pricePoint = budget === "700+" ? "$720K" :
+                       budget === "550-700" ? "$580K" :
+                       budget === "450-550" ? "$490K" :
+                       "$390K";
+
+    let narrative = [];
+
+    // Morning
+    narrative.push(`Your ${homeSize} in ${v.name} runs about ${pricePoint} — ${v.vibe}.`);
+
+    // Kids/School section
+    if (hasKids) {
+      narrative.push(`Morning drop-off at ${v.school} is ${v.publixTime}. It's ${v.schoolGrade}-rated.`);
+    }
+
+    // Commute
+    if (answers.commute === "disney") {
+      narrative.push(`Your commute to Disney's western entrance: ${v.disneyTime}. You'll be clocking out while your coworkers are still in I-4 traffic.`);
+    } else if (answers.commute === "downtown") {
+      narrative.push(`Downtown Orlando is ${v.downtownTime} — take 429 to I-4, skip the surface streets.`);
+    } else if (answers.commute === "remote") {
+      narrative.push(`Working from home? Your back patio faces ${v.vibe.includes("preserve") || v.vibe.includes("nature") ? "the preserve" : "mature landscaping"}. Good luck staying focused.`);
+    }
+
+    // Weekend/Evening
+    narrative.push(`Saturdays? ${v.saturdayActivity}.`);
+
+    // Dining
+    if (v.diningTime === "walk") {
+      narrative.push(`Dinner is a walk to ${v.diningSpot} — no car required.`);
+    } else {
+      narrative.push(`Dinner at ${v.diningSpot} is ${v.diningTime} away.`);
+    }
+
+    // Fireworks kicker
+    if (v.fireworks) {
+      narrative.push(`Oh, and Disney fireworks at 9pm? You can see them from your backyard.`);
+    }
+
+    return narrative;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (email) {
+      setSubmitted(true);
+    }
+  };
+
+  const resetQuiz = () => {
+    setStep(0);
+    setAnswers({});
+    setResult(null);
+    setEmail("");
+    setSubmitted(false);
+  };
+
+  // Results screen
+  if (result) {
+    const v = VILLAGE_DATA[result];
+    const narrative = generateNarrative(result);
+
+    if (submitted) {
+      return (
+        <div style={{
+          background: "linear-gradient(180deg, #2D4A2D 0%, #1E321E 100%)",
+          padding: "80px 24px",
+          textAlign: "center",
+        }}>
+          <div style={{ maxWidth: 500, margin: "0 auto" }}>
+            <div style={{ fontSize: 48, marginBottom: 16 }}>
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#D4A44C" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontSize: 28, color: "#FEFCF8", marginBottom: 12 }}>
+              Check your inbox
+            </div>
+            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: "rgba(254,252,248,0.7)", marginBottom: 32, lineHeight: 1.7 }}>
+              I'm putting together listings in {v.name} that match your budget. You'll have them within 24 hours.
+            </div>
+            <button
+              onClick={resetQuiz}
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 13,
+                color: "rgba(254,252,248,0.5)",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                textDecoration: "underline",
+              }}
+            >
+              Start over
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div style={{
+        background: "linear-gradient(180deg, #2D4A2D 0%, #1E321E 100%)",
+        padding: "80px 24px",
+      }}>
+        <div style={{ maxWidth: 600, margin: "0 auto" }}>
+          <div style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 11,
+            fontWeight: 500,
+            letterSpacing: "2px",
+            textTransform: "uppercase",
+            color: "rgba(254,252,248,0.5)",
+            marginBottom: 16,
+            textAlign: "center",
+          }}>
+            Your Match
+          </div>
+          <h3 style={{
+            fontFamily: "'Instrument Serif', Georgia, serif",
+            fontSize: "clamp(32px, 5vw, 44px)",
+            fontWeight: 400,
+            color: "#FEFCF8",
+            marginBottom: 8,
+            textAlign: "center",
+          }}>
+            {v.name}
+          </h3>
+          <div style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 14,
+            color: "#D4A44C",
+            marginBottom: 40,
+            textAlign: "center",
+          }}>
+            {v.tagline}
+          </div>
+
+          <div style={{
+            background: "rgba(254,252,248,0.05)",
+            borderRadius: 16,
+            padding: 32,
+            marginBottom: 32,
+          }}>
+            <div style={{
+              fontFamily: "'Instrument Serif', Georgia, serif",
+              fontSize: 20,
+              fontStyle: "italic",
+              color: "#FEFCF8",
+              marginBottom: 24,
+            }}>
+              A day in your life:
+            </div>
+            {narrative.map((line, i) => (
+              <p key={i} style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 15,
+                lineHeight: 1.8,
+                color: "rgba(254,252,248,0.85)",
+                marginBottom: 16,
+              }}>
+                {line}
+              </p>
+            ))}
+            <div style={{
+              fontFamily: "'Instrument Serif', Georgia, serif",
+              fontSize: 18,
+              fontStyle: "italic",
+              color: "#D4A44C",
+              marginTop: 24,
+            }}>
+              This is {v.name}.
+            </div>
+          </div>
+
+          <form onSubmit={handleSubmit} style={{ textAlign: "center" }}>
+            <div style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 15,
+              color: "#FEFCF8",
+              marginBottom: 16,
+            }}>
+              Want me to send you homes in {v.name}?
+            </div>
+            <div style={{ display: "flex", gap: 12, maxWidth: 400, margin: "0 auto" }}>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                required
+                style={{
+                  flex: 1,
+                  padding: "14px 18px",
+                  border: "1px solid rgba(254,252,248,0.2)",
+                  borderRadius: 8,
+                  background: "rgba(254,252,248,0.1)",
+                  color: "#FEFCF8",
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: 15,
+                  outline: "none",
+                }}
+              />
+              <button
+                type="submit"
+                style={{
+                  padding: "14px 24px",
+                  background: "#D4A44C",
+                  color: "#FEFCF8",
+                  border: "none",
+                  borderRadius: 8,
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: 14,
+                  fontWeight: 500,
+                  cursor: "pointer",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Send listings
+              </button>
+            </div>
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
+              marginTop: 16,
+            }}>
+              <img src={AGENT.photo} alt={AGENT.name} style={{ width: 28, height: 28, borderRadius: "50%" }} />
+              <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "rgba(254,252,248,0.5)" }}>
+                Goes to {AGENT.name}. No spam.
+              </span>
+            </div>
+          </form>
+
+          <div style={{ textAlign: "center", marginTop: 32 }}>
+            <button
+              onClick={resetQuiz}
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 13,
+                color: "rgba(254,252,248,0.4)",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
+              ← Retake quiz
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Quiz questions
+  const currentQuestion = questions[step];
+
+  return (
+    <div style={{
+      background: "linear-gradient(180deg, #2D4A2D 0%, #1E321E 100%)",
+      padding: "80px 24px",
+    }}>
+      <div style={{ maxWidth: 500, margin: "0 auto", textAlign: "center" }}>
+        <div style={{
+          fontFamily: "'DM Sans', sans-serif",
+          fontSize: 11,
+          fontWeight: 500,
+          letterSpacing: "2px",
+          textTransform: "uppercase",
+          color: "rgba(254,252,248,0.5)",
+          marginBottom: 16,
+        }}>
+          Find Your Village
+        </div>
+        <h3 style={{
+          fontFamily: "'Instrument Serif', Georgia, serif",
+          fontSize: "clamp(28px, 5vw, 36px)",
+          fontWeight: 400,
+          color: "#FEFCF8",
+          marginBottom: 12,
+        }}>
+          {currentQuestion.question}
+        </h3>
+        <div style={{
+          fontFamily: "'DM Sans', sans-serif",
+          fontSize: 14,
+          color: "rgba(254,252,248,0.5)",
+          marginBottom: 40,
+        }}>
+          Question {step + 1} of {questions.length}
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          {currentQuestion.options.map((opt) => (
+            <button
+              key={opt.value}
+              onClick={() => handleSelect(opt.value)}
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 16,
+                padding: "18px 24px",
+                background: answers[currentQuestion.key] === opt.value
+                  ? "#D4A44C"
+                  : "rgba(254,252,248,0.08)",
+                color: "#FEFCF8",
+                border: "1px solid",
+                borderColor: answers[currentQuestion.key] === opt.value
+                  ? "#D4A44C"
+                  : "rgba(254,252,248,0.15)",
+                borderRadius: 12,
+                cursor: "pointer",
+                transition: "all 0.2s",
+                textAlign: "left",
+              }}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Progress dots */}
+        <div style={{ display: "flex", justifyContent: "center", gap: 8, marginTop: 40 }}>
+          {questions.map((_, i) => (
+            <div
+              key={i}
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: "50%",
+                background: i === step ? "#D4A44C" : i < step ? "#FEFCF8" : "rgba(254,252,248,0.2)",
+                transition: "all 0.3s",
+              }}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function HorizonWestGuide() {
   const [activeVillage, setActiveVillage] = useState(null);
   const [expandedSchool, setExpandedSchool] = useState(null);
@@ -1164,6 +1758,9 @@ function HorizonWestGuide() {
           Start scrolling
         </div>
       </section>
+
+      {/* ===== VILLAGE FINDER QUIZ ===== */}
+      <VillageFinder />
 
       <div className="dl" />
 
