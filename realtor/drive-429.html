@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Drive the 429 | Horizon West</title>
   <meta name="description" content="Take a virtual drive down Florida's 429 and discover the villages of Horizon West. Interactive neighborhood explorer.">
+  <meta property="og:title" content="Drive the 429 | Horizon West">
+  <meta property="og:description" content="Discover 6 unique villages in one sunset drive. An interactive Florida experience.">
+  <meta property="og:type" content="website">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚗</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -65,8 +68,16 @@
     .start-screen .subtitle {
       font-size: clamp(16px, 4vw, 22px);
       color: rgba(255,255,255,0.85);
-      margin-bottom: 56px;
+      margin-bottom: 16px;
       font-weight: 400;
+    }
+    .start-social-proof {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 48px;
+    }
+    .start-social-proof strong {
+      color: rgba(255,255,255,0.8);
     }
     .start-btn {
       font-family: 'DM Sans', sans-serif;
@@ -84,6 +95,9 @@
     .start-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 12px 50px rgba(0,0,0,0.3);
+    }
+    .start-btn:active {
+      transform: scale(0.98);
     }
     .start-controls {
       margin-top: 40px;
@@ -122,6 +136,7 @@
       font-family: 'Instrument Serif', Georgia, serif;
       font-size: 56px;
       line-height: 1;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.3);
     }
     .hud-speed span {
       font-family: 'DM Sans', sans-serif;
@@ -164,18 +179,54 @@
       border-radius: 4px;
       transition: width 0.15s ease;
     }
-    .hud-direction {
+    .hud-villages {
       margin-top: 12px;
-      font-size: 12px;
-      color: rgba(255,255,255,0.6);
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+    }
+    .hud-villages .discovered {
+      color: #FFD93D;
     }
 
-    /* Village Side Panel - slides in from left, doesn't interrupt */
+    /* Mute button */
+    .mute-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 60;
+      width: 48px;
+      height: 48px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s, background 0.2s;
+      pointer-events: none;
+    }
+    .mute-btn.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .mute-btn:hover {
+      background: rgba(255,255,255,0.25);
+    }
+    .mute-btn svg {
+      width: 24px;
+      height: 24px;
+      fill: #fff;
+    }
+
+    /* Village Side Panel */
     .village-panel {
       position: fixed;
       left: 24px;
       bottom: 24px;
-      z-index: 60;
+      z-index: 55;
       background: rgba(255,255,255,0.95);
       backdrop-filter: blur(20px);
       border-radius: 20px;
@@ -184,7 +235,6 @@
       transform: translateX(-120%);
       transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
       box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      pointer-events: none;
     }
     .village-panel.visible {
       transform: translateX(0);
@@ -206,8 +256,14 @@
       font-size: 28px;
       font-weight: 400;
       color: #1a1a18;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       line-height: 1.1;
+    }
+    .village-panel-tagline {
+      font-size: 12px;
+      font-weight: 600;
+      color: #D4A44C;
+      margin-bottom: 10px;
     }
     .village-panel-vibe {
       font-size: 14px;
@@ -225,7 +281,7 @@
     .village-panel-stat-value {
       font-family: 'Instrument Serif', Georgia, serif;
       font-size: 22px;
-      color: #D4A44C;
+      color: #2D4A2D;
     }
     .village-panel-stat-label {
       font-size: 10px;
@@ -234,6 +290,27 @@
       text-transform: uppercase;
       color: #A69E93;
       margin-top: 2px;
+    }
+    .village-panel-cta {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #E8E2D8;
+    }
+    .village-panel-cta-text {
+      font-size: 12px;
+      color: #A69E93;
+      margin-bottom: 8px;
+    }
+    .village-panel-cta-btn {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #2D4A2D;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .village-panel-cta-btn:hover {
+      text-decoration: underline;
     }
 
     /* Results Screen */
@@ -249,6 +326,8 @@
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.6s ease, visibility 0.6s;
+      padding: 24px;
+      overflow-y: auto;
     }
     .results-screen.visible {
       opacity: 1;
@@ -257,62 +336,137 @@
     .results-card {
       background: linear-gradient(135deg, #FF8C42 0%, #FF5E5B 50%, #E84A5F 100%);
       border-radius: 32px;
-      padding: 56px 48px;
-      max-width: 400px;
-      width: calc(100% - 48px);
+      padding: 48px 40px;
+      max-width: 420px;
+      width: 100%;
       text-align: center;
       box-shadow: 0 30px 80px rgba(0,0,0,0.5);
     }
-    .results-header {
+    .results-driver-type {
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 3px;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.7);
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 4px;
+    }
+    .results-driver-name {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 28px;
+      color: #fff;
       margin-bottom: 8px;
     }
-    .results-card h2 {
-      font-family: 'Instrument Serif', Georgia, serif;
-      font-size: 36px;
-      font-weight: 400;
-      color: #fff;
-      margin-bottom: 40px;
-      line-height: 1.2;
+    .results-driver-desc {
+      font-size: 14px;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 32px;
+      line-height: 1.5;
     }
     .results-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 40px;
-      padding-bottom: 32px;
+      gap: 12px;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
       border-bottom: 1px solid rgba(255,255,255,0.2);
     }
     .results-stat-value {
       font-family: 'Instrument Serif', Georgia, serif;
-      font-size: 32px;
+      font-size: 28px;
       color: #fff;
     }
     .results-stat-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      margin-top: 4px;
+    }
+    .results-match-label {
       font-size: 11px;
       font-weight: 600;
       letter-spacing: 1px;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.6);
-      margin-top: 6px;
-    }
-    .results-favorite-label {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
       color: rgba(255,255,255,0.5);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
-    .results-favorite {
+    .results-match {
       font-family: 'Instrument Serif', Georgia, serif;
       font-size: 32px;
       color: #fff;
-      margin-bottom: 40px;
+      margin-bottom: 6px;
+    }
+    .results-match-tagline {
+      font-size: 14px;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 32px;
+    }
+    .results-form {
+      background: rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .results-form-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .results-form-input {
+      width: 100%;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      padding: 14px 16px;
+      border: none;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      outline: none;
+    }
+    .results-form-input::placeholder {
+      color: #999;
+    }
+    .results-form-submit {
+      width: 100%;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a1a2e;
+      background: #FFD93D;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .results-form-submit:hover {
+      background: #FFE566;
+      transform: translateY(-1px);
+    }
+    .results-form-skip {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .results-form.submitted .results-form-title {
+      color: #FFD93D;
+    }
+    .results-form.submitted .results-form-input,
+    .results-form.submitted .results-form-submit {
+      display: none;
+    }
+    .results-form-success {
+      display: none;
+      font-size: 14px;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.5;
+    }
+    .results-form.submitted .results-form-success {
+      display: block;
     }
     .results-actions {
       display: flex;
@@ -321,14 +475,17 @@
     }
     .results-btn {
       font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 600;
-      padding: 18px 32px;
+      padding: 16px 28px;
       border-radius: 100px;
       border: none;
       cursor: pointer;
       text-decoration: none;
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       transition: all 0.2s ease;
     }
     .results-btn:hover { transform: translateY(-2px); }
@@ -340,8 +497,12 @@
       background: rgba(255,255,255,0.15);
       color: #fff;
     }
+    .results-btn-share {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+    }
     .results-powered {
-      margin-top: 40px;
+      margin-top: 32px;
       font-size: 13px;
       color: rgba(255,255,255,0.35);
     }
@@ -365,6 +526,7 @@
 
     @media (pointer: coarse) {
       .touch-zone { display: block; }
+      .start-controls { display: none; }
     }
 
     /* Mobile adjustments */
@@ -372,20 +534,30 @@
       .hud { top: 16px; left: 16px; }
       .hud-speed { font-size: 40px; }
       .hud-progress { top: 16px; right: 16px; }
+      .hud-progress-bar { width: 100px; }
       .village-panel {
         left: 12px;
         right: 12px;
-        bottom: 12px;
+        bottom: 80px;
         max-width: none;
         padding: 20px;
       }
       .village-panel h3 { font-size: 24px; }
-      .results-card { padding: 44px 32px; }
+      .mute-btn { bottom: 16px; right: 16px; width: 44px; height: 44px; }
+      .results-card { padding: 36px 24px; }
+      .results-driver-name { font-size: 24px; }
+      .results-match { font-size: 26px; }
+    }
+
+    /* Share card canvas (hidden) */
+    #shareCanvas {
+      display: none;
     }
   </style>
 </head>
 <body>
   <canvas id="gameCanvas"></canvas>
+  <canvas id="shareCanvas" width="600" height="800"></canvas>
 
   <!-- Touch zones for mobile steering -->
   <div class="touch-zone touch-zone-left" id="touchLeft"></div>
@@ -396,10 +568,11 @@
   <div class="start-screen" id="startScreen">
     <div class="start-logo">Horizon West</div>
     <h1>Drive the 429</h1>
-    <p class="subtitle">South to North — 6 villages, one sunset</p>
+    <p class="subtitle">6 villages. One sunset. Find your fit.</p>
+    <p class="start-social-proof"><strong id="socialCount">4,847</strong> people have driven this week</p>
     <button class="start-btn" id="startBtn">Start Driving</button>
     <div class="start-controls">
-      <strong>W</strong> / <strong>↑</strong> Accelerate<br>
+      <strong>W</strong> / <strong>↑</strong> Accelerate &nbsp;&nbsp;
       <strong>A</strong> <strong>D</strong> / <strong>←</strong> <strong>→</strong> Steer
     </div>
   </div>
@@ -414,22 +587,29 @@
     <div class="hud-progress-bar">
       <div class="hud-progress-fill" id="progressFill" style="width: 0%"></div>
     </div>
-    <div class="hud-direction" id="hudDirection">Ovation → Town Center</div>
+    <div class="hud-villages"><span class="discovered" id="villageCount">0</span>/6 villages</div>
   </div>
 
-  <!-- Village Side Panel (non-interrupting) -->
+  <!-- Mute Button -->
+  <button class="mute-btn" id="muteBtn" title="Toggle sound">
+    <svg id="soundOnIcon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+    <svg id="soundOffIcon" style="display:none" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+  </button>
+
+  <!-- Village Side Panel -->
   <div class="village-panel" id="villagePanel">
     <div class="village-panel-exit" id="villagePanelExit">Exit 2</div>
     <h3 id="villagePanelName">Ovation</h3>
-    <p class="village-panel-vibe" id="villagePanelVibe">The final village. Conservation-focused.</p>
+    <p class="village-panel-tagline" id="villagePanelTagline">Young professionals, creatives</p>
+    <p class="village-panel-vibe" id="villagePanelVibe">Arts & culture, walkable</p>
     <div class="village-panel-stats">
+      <div class="village-panel-stat">
+        <div class="village-panel-stat-value" id="villagePanelPrice">$400K+</div>
+        <div class="village-panel-stat-label">From</div>
+      </div>
       <div class="village-panel-stat">
         <div class="village-panel-stat-value" id="villagePanelHomes">1,800+</div>
         <div class="village-panel-stat-label">Homes</div>
-      </div>
-      <div class="village-panel-stat">
-        <div class="village-panel-stat-value" id="villagePanelHOA">$170</div>
-        <div class="village-panel-stat-label">HOA</div>
       </div>
       <div class="village-panel-stat">
         <div class="village-panel-stat-value" id="villagePanelSchool">A</div>
@@ -441,12 +621,14 @@
   <!-- Results Screen -->
   <div class="results-screen" id="resultsScreen">
     <div class="results-card">
-      <div class="results-header">Drive Complete</div>
-      <h2>You drove the 429</h2>
+      <div class="results-driver-type">You drive like</div>
+      <div class="results-driver-name" id="resultDriverType">The Explorer</div>
+      <div class="results-driver-desc" id="resultDriverDesc">You slowed down at every village, soaking it all in. You're here to discover, not rush.</div>
+
       <div class="results-stats">
         <div class="results-stat">
-          <div class="results-stat-value" id="resultMiles">12</div>
-          <div class="results-stat-label">Miles</div>
+          <div class="results-stat-value" id="resultTime">67</div>
+          <div class="results-stat-label">Seconds</div>
         </div>
         <div class="results-stat">
           <div class="results-stat-value" id="resultVillages">6</div>
@@ -457,11 +639,25 @@
           <div class="results-stat-label">Top MPH</div>
         </div>
       </div>
-      <div class="results-favorite-label">You spent the most time near</div>
-      <div class="results-favorite" id="resultFavorite">Lakeside</div>
+
+      <div class="results-match-label">Your village match</div>
+      <div class="results-match" id="resultMatch">Lakeside</div>
+      <div class="results-match-tagline" id="resultMatchTagline">"Lakefront living, top schools"</div>
+
+      <div class="results-form" id="resultsForm">
+        <div class="results-form-title">Get the insider guide to <span id="formVillageName">Lakeside</span></div>
+        <input type="email" class="results-form-input" id="leadEmail" placeholder="Your email">
+        <button class="results-form-submit" id="leadSubmit">Send me the guide</button>
+        <div class="results-form-success">Check your inbox! We'll send you everything you need to know about <span id="successVillageName">Lakeside</span>.</div>
+      </div>
+
       <div class="results-actions">
+        <button class="results-btn results-btn-share" id="shareBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+          Share result
+        </button>
         <a href="/realtor/horizon-west.html" class="results-btn results-btn-primary">Explore Horizon West</a>
-        <button class="results-btn results-btn-secondary" id="driveAgainBtn">Drive Again</button>
+        <button class="results-btn results-btn-secondary" id="driveAgainBtn">Drive again</button>
       </div>
     </div>
     <p class="results-powered">Powered by <a href="https://popup.company">POP-UP</a></p>
@@ -473,19 +669,21 @@
     // ============================================
     const CONFIG = {
       maxSpeed: 140,
-      accelerationRate: 55,
-      decelerationRate: 30,
-      steerSpeed: 4.5,
-      steerReturnSpeed: 3,
-      maxSteer: 0.4,  // max lateral position as % of road width
+      accelerationRate: 65,
+      decelerationRate: 35,
+      steerSpeed: 5,
+      steerReturnSpeed: 4,
+      maxSteer: 0.42,
       roadWidth: 0.38,
-      horizonY: 0.36,
+      horizonY: 0.34,
       totalMiles: 14,
-      pixelsPerMile: 4000,  // increased for longer journey
+      pixelsPerMile: 4200,
+      screenShakeIntensity: 3,
+      worldTiltMax: 2.5,
     };
 
     // ============================================
-    // VILLAGES - South to North order per map
+    // VILLAGES - South to North (per map)
     // ============================================
     const VILLAGES = [
       {
@@ -493,82 +691,247 @@
         name: "Ovation",
         exit: 2,
         mileMarker: 1.5,
-        vibe: "The newest village. Conservation zones, kayaking, birdwatching, trails. Best new-construction options.",
+        tagline: "Young professionals, creatives",
+        vibe: "Arts & culture, walkable town center",
+        priceRange: "$400-600K",
+        priceFrom: "$400K+",
         homes: "1,800+",
-        hoa: "170",
-        school: "A"
+        school: "A",
+        forWho: "Young professionals, creatives"
       },
       {
         id: "hickorynut",
         name: "Hickory Nut",
         exit: 4,
         mileMarker: 4.0,
-        vibe: "Prestigious and private. Centered around Hickory Nut Lake. Spacious single-family homes, upscale feel.",
+        tagline: "Growing families",
+        vibe: "Family-oriented, parks everywhere",
+        priceRange: "$350-500K",
+        priceFrom: "$350K+",
         homes: "2,100+",
-        hoa: "210",
-        school: "A"
+        school: "A",
+        forWho: "Growing families"
       },
       {
         id: "villagef",
         name: "Village F",
         exit: 6,
         mileMarker: 6.5,
-        vibe: "Lake views, nature trails, and The Mark shopping district. Disney fireworks visible from many spots.",
+        tagline: "Move-up buyers",
+        vibe: "Newest builds, modern designs",
+        priceRange: "$450-650K",
+        priceFrom: "$450K+",
         homes: "3,500+",
-        hoa: "165",
-        school: "A-"
+        school: "A-",
+        forWho: "Move-up buyers"
       },
       {
         id: "lakeside",
         name: "Lakeside",
         exit: 8,
         mileMarker: 9.0,
-        vibe: "The OG. Established 1997. Mature landscaping, largest commercial hub. Publix, restaurants, banks.",
+        tagline: "Outdoor enthusiasts",
+        vibe: "Lakefront living, resort-style amenities",
+        priceRange: "$500-800K",
+        priceFrom: "$500K+",
         homes: "2,800+",
-        hoa: "180",
-        school: "A"
+        school: "A",
+        forWho: "Outdoor enthusiasts"
       },
       {
         id: "bridgewater",
         name: "Bridgewater",
         exit: 10,
         mileMarker: 11.5,
-        vibe: "Most populated village — 10,450 units. Family-friendly with parks in every neighborhood.",
+        tagline: "Empty nesters",
+        vibe: "Established, mature trees",
+        priceRange: "$400-600K",
+        priceFrom: "$400K+",
         homes: "10,450",
-        hoa: "200",
-        school: "A"
+        school: "A",
+        forWho: "Empty nesters"
       },
       {
         id: "towncenter",
         name: "Town Center",
         exit: 12,
         mileMarker: 13.5,
-        vibe: "The walkable heart of Horizon West. Restaurants, shopping, entertainment. Friday night spot.",
+        tagline: "Walkability seekers",
+        vibe: "Urban core, dining & retail",
+        priceRange: "$350-550K",
+        priceFrom: "$350K+",
         homes: "4,200+",
-        hoa: "220",
-        school: "A"
+        school: "A",
+        forWho: "Walkability seekers"
       }
     ];
+
+    // Driver type definitions
+    const DRIVER_TYPES = {
+      explorer: {
+        name: "The Explorer",
+        desc: "You slowed down at every village, soaking it all in. You're here to discover, not rush."
+      },
+      commuter: {
+        name: "The Commuter",
+        desc: "Efficient, focused, got the job done. You know what you want and don't waste time."
+      },
+      speedster: {
+        name: "The Speedster",
+        desc: "Floored it the whole way. Life's too short to drive slow—you're all about the thrill."
+      },
+      local: {
+        name: "The Local",
+        desc: "You knew exactly where to look. Did you grow up here, or just do your homework?"
+      }
+    };
+
+    // ============================================
+    // AUDIO ENGINE
+    // ============================================
+    class AudioEngine {
+      constructor() {
+        this.ctx = null;
+        this.muted = false;
+        this.initialized = false;
+        this.engineOsc = null;
+        this.engineGain = null;
+        this.windGain = null;
+        this.windNoise = null;
+      }
+
+      async init() {
+        if (this.initialized) return;
+        try {
+          this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+          // Engine sound (oscillator)
+          this.engineOsc = this.ctx.createOscillator();
+          this.engineOsc.type = 'sawtooth';
+          this.engineOsc.frequency.value = 80;
+
+          this.engineGain = this.ctx.createGain();
+          this.engineGain.gain.value = 0;
+
+          const engineFilter = this.ctx.createBiquadFilter();
+          engineFilter.type = 'lowpass';
+          engineFilter.frequency.value = 400;
+
+          this.engineOsc.connect(engineFilter);
+          engineFilter.connect(this.engineGain);
+          this.engineGain.connect(this.ctx.destination);
+          this.engineOsc.start();
+
+          // Wind noise
+          const bufferSize = 2 * this.ctx.sampleRate;
+          const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+          const output = noiseBuffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) {
+            output[i] = Math.random() * 2 - 1;
+          }
+
+          this.windNoise = this.ctx.createBufferSource();
+          this.windNoise.buffer = noiseBuffer;
+          this.windNoise.loop = true;
+
+          const windFilter = this.ctx.createBiquadFilter();
+          windFilter.type = 'bandpass';
+          windFilter.frequency.value = 800;
+          windFilter.Q.value = 0.5;
+
+          this.windGain = this.ctx.createGain();
+          this.windGain.gain.value = 0;
+
+          this.windNoise.connect(windFilter);
+          windFilter.connect(this.windGain);
+          this.windGain.connect(this.ctx.destination);
+          this.windNoise.start();
+
+          this.initialized = true;
+        } catch (e) {
+          console.log('Audio not available');
+        }
+      }
+
+      update(speed, maxSpeed) {
+        if (!this.initialized || this.muted) return;
+
+        const speedRatio = speed / maxSpeed;
+
+        // Engine pitch and volume
+        if (this.engineOsc && this.engineGain) {
+          this.engineOsc.frequency.value = 60 + speedRatio * 180;
+          this.engineGain.gain.value = 0.03 + speedRatio * 0.07;
+        }
+
+        // Wind volume
+        if (this.windGain) {
+          this.windGain.gain.value = speedRatio * 0.15;
+        }
+      }
+
+      playDiscovery() {
+        if (!this.initialized || this.muted) return;
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(523.25, this.ctx.currentTime); // C5
+        osc.frequency.setValueAtTime(659.25, this.ctx.currentTime + 0.1); // E5
+        osc.frequency.setValueAtTime(783.99, this.ctx.currentTime + 0.2); // G5
+
+        gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+        gain.gain.exponentialDecayTo && gain.gain.exponentialDecayTo(0.01, this.ctx.currentTime + 0.5);
+        gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.5);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.5);
+      }
+
+      toggleMute() {
+        this.muted = !this.muted;
+        if (this.muted) {
+          if (this.engineGain) this.engineGain.gain.value = 0;
+          if (this.windGain) this.windGain.gain.value = 0;
+        }
+        return this.muted;
+      }
+
+      stop() {
+        if (this.engineGain) this.engineGain.gain.value = 0;
+        if (this.windGain) this.windGain.gain.value = 0;
+      }
+    }
 
     // ============================================
     // GAME STATE
     // ============================================
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
+    const audio = new AudioEngine();
 
     let state = {
       phase: 'start',
       speed: 0,
+      displaySpeed: 0,
       topSpeed: 0,
       distance: 0,
       time: 0,
-      carX: 0,  // -1 to 1, 0 is center
-      steerInput: 0,  // -1 left, 1 right
-      isAccelerating: false,
+      carX: 0,
+      steerInput: 0,
       villagesPassed: [],
       lingerTime: {},
       currentVillage: null,
       panelTimeout: null,
+      screenShake: { x: 0, y: 0 },
+      worldTilt: 0,
+      particles: [],
+      treesState: [],
+      palmTrees: [],
     };
 
     let keys = { up: false, left: false, right: false };
@@ -583,13 +946,33 @@
       window.addEventListener('resize', resizeCanvas);
 
       // Initialize stripes
-      for (let i = 0; i < 25; i++) {
-        roadStripes.push({ z: i * 40 });
+      for (let i = 0; i < 30; i++) {
+        roadStripes.push({ z: i * 35 });
+      }
+
+      // Initialize trees
+      for (let i = 0; i < 20; i++) {
+        state.treesState.push({
+          offset: Math.random(),
+          side: i % 2 === 0 ? -1 : 1,
+          type: Math.random() > 0.3 ? 'pine' : 'oak',
+          size: 0.8 + Math.random() * 0.4
+        });
+      }
+
+      // Initialize palm trees (Florida!)
+      for (let i = 0; i < 8; i++) {
+        state.palmTrees.push({
+          offset: Math.random(),
+          side: i % 2 === 0 ? -1 : 1,
+          lean: (Math.random() - 0.5) * 0.3,
+          fronds: 5 + Math.floor(Math.random() * 3)
+        });
       }
 
       // Keyboard
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
+        if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W' || e.key === ' ') {
           e.preventDefault();
           keys.up = true;
           if (state.phase === 'start') startGame();
@@ -602,11 +985,6 @@
           e.preventDefault();
           keys.right = true;
         }
-        if (e.key === ' ') {
-          e.preventDefault();
-          keys.up = true;
-          if (state.phase === 'start') startGame();
-        }
       });
 
       document.addEventListener('keyup', (e) => {
@@ -616,24 +994,30 @@
       });
 
       // Mobile touch
-      const touchLeft = document.getElementById('touchLeft');
-      const touchCenter = document.getElementById('touchCenter');
-      const touchRight = document.getElementById('touchRight');
-
-      touchLeft.addEventListener('touchstart', (e) => { e.preventDefault(); keys.left = true; keys.up = true; });
-      touchLeft.addEventListener('touchend', () => { keys.left = false; keys.up = false; });
-
-      touchCenter.addEventListener('touchstart', (e) => { e.preventDefault(); keys.up = true; if (state.phase === 'start') startGame(); });
-      touchCenter.addEventListener('touchend', () => { keys.up = false; });
-
-      touchRight.addEventListener('touchstart', (e) => { e.preventDefault(); keys.right = true; keys.up = true; });
-      touchRight.addEventListener('touchend', () => { keys.right = false; keys.up = false; });
+      setupTouch('touchLeft', () => { keys.left = true; keys.up = true; }, () => { keys.left = false; keys.up = false; });
+      setupTouch('touchCenter', () => { keys.up = true; if (state.phase === 'start') startGame(); }, () => { keys.up = false; });
+      setupTouch('touchRight', () => { keys.right = true; keys.up = true; }, () => { keys.right = false; keys.up = false; });
 
       // Buttons
       document.getElementById('startBtn').addEventListener('click', startGame);
       document.getElementById('driveAgainBtn').addEventListener('click', restartGame);
+      document.getElementById('muteBtn').addEventListener('click', toggleMute);
+      document.getElementById('shareBtn').addEventListener('click', shareResult);
+      document.getElementById('leadSubmit').addEventListener('click', submitLead);
+
+      // Randomize social proof slightly
+      const baseCount = 4847;
+      const variance = Math.floor(Math.random() * 200) - 100;
+      document.getElementById('socialCount').textContent = (baseCount + variance).toLocaleString();
 
       requestAnimationFrame(gameLoop);
+    }
+
+    function setupTouch(id, onStart, onEnd) {
+      const el = document.getElementById(id);
+      el.addEventListener('touchstart', (e) => { e.preventDefault(); onStart(); });
+      el.addEventListener('touchend', onEnd);
+      el.addEventListener('touchcancel', onEnd);
     }
 
     function resizeCanvas() {
@@ -644,25 +1028,33 @@
       ctx.scale(dpr, dpr);
     }
 
-    function startGame() {
+    async function startGame() {
+      await audio.init();
+
       state = {
         phase: 'playing',
         speed: 0,
+        displaySpeed: 0,
         topSpeed: 0,
         distance: 0,
         time: 0,
         carX: 0,
         steerInput: 0,
-        isAccelerating: false,
         villagesPassed: [],
         lingerTime: {},
         currentVillage: null,
         panelTimeout: null,
+        screenShake: { x: 0, y: 0 },
+        worldTilt: 0,
+        particles: [],
+        treesState: state.treesState,
+        palmTrees: state.palmTrees,
       };
 
       document.getElementById('startScreen').classList.add('hidden');
       document.getElementById('hud').classList.add('visible');
       document.getElementById('hudProgress').classList.add('visible');
+      document.getElementById('muteBtn').classList.add('visible');
 
       lastTime = performance.now();
     }
@@ -670,7 +1062,14 @@
     function restartGame() {
       document.getElementById('resultsScreen').classList.remove('visible');
       document.getElementById('villagePanel').classList.remove('visible');
+      document.getElementById('resultsForm').classList.remove('submitted');
       startGame();
+    }
+
+    function toggleMute() {
+      const muted = audio.toggleMute();
+      document.getElementById('soundOnIcon').style.display = muted ? 'none' : 'block';
+      document.getElementById('soundOffIcon').style.display = muted ? 'block' : 'none';
     }
 
     // ============================================
@@ -692,13 +1091,33 @@
     // UPDATE
     // ============================================
     function update(dt) {
-      // Acceleration
+      // Acceleration with screen shake
+      const wasAccelerating = keys.up;
+
       if (keys.up) {
-        state.speed += CONFIG.accelerationRate * dt;
+        const accelFactor = 1 - (state.speed / CONFIG.maxSpeed) * 0.3; // Slower accel at high speed
+        state.speed += CONFIG.accelerationRate * accelFactor * dt;
         if (state.speed > CONFIG.maxSpeed) state.speed = CONFIG.maxSpeed;
+
+        // Screen shake on hard acceleration
+        if (state.speed < CONFIG.maxSpeed * 0.9) {
+          state.screenShake.x = (Math.random() - 0.5) * CONFIG.screenShakeIntensity * (state.speed / CONFIG.maxSpeed);
+          state.screenShake.y = (Math.random() - 0.5) * CONFIG.screenShakeIntensity * (state.speed / CONFIG.maxSpeed);
+        }
       } else {
         state.speed -= CONFIG.decelerationRate * dt;
         if (state.speed < 0) state.speed = 0;
+
+        // Decay screen shake
+        state.screenShake.x *= 0.9;
+        state.screenShake.y *= 0.9;
+      }
+
+      // Smooth display speed (bouncy speedometer)
+      const speedDiff = state.speed - state.displaySpeed;
+      state.displaySpeed += speedDiff * 8 * dt;
+      if (Math.abs(speedDiff) > 5) {
+        state.displaySpeed += (Math.random() - 0.5) * 2; // Needle bounce
       }
 
       if (state.speed > state.topSpeed) state.topSpeed = state.speed;
@@ -715,7 +1134,11 @@
         if (Math.abs(state.steerInput) < 0.01) state.steerInput = 0;
       }
 
-      // Apply steering (stronger at speed)
+      // World tilt when steering
+      const targetTilt = -state.steerInput * CONFIG.worldTiltMax * (state.speed / CONFIG.maxSpeed);
+      state.worldTilt += (targetTilt - state.worldTilt) * 5 * dt;
+
+      // Apply steering
       const steerEffect = state.steerInput * (state.speed / CONFIG.maxSpeed) * dt * 3;
       state.carX += steerEffect;
       state.carX = Math.max(-CONFIG.maxSteer, Math.min(CONFIG.maxSteer, state.carX));
@@ -725,10 +1148,14 @@
       state.distance += pixelsPerSecond * dt;
       state.time += dt;
 
+      // Update audio
+      audio.update(state.speed, CONFIG.maxSpeed);
+
       // HUD
-      document.getElementById('speedValue').textContent = Math.round(state.speed);
+      document.getElementById('speedValue').textContent = Math.round(state.displaySpeed);
       const progress = (state.distance / (CONFIG.totalMiles * CONFIG.pixelsPerMile)) * 100;
       document.getElementById('progressFill').style.width = `${Math.min(progress, 100)}%`;
+      document.getElementById('villageCount').textContent = state.villagesPassed.length;
 
       // Village detection
       const currentMile = state.distance / CONFIG.pixelsPerMile;
@@ -736,36 +1163,38 @@
       VILLAGES.forEach(village => {
         const dist = Math.abs(currentMile - village.mileMarker);
 
-        // Track linger time
-        if (dist < 1) {
+        // Track linger time (slower = more linger)
+        if (dist < 1.2) {
           if (!state.lingerTime[village.id]) state.lingerTime[village.id] = 0;
-          state.lingerTime[village.id] += dt * (1 - state.speed / CONFIG.maxSpeed);
+          const lingerFactor = 1 - (state.speed / CONFIG.maxSpeed);
+          state.lingerTime[village.id] += dt * (0.5 + lingerFactor * 1.5);
         }
 
         // Show panel when approaching
-        if (currentMile >= village.mileMarker - 0.5 &&
+        if (currentMile >= village.mileMarker - 0.4 &&
             currentMile <= village.mileMarker + 1.5 &&
             !state.villagesPassed.includes(village.id)) {
           showVillagePanel(village);
           state.villagesPassed.push(village.id);
+          audio.playDiscovery();
         }
 
         // Hide panel after passing
-        if (currentMile > village.mileMarker + 2 && state.currentVillage?.id === village.id) {
+        if (currentMile > village.mileMarker + 2.5 && state.currentVillage?.id === village.id) {
           hideVillagePanel();
         }
+      });
+
+      // Road stripes
+      roadStripes.forEach(stripe => {
+        stripe.z -= pixelsPerSecond * dt * 0.1;
+        if (stripe.z < 0) stripe.z += 30 * 35;
       });
 
       // End game
       if (currentMile >= CONFIG.totalMiles) {
         endGame();
       }
-
-      // Road stripes
-      roadStripes.forEach(stripe => {
-        stripe.z -= pixelsPerSecond * dt * 0.12;
-        if (stripe.z < 0) stripe.z += 25 * 40;
-      });
     }
 
     function showVillagePanel(village) {
@@ -773,16 +1202,16 @@
 
       document.getElementById('villagePanelExit').textContent = `Exit ${village.exit}`;
       document.getElementById('villagePanelName').textContent = village.name;
+      document.getElementById('villagePanelTagline').textContent = village.tagline;
       document.getElementById('villagePanelVibe').textContent = village.vibe;
+      document.getElementById('villagePanelPrice').textContent = village.priceFrom;
       document.getElementById('villagePanelHomes').textContent = village.homes;
-      document.getElementById('villagePanelHOA').textContent = `$${village.hoa}`;
       document.getElementById('villagePanelSchool').textContent = village.school;
 
       document.getElementById('villagePanel').classList.add('visible');
 
-      // Auto-hide after 4 seconds
       if (state.panelTimeout) clearTimeout(state.panelTimeout);
-      state.panelTimeout = setTimeout(hideVillagePanel, 4000);
+      state.panelTimeout = setTimeout(hideVillagePanel, 4500);
     }
 
     function hideVillagePanel() {
@@ -792,28 +1221,181 @@
 
     function endGame() {
       state.phase = 'ended';
+      audio.stop();
 
-      const miles = Math.round(state.distance / CONFIG.pixelsPerMile);
+      // Calculate driver type
+      const avgSpeed = (state.distance / CONFIG.pixelsPerMile) / (state.time / 3600);
+      const totalLinger = Object.values(state.lingerTime).reduce((a, b) => a + b, 0);
 
-      let favorite = VILLAGES[0].name;
+      let driverType = 'commuter';
+      if (state.topSpeed > 130 && avgSpeed > 100) {
+        driverType = 'speedster';
+      } else if (totalLinger > 15) {
+        driverType = 'explorer';
+      } else if (state.villagesPassed.length === 6 && totalLinger > 8) {
+        driverType = 'local';
+      }
+
+      // Find favorite village
+      let favorite = VILLAGES[0];
       let maxLinger = 0;
       Object.entries(state.lingerTime).forEach(([id, time]) => {
         if (time > maxLinger) {
           maxLinger = time;
           const v = VILLAGES.find(v => v.id === id);
-          if (v) favorite = v.name;
+          if (v) favorite = v;
         }
       });
 
-      document.getElementById('resultMiles').textContent = miles;
+      // Update results
+      const driver = DRIVER_TYPES[driverType];
+      document.getElementById('resultDriverType').textContent = driver.name;
+      document.getElementById('resultDriverDesc').textContent = driver.desc;
+      document.getElementById('resultTime').textContent = Math.round(state.time);
       document.getElementById('resultVillages').textContent = state.villagesPassed.length;
       document.getElementById('resultTopSpeed').textContent = Math.round(state.topSpeed);
-      document.getElementById('resultFavorite').textContent = favorite;
+      document.getElementById('resultMatch').textContent = favorite.name;
+      document.getElementById('resultMatchTagline').textContent = `"${favorite.vibe}"`;
+      document.getElementById('formVillageName').textContent = favorite.name;
+      document.getElementById('successVillageName').textContent = favorite.name;
+
+      // Store for share card
+      state.results = { driverType: driver, favorite, time: state.time, villages: state.villagesPassed.length, topSpeed: state.topSpeed };
 
       setTimeout(() => {
         document.getElementById('villagePanel').classList.remove('visible');
+        document.getElementById('muteBtn').classList.remove('visible');
         document.getElementById('resultsScreen').classList.add('visible');
-      }, 500);
+      }, 600);
+    }
+
+    function submitLead() {
+      const email = document.getElementById('leadEmail').value;
+      if (!email || !email.includes('@')) {
+        document.getElementById('leadEmail').style.borderColor = '#E84A5F';
+        return;
+      }
+
+      // In production, send to backend
+      console.log('Lead captured:', email, state.results?.favorite?.name);
+
+      document.getElementById('resultsForm').classList.add('submitted');
+    }
+
+    async function shareResult() {
+      if (!state.results) return;
+
+      // Generate share card
+      const shareCanvas = document.getElementById('shareCanvas');
+      const sctx = shareCanvas.getContext('2d');
+
+      // Background gradient
+      const grad = sctx.createLinearGradient(0, 0, 600, 800);
+      grad.addColorStop(0, '#FF8C42');
+      grad.addColorStop(0.5, '#FF5E5B');
+      grad.addColorStop(1, '#E84A5F');
+      sctx.fillStyle = grad;
+      sctx.fillRect(0, 0, 600, 800);
+
+      // Content
+      sctx.fillStyle = '#fff';
+      sctx.textAlign = 'center';
+
+      sctx.font = '600 14px "DM Sans", sans-serif';
+      sctx.globalAlpha = 0.7;
+      sctx.fillText('🚗 I DROVE THE 429', 300, 80);
+
+      sctx.globalAlpha = 1;
+      sctx.font = '400 48px "Georgia", serif';
+      sctx.fillText(state.results.driverType.name, 300, 160);
+
+      sctx.font = '400 16px "DM Sans", sans-serif';
+      sctx.globalAlpha = 0.8;
+      const descLines = wrapText(sctx, state.results.driverType.desc, 400);
+      descLines.forEach((line, i) => {
+        sctx.fillText(line, 300, 200 + i * 24);
+      });
+
+      sctx.globalAlpha = 1;
+
+      // Stats
+      const statsY = 320;
+      sctx.font = '400 42px "Georgia", serif';
+      sctx.fillText(Math.round(state.results.time) + 's', 150, statsY);
+      sctx.fillText(state.results.villages + '/6', 300, statsY);
+      sctx.fillText(Math.round(state.results.topSpeed), 450, statsY);
+
+      sctx.font = '600 11px "DM Sans", sans-serif';
+      sctx.globalAlpha = 0.6;
+      sctx.fillText('TIME', 150, statsY + 30);
+      sctx.fillText('VILLAGES', 300, statsY + 30);
+      sctx.fillText('TOP MPH', 450, statsY + 30);
+
+      // Divider
+      sctx.globalAlpha = 0.2;
+      sctx.fillRect(100, 400, 400, 1);
+
+      // Village match
+      sctx.globalAlpha = 0.6;
+      sctx.font = '600 12px "DM Sans", sans-serif';
+      sctx.fillText('MY VILLAGE MATCH', 300, 460);
+
+      sctx.globalAlpha = 1;
+      sctx.font = '400 40px "Georgia", serif';
+      sctx.fillText(state.results.favorite.name, 300, 520);
+
+      sctx.font = '400 16px "DM Sans", sans-serif';
+      sctx.globalAlpha = 0.8;
+      sctx.fillText('"' + state.results.favorite.vibe + '"', 300, 560);
+
+      // CTA
+      sctx.globalAlpha = 0.5;
+      sctx.font = '500 14px "DM Sans", sans-serif';
+      sctx.fillText('Take the drive → popup.company/realtor/drive-429', 300, 740);
+
+      // Try native share, fall back to download
+      try {
+        shareCanvas.toBlob(async (blob) => {
+          if (navigator.share && navigator.canShare) {
+            const file = new File([blob], 'drive-429-result.png', { type: 'image/png' });
+            if (navigator.canShare({ files: [file] })) {
+              await navigator.share({
+                files: [file],
+                title: 'I Drove the 429',
+                text: `I'm "${state.results.driverType.name}" - my village match is ${state.results.favorite.name}!`
+              });
+              return;
+            }
+          }
+          // Fallback: download
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'drive-429-result.png';
+          a.click();
+          URL.revokeObjectURL(url);
+        }, 'image/png');
+      } catch (e) {
+        console.log('Share failed:', e);
+      }
+    }
+
+    function wrapText(context, text, maxWidth) {
+      const words = text.split(' ');
+      const lines = [];
+      let line = '';
+
+      words.forEach(word => {
+        const test = line + word + ' ';
+        if (context.measureText(test).width > maxWidth && line) {
+          lines.push(line.trim());
+          line = word + ' ';
+        } else {
+          line = test;
+        }
+      });
+      lines.push(line.trim());
+      return lines;
     }
 
     // ============================================
@@ -825,75 +1407,111 @@
       const progress = state.distance / (CONFIG.totalMiles * CONFIG.pixelsPerMile);
       const horizonY = h * CONFIG.horizonY;
 
-      // Sky
+      ctx.save();
+
+      // Apply screen shake
+      if (state.phase === 'playing') {
+        ctx.translate(state.screenShake.x, state.screenShake.y);
+      }
+
+      // Apply world tilt
+      if (state.worldTilt !== 0) {
+        ctx.translate(w / 2, h);
+        ctx.rotate(state.worldTilt * Math.PI / 180);
+        ctx.translate(-w / 2, -h);
+      }
+
+      // === SKY ===
       const skyGradient = ctx.createLinearGradient(0, 0, 0, horizonY);
       if (progress < 0.2) {
         skyGradient.addColorStop(0, '#87CEEB');
-        skyGradient.addColorStop(0.5, '#FFB347');
+        skyGradient.addColorStop(0.6, '#FFB347');
         skyGradient.addColorStop(1, '#FF8C42');
-      } else if (progress < 0.4) {
+      } else if (progress < 0.45) {
         skyGradient.addColorStop(0, '#FFB347');
         skyGradient.addColorStop(0.5, '#FF8C42');
         skyGradient.addColorStop(1, '#FF5E5B');
-      } else if (progress < 0.65) {
+      } else if (progress < 0.7) {
         skyGradient.addColorStop(0, '#FF8C42');
         skyGradient.addColorStop(0.5, '#FF5E5B');
         skyGradient.addColorStop(1, '#8E4585');
       } else {
-        skyGradient.addColorStop(0, '#8E4585');
-        skyGradient.addColorStop(0.5, '#5D3A6A');
-        skyGradient.addColorStop(1, '#2d2d4a');
+        skyGradient.addColorStop(0, '#5D3A6A');
+        skyGradient.addColorStop(0.5, '#3D2A4A');
+        skyGradient.addColorStop(1, '#1a1a2e');
       }
       ctx.fillStyle = skyGradient;
-      ctx.fillRect(0, 0, w, horizonY);
+      ctx.fillRect(-50, -50, w + 100, horizonY + 100);
 
-      // Sun
-      const sunProgress = Math.min(progress * 1.3, 1);
-      const sunY = 50 + sunProgress * (horizonY - 30);
-      const sunX = w * 0.75;
-      const sunRadius = 45 - sunProgress * 20;
-      const sunAlpha = 1 - sunProgress * 0.4;
+      // === SUN ===
+      const sunProgress = Math.min(progress * 1.4, 1);
+      const sunY = 60 + sunProgress * (horizonY - 20);
+      const sunX = w * 0.72;
+      const sunRadius = 50 - sunProgress * 25;
+      const sunAlpha = 1 - sunProgress * 0.5;
 
-      ctx.fillStyle = `rgba(255, 220, 120, ${sunAlpha})`;
+      // Sun glow
+      const glow = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, sunRadius * 4);
+      glow.addColorStop(0, `rgba(255, 200, 100, ${sunAlpha * 0.4})`);
+      glow.addColorStop(0.5, `rgba(255, 180, 80, ${sunAlpha * 0.15})`);
+      glow.addColorStop(1, 'rgba(255, 150, 50, 0)');
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(sunX, sunY, sunRadius * 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Sun disc
+      ctx.fillStyle = `rgba(255, 230, 140, ${sunAlpha})`;
       ctx.beginPath();
       ctx.arc(sunX, sunY, sunRadius, 0, Math.PI * 2);
       ctx.fill();
 
-      // Sun glow
-      const glow = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, sunRadius * 3);
-      glow.addColorStop(0, `rgba(255, 200, 100, ${sunAlpha * 0.35})`);
-      glow.addColorStop(1, 'rgba(255, 200, 100, 0)');
-      ctx.fillStyle = glow;
-      ctx.beginPath();
-      ctx.arc(sunX, sunY, sunRadius * 3, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Stars
-      if (progress > 0.55) {
-        const starAlpha = (progress - 0.55) * 2.2;
+      // === STARS ===
+      if (progress > 0.5) {
+        const starAlpha = (progress - 0.5) * 2;
         ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(starAlpha, 0.9)})`;
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 60; i++) {
           const sx = ((Math.sin(i * 567.8) + 1) / 2) * w;
-          const sy = ((Math.sin(i * 234.5) + 1) / 2) * horizonY * 0.6;
+          const sy = ((Math.sin(i * 234.5) + 1) / 2) * horizonY * 0.7;
+          const twinkle = 0.5 + Math.sin(performance.now() / 500 + i) * 0.5;
+          ctx.globalAlpha = starAlpha * twinkle;
           ctx.beginPath();
-          ctx.arc(sx, sy, 0.5 + Math.sin(i) * 0.4, 0, Math.PI * 2);
+          ctx.arc(sx, sy, 0.6 + Math.sin(i) * 0.4, 0, Math.PI * 2);
           ctx.fill();
         }
+        ctx.globalAlpha = 1;
       }
 
-      // Ground
+      // === GROUND ===
       const groundGrad = ctx.createLinearGradient(0, horizonY, 0, h);
-      groundGrad.addColorStop(0, '#4a7c4a');
-      groundGrad.addColorStop(0.4, '#3d6b3d');
-      groundGrad.addColorStop(1, '#2d4a2d');
+      if (progress < 0.6) {
+        groundGrad.addColorStop(0, '#5a8a5a');
+        groundGrad.addColorStop(0.3, '#4a7a4a');
+        groundGrad.addColorStop(1, '#3a5a3a');
+      } else {
+        groundGrad.addColorStop(0, '#3a5a5a');
+        groundGrad.addColorStop(0.3, '#2a4a4a');
+        groundGrad.addColorStop(1, '#1a3a3a');
+      }
       ctx.fillStyle = groundGrad;
-      ctx.fillRect(0, horizonY, w, h - horizonY);
+      ctx.fillRect(-50, horizonY - 1, w + 100, h - horizonY + 100);
 
-      // Road with perspective
-      const roadTopW = w * 0.07;
+      // === ROAD ===
+      const roadTopW = w * 0.06;
       const roadBotW = w * CONFIG.roadWidth;
       const roadCenterX = w / 2;
 
+      // Road shadow
+      ctx.fillStyle = 'rgba(0,0,0,0.15)';
+      ctx.beginPath();
+      ctx.moveTo(roadCenterX - roadTopW / 2 - 5, horizonY);
+      ctx.lineTo(roadCenterX + roadTopW / 2 + 5, horizonY);
+      ctx.lineTo(roadCenterX + roadBotW / 2 + 20, h);
+      ctx.lineTo(roadCenterX - roadBotW / 2 - 20, h);
+      ctx.closePath();
+      ctx.fill();
+
+      // Road surface
       ctx.fillStyle = '#2a2a2a';
       ctx.beginPath();
       ctx.moveTo(roadCenterX - roadTopW / 2, horizonY);
@@ -903,16 +1521,29 @@
       ctx.closePath();
       ctx.fill();
 
+      // Road texture (subtle)
+      if (state.speed > 20) {
+        ctx.globalAlpha = 0.03;
+        for (let i = 0; i < 15; i++) {
+          const ty = horizonY + Math.random() * (h - horizonY);
+          const p = (ty - horizonY) / (h - horizonY);
+          const tw = roadTopW + (roadBotW - roadTopW) * p;
+          ctx.fillStyle = Math.random() > 0.5 ? '#333' : '#222';
+          ctx.fillRect(roadCenterX - tw / 2, ty, tw, 2 + Math.random() * 3);
+        }
+        ctx.globalAlpha = 1;
+      }
+
       // Edge lines
       ctx.strokeStyle = '#fff';
       ctx.lineWidth = 3;
       ctx.beginPath();
-      ctx.moveTo(roadCenterX - roadTopW / 2 + 3, horizonY);
-      ctx.lineTo(roadCenterX - roadBotW / 2 + 6, h);
+      ctx.moveTo(roadCenterX - roadTopW / 2 + 2, horizonY);
+      ctx.lineTo(roadCenterX - roadBotW / 2 + 5, h);
       ctx.stroke();
       ctx.beginPath();
-      ctx.moveTo(roadCenterX + roadTopW / 2 - 3, horizonY);
-      ctx.lineTo(roadCenterX + roadBotW / 2 - 6, h);
+      ctx.moveTo(roadCenterX + roadTopW / 2 - 2, horizonY);
+      ctx.lineTo(roadCenterX + roadBotW / 2 - 5, h);
       ctx.stroke();
 
       // Center dashes
@@ -923,9 +1554,9 @@
         if (z > 0 && z < 1000) {
           const p = 1 - (z / 1000);
           const y = horizonY + p * (h - horizonY);
-          const len = 15 * p;
-          if (y > horizonY && y < h - 15) {
-            ctx.globalAlpha = 0.4 + p * 0.6;
+          const len = 18 * p;
+          if (y > horizonY + 5 && y < h - 20) {
+            ctx.globalAlpha = 0.5 + p * 0.5;
             ctx.beginPath();
             ctx.moveTo(roadCenterX, y);
             ctx.lineTo(roadCenterX, y + len);
@@ -935,135 +1566,220 @@
       });
       ctx.globalAlpha = 1;
 
-      // Trees
-      for (let i = 0; i < 14; i++) {
-        const treeZ = ((i / 14) + (state.distance * 0.00008) % 1) % 1;
+      // === PALM TREES (Florida!) ===
+      state.palmTrees.forEach((palm, i) => {
+        const treeZ = ((palm.offset + (state.distance * 0.00006)) % 1);
         const p = treeZ;
-        const y = horizonY + p * (h - horizonY) * 0.85;
+        const y = horizonY + p * (h - horizonY) * 0.9;
 
-        if (y > horizonY) {
-          const side = i % 2 === 0 ? -1 : 1;
-          const edgeAtP = roadCenterX + side * (roadTopW / 2 + (roadBotW / 2 - roadTopW / 2) * p);
-          const x = edgeAtP + side * (40 + p * 100);
-          const size = 6 + p * 28;
+        if (y > horizonY && p > 0.1) {
+          const edgeAtP = roadCenterX + palm.side * (roadTopW / 2 + (roadBotW / 2 - roadTopW / 2) * p);
+          const x = edgeAtP + palm.side * (60 + p * 140);
+          const size = 8 + p * 50;
 
-          ctx.fillStyle = '#5D4037';
-          ctx.fillRect(x - 2, y - size * 0.2, 4, size * 0.3);
-          ctx.fillStyle = '#2E7D32';
+          // Trunk
+          ctx.strokeStyle = '#8B7355';
+          ctx.lineWidth = 3 + p * 5;
           ctx.beginPath();
-          ctx.arc(x, y - size * 0.4, size * 0.35, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
+          ctx.moveTo(x, y);
+          ctx.quadraticCurveTo(x + palm.lean * size, y - size * 0.5, x + palm.lean * size * 1.5, y - size);
+          ctx.stroke();
 
-      // Highway sign
+          // Fronds
+          ctx.fillStyle = '#228B22';
+          for (let f = 0; f < palm.fronds; f++) {
+            const angle = (f / palm.fronds) * Math.PI * 2;
+            const fx = x + palm.lean * size * 1.5;
+            const fy = y - size;
+
+            ctx.save();
+            ctx.translate(fx, fy);
+            ctx.rotate(angle + Math.sin(performance.now() / 1000 + i) * 0.05);
+
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.quadraticCurveTo(size * 0.3, -size * 0.1, size * 0.5, size * 0.1);
+            ctx.quadraticCurveTo(size * 0.3, size * 0.05, 0, 0);
+            ctx.fill();
+
+            ctx.restore();
+          }
+        }
+      });
+
+      // === PINE/OAK TREES ===
+      state.treesState.forEach((tree, i) => {
+        const treeZ = ((tree.offset + (state.distance * 0.00007)) % 1);
+        const p = treeZ;
+        const y = horizonY + p * (h - horizonY) * 0.88;
+
+        if (y > horizonY && p > 0.05) {
+          const edgeAtP = roadCenterX + tree.side * (roadTopW / 2 + (roadBotW / 2 - roadTopW / 2) * p);
+          const x = edgeAtP + tree.side * (45 + p * 110);
+          const size = (6 + p * 32) * tree.size;
+
+          // Trunk
+          ctx.fillStyle = '#5D4037';
+          ctx.fillRect(x - 2 - p * 2, y - size * 0.15, 4 + p * 4, size * 0.25);
+
+          // Canopy
+          if (tree.type === 'pine') {
+            ctx.fillStyle = '#2E7D32';
+            ctx.beginPath();
+            ctx.moveTo(x, y - size * 0.8);
+            ctx.lineTo(x - size * 0.35, y - size * 0.1);
+            ctx.lineTo(x + size * 0.35, y - size * 0.1);
+            ctx.closePath();
+            ctx.fill();
+          } else {
+            ctx.fillStyle = '#388E3C';
+            ctx.beginPath();
+            ctx.arc(x, y - size * 0.45, size * 0.38, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      });
+
+      // === HIGHWAY SIGN ===
       const currentMile = state.distance / CONFIG.pixelsPerMile;
       const nextVillage = VILLAGES.find(v => v.mileMarker > currentMile);
 
       if (nextVillage) {
         const distTo = nextVillage.mileMarker - currentMile;
-        if (distTo < 2 && distTo > 0.2) {
-          const signP = 1 - ((distTo - 0.2) / 1.8);
-          const signY = horizonY + signP * (h * 0.4 - horizonY);
-          const signScale = 0.35 + signP * 0.65;
+        if (distTo < 2.2 && distTo > 0.15) {
+          const signP = 1 - ((distTo - 0.15) / 2.05);
+          const signY = horizonY + signP * (h * 0.45 - horizonY);
+          const signScale = 0.3 + signP * 0.7;
 
-          ctx.fillStyle = '#555';
-          ctx.fillRect(roadCenterX - 2, signY, 4, 80 * signScale);
+          // Sign post
+          ctx.fillStyle = '#666';
+          ctx.fillRect(roadCenterX - 2, signY, 4, 90 * signScale);
 
-          const sw = 150 * signScale;
-          const sh = 85 * signScale;
+          const sw = 160 * signScale;
+          const sh = 95 * signScale;
 
+          // Sign background
           ctx.fillStyle = '#006B3C';
           ctx.beginPath();
-          ctx.roundRect(roadCenterX - sw/2, signY - sh, sw, sh, 3);
+          ctx.roundRect(roadCenterX - sw/2, signY - sh, sw, sh, 4);
           ctx.fill();
 
+          // Sign border
           ctx.strokeStyle = '#fff';
-          ctx.lineWidth = 2 * signScale;
+          ctx.lineWidth = 2.5 * signScale;
           ctx.beginPath();
-          ctx.roundRect(roadCenterX - sw/2 + 3, signY - sh + 3, sw - 6, sh - 6, 2);
+          ctx.roundRect(roadCenterX - sw/2 + 4, signY - sh + 4, sw - 8, sh - 8, 3);
           ctx.stroke();
 
+          // Sign text
           ctx.fillStyle = '#fff';
           ctx.textAlign = 'center';
-          ctx.font = `bold ${11 * signScale}px "DM Sans", sans-serif`;
-          ctx.fillText(`EXIT ${nextVillage.exit}`, roadCenterX, signY - sh + 20 * signScale);
-          ctx.font = `bold ${15 * signScale}px "DM Sans", sans-serif`;
-          ctx.fillText(nextVillage.name, roadCenterX, signY - sh + 42 * signScale);
-          ctx.font = `${9 * signScale}px "DM Sans", sans-serif`;
-          const milesTxt = distTo < 1 ? `${(distTo).toFixed(1)} MI` : `${Math.ceil(distTo)} MI`;
-          ctx.fillText(milesTxt, roadCenterX, signY - sh + 62 * signScale);
+          ctx.font = `bold ${12 * signScale}px "DM Sans", sans-serif`;
+          ctx.fillText(`EXIT ${nextVillage.exit}`, roadCenterX, signY - sh + 22 * signScale);
+          ctx.font = `bold ${17 * signScale}px "DM Sans", sans-serif`;
+          ctx.fillText(nextVillage.name, roadCenterX, signY - sh + 48 * signScale);
+          ctx.font = `${10 * signScale}px "DM Sans", sans-serif`;
+          const milesTxt = distTo < 1 ? `${distTo.toFixed(1)} MI` : `${Math.ceil(distTo)} MI`;
+          ctx.fillText(milesTxt, roadCenterX, signY - sh + 70 * signScale);
         }
       }
 
-      // Car
-      const carBaseX = roadCenterX + state.carX * (roadBotW / 2 - 40);
-      const carY = h - 90;
-      const carW = 40;
-      const carH = 70;
-      const tilt = state.steerInput * 3;
+      // === CAR ===
+      const carBaseX = roadCenterX + state.carX * (roadBotW / 2 - 45);
+      const carY = h - 95;
+      const carW = 44;
+      const carH = 75;
+      const tilt = state.steerInput * 4;
 
       ctx.save();
       ctx.translate(carBaseX, carY);
       ctx.rotate(tilt * Math.PI / 180);
 
-      // Shadow
-      ctx.fillStyle = 'rgba(0,0,0,0.3)';
+      // Car shadow
+      ctx.fillStyle = 'rgba(0,0,0,0.35)';
       ctx.beginPath();
-      ctx.ellipse(0, 32, carW * 0.9, 12, 0, 0, Math.PI * 2);
+      ctx.ellipse(0, 34, carW * 0.95, 14, 0, 0, Math.PI * 2);
       ctx.fill();
 
-      // Body
-      ctx.fillStyle = '#E53935';
+      // Car body
+      const carGrad = ctx.createLinearGradient(-carW/2, 0, carW/2, 0);
+      carGrad.addColorStop(0, '#C62828');
+      carGrad.addColorStop(0.5, '#E53935');
+      carGrad.addColorStop(1, '#C62828');
+      ctx.fillStyle = carGrad;
       ctx.beginPath();
-      ctx.roundRect(-carW/2, -carH/2, carW, carH, 12);
+      ctx.roundRect(-carW/2, -carH/2, carW, carH, 14);
       ctx.fill();
 
-      // Roof
-      ctx.fillStyle = '#C62828';
+      // Car roof
+      ctx.fillStyle = '#B71C1C';
       ctx.beginPath();
-      ctx.roundRect(-carW/2 + 6, -carH/2 + 20, carW - 12, 24, 6);
+      ctx.roundRect(-carW/2 + 7, -carH/2 + 22, carW - 14, 26, 8);
       ctx.fill();
 
       // Windshield
-      ctx.fillStyle = '#90CAF9';
+      const windshieldGrad = ctx.createLinearGradient(0, -carH/2 + 24, 0, -carH/2 + 38);
+      windshieldGrad.addColorStop(0, '#64B5F6');
+      windshieldGrad.addColorStop(1, '#42A5F5');
+      ctx.fillStyle = windshieldGrad;
       ctx.beginPath();
-      ctx.roundRect(-carW/2 + 8, -carH/2 + 22, carW - 16, 12, 3);
+      ctx.roundRect(-carW/2 + 9, -carH/2 + 24, carW - 18, 14, 4);
       ctx.fill();
 
-      // Headlights
-      if (progress > 0.45) {
-        const intensity = (progress - 0.45) * 1.8;
-        const lightGrad = ctx.createRadialGradient(0, -carH/2 - 20, 0, 0, -carH/2 - 20, 180);
-        lightGrad.addColorStop(0, `rgba(255, 255, 200, ${intensity * 0.6})`);
-        lightGrad.addColorStop(0.4, `rgba(255, 255, 150, ${intensity * 0.2})`);
+      // Taillights
+      ctx.fillStyle = '#ff4444';
+      ctx.beginPath();
+      ctx.roundRect(-carW/2 + 4, carH/2 - 12, 8, 6, 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.roundRect(carW/2 - 12, carH/2 - 12, 8, 6, 2);
+      ctx.fill();
+
+      // Headlight beams (at dusk)
+      if (progress > 0.4) {
+        const beamIntensity = Math.min((progress - 0.4) * 2.5, 1);
+        const lightGrad = ctx.createRadialGradient(0, -carH/2 - 30, 0, 0, -carH/2 - 30, 220);
+        lightGrad.addColorStop(0, `rgba(255, 255, 220, ${beamIntensity * 0.5})`);
+        lightGrad.addColorStop(0.3, `rgba(255, 255, 180, ${beamIntensity * 0.2})`);
         lightGrad.addColorStop(1, 'rgba(255, 255, 150, 0)');
         ctx.fillStyle = lightGrad;
         ctx.beginPath();
-        ctx.moveTo(-50, -carH/2);
-        ctx.lineTo(50, -carH/2);
-        ctx.lineTo(100, -carH/2 - 250);
-        ctx.lineTo(-100, -carH/2 - 250);
+        ctx.moveTo(-45, -carH/2);
+        ctx.lineTo(45, -carH/2);
+        ctx.lineTo(90, -carH/2 - 280);
+        ctx.lineTo(-90, -carH/2 - 280);
         ctx.closePath();
         ctx.fill();
       }
 
       ctx.restore();
 
-      // Speed lines
-      if (state.speed > 70) {
-        const lineInt = (state.speed - 70) / 70;
-        ctx.strokeStyle = `rgba(255, 255, 255, ${lineInt * 0.2})`;
+      // === SPEED LINES ===
+      if (state.speed > 80) {
+        const lineInt = (state.speed - 80) / 60;
+        ctx.strokeStyle = `rgba(255, 255, 255, ${lineInt * 0.18})`;
         ctx.lineWidth = 2;
-        for (let i = 0; i < 5; i++) {
-          const lx = carBaseX - roadBotW * 0.3 + Math.random() * roadBotW * 0.6;
-          const ly = carY - 80 - Math.random() * 180;
+        for (let i = 0; i < 6; i++) {
+          const lx = carBaseX - roadBotW * 0.35 + Math.random() * roadBotW * 0.7;
+          const ly = carY - 100 - Math.random() * 200;
           ctx.beginPath();
           ctx.moveTo(lx, ly);
-          ctx.lineTo(lx, ly + 40 + state.speed * 0.4);
+          ctx.lineTo(lx, ly + 50 + state.speed * 0.5);
           ctx.stroke();
         }
       }
+
+      // === MOTION BLUR VIGNETTE ===
+      if (state.speed > 100) {
+        const blurInt = (state.speed - 100) / 40;
+        const vignette = ctx.createRadialGradient(w/2, h/2, h * 0.3, w/2, h/2, h * 0.9);
+        vignette.addColorStop(0, 'rgba(0,0,0,0)');
+        vignette.addColorStop(1, `rgba(0,0,0,${blurInt * 0.25})`);
+        ctx.fillStyle = vignette;
+        ctx.fillRect(0, 0, w, h);
+      }
+
+      ctx.restore();
     }
 
     init();
