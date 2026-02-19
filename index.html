@@ -728,7 +728,7 @@
                     </ul>
                     <a href="#contact" class="pricing-cta">BUILD MY POP-UP</a>
                 </div>
-                <p class="proof-line">POP-UP in the wild: <a href="https://mylawnhq-theta.vercel.app/game" target="_blank" id="lawnGameLink">lawn care edition →</a></p>
+                <p class="proof-line">POP-UP in the wild: <a href="https://www.mylawnhq.com/game" target="_blank" id="lawnGameLink">lawn care edition →</a> · <a href="/realtor" id="realtorLink">realtor edition →</a></p>
             </div>
         </section>
 
@@ -776,18 +776,32 @@
 
     <script>
         // Game modal (mobile only)
-        const lawnGameLink = document.getElementById('lawnGameLink');
         const gameModal = document.getElementById('gameModal');
         const gameModalOverlay = document.getElementById('gameModalOverlay');
         const gameModalIframe = document.getElementById('gameModalIframe');
+        const gameModalTitle = gameModal.querySelector('.game-modal-header span');
 
-        lawnGameLink.addEventListener('click', function(e) {
+        function openModal(href, title) {
             if (window.innerWidth <= 768) {
-                e.preventDefault();
-                gameModalIframe.src = this.href;
+                gameModalIframe.src = href;
+                gameModalTitle.textContent = title;
                 gameModal.classList.add('active');
                 gameModalOverlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
+                return true;
+            }
+            return false;
+        }
+
+        document.getElementById('lawnGameLink').addEventListener('click', function(e) {
+            if (openModal(this.href, 'Lawn Care Edition')) {
+                e.preventDefault();
+            }
+        });
+
+        document.getElementById('realtorLink').addEventListener('click', function(e) {
+            if (openModal(this.href, 'Realtor Edition')) {
+                e.preventDefault();
             }
         });
 
