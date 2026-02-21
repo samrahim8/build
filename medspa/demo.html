@@ -132,42 +132,106 @@
       align-items: start;
     }
 
-    /* Face Diagram */
+    /* Face Photo */
     .face-container {
       position: relative;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
     }
-    .face-svg {
+    .face-wrapper {
+      position: relative;
       width: 100%;
-      max-width: 400px;
+      max-width: 380px;
+    }
+    .face-photo {
+      width: 100%;
       height: auto;
+      border-radius: 200px 200px 100px 100px;
+      display: block;
     }
     .face-zone {
+      position: absolute;
       cursor: pointer;
+      border-radius: 50%;
       transition: all 0.3s ease;
-      fill: transparent;
-      stroke: rgba(201,168,124,0.3);
-      stroke-width: 1;
+      background: transparent;
+      border: 2px solid transparent;
     }
-    .face-zone:hover {
-      fill: rgba(201,168,124,0.15);
-      stroke: var(--accent);
-      stroke-width: 2;
+    .face-zone::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: inherit;
+      background: radial-gradient(circle, rgba(201,168,124,0.3) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
+    .face-zone:hover::before,
+    .face-zone.active::before {
+      opacity: 1;
+    }
+    .face-zone:hover,
     .face-zone.active {
-      fill: rgba(201,168,124,0.25);
-      stroke: var(--accent);
-      stroke-width: 2;
+      border-color: rgba(201,168,124,0.6);
+      box-shadow: 0 0 20px rgba(201,168,124,0.4);
     }
     .zone-label {
-      font-family: 'DM Sans', sans-serif;
+      position: absolute;
       font-size: 11px;
-      fill: var(--text-muted);
+      font-weight: 500;
+      color: white;
+      background: rgba(45,41,38,0.7);
+      padding: 4px 10px;
+      border-radius: 100px;
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: all 0.2s ease;
       pointer-events: none;
-      text-anchor: middle;
+      backdrop-filter: blur(4px);
     }
+    .face-zone:hover .zone-label,
+    .face-zone.active .zone-label {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Zone positions - calibrated for the portrait */
+    .zone-forehead { top: 8%; left: 25%; width: 50%; height: 12%; border-radius: 50%; }
+    .zone-forehead .zone-label { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    .zone-forehead:hover .zone-label { transform: translate(-50%, -50%); }
+
+    .zone-eyes { top: 22%; width: 22%; height: 8%; }
+    .zone-eyes-left { left: 18%; }
+    .zone-eyes-right { right: 18%; }
+    .zone-eyes .zone-label { top: -24px; left: 50%; transform: translateX(-50%); }
+    .zone-eyes:hover .zone-label { transform: translateX(-50%) translateY(0); }
+
+    .zone-cheeks { top: 35%; width: 20%; height: 18%; }
+    .zone-cheeks-left { left: 8%; }
+    .zone-cheeks-right { right: 8%; }
+    .zone-cheeks .zone-label { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    .zone-cheeks:hover .zone-label { transform: translate(-50%, -50%); }
+
+    .zone-nasolabial { top: 42%; width: 8%; height: 14%; border-radius: 30%; }
+    .zone-nasolabial-left { left: 32%; }
+    .zone-nasolabial-right { right: 32%; }
+    .zone-nasolabial .zone-label { top: -24px; left: 50%; transform: translateX(-50%); }
+
+    .zone-lips { top: 54%; left: 30%; width: 40%; height: 10%; border-radius: 40%; }
+    .zone-lips .zone-label { bottom: -28px; left: 50%; transform: translateX(-50%); top: auto; }
+    .zone-lips:hover .zone-label { transform: translateX(-50%) translateY(0); }
+
+    .zone-jawline { top: 58%; width: 16%; height: 20%; border-radius: 40%; }
+    .zone-jawline-left { left: 5%; }
+    .zone-jawline-right { right: 5%; }
+    .zone-jawline .zone-label { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+    .zone-chin { top: 66%; left: 35%; width: 30%; height: 12%; border-radius: 50%; }
+    .zone-chin .zone-label { bottom: -28px; left: 50%; transform: translateX(-50%); top: auto; }
+
+    .zone-neck { top: 80%; left: 25%; width: 50%; height: 15%; border-radius: 20%; }
+    .zone-neck .zone-label { bottom: -28px; left: 50%; transform: translateX(-50%); top: auto; }
 
     /* Treatment Panel */
     .treatment-panel {
@@ -925,54 +989,52 @@
 
   <section class="explorer-section">
     <div class="explorer-container">
-      <!-- Face Diagram -->
+      <!-- Face Photo with Hotspots -->
       <div class="face-container">
-        <svg class="face-svg" viewBox="0 0 300 400" fill="none">
-          <!-- Face outline -->
-          <ellipse cx="150" cy="180" rx="100" ry="130" fill="#FAF5F0" stroke="#E8E2D8" stroke-width="2"/>
-
-          <!-- Hair suggestion -->
-          <path d="M50 140 Q50 60 150 50 Q250 60 250 140" fill="none" stroke="#E8E2D8" stroke-width="2"/>
-
-          <!-- Forehead zone -->
-          <ellipse class="face-zone" id="zone-forehead" cx="150" cy="100" rx="60" ry="30" data-zone="forehead"/>
-          <text class="zone-label" x="150" y="105">Forehead</text>
-
-          <!-- Crow's feet / Eye area -->
-          <ellipse class="face-zone" id="zone-eyes-left" cx="105" cy="155" rx="28" ry="18" data-zone="eyes"/>
-          <ellipse class="face-zone" id="zone-eyes-right" cx="195" cy="155" rx="28" ry="18" data-zone="eyes"/>
-          <text class="zone-label" x="150" y="155">Eyes</text>
-
-          <!-- Cheeks -->
-          <ellipse class="face-zone" id="zone-cheeks-left" cx="85" cy="200" rx="30" ry="35" data-zone="cheeks"/>
-          <ellipse class="face-zone" id="zone-cheeks-right" cx="215" cy="200" rx="30" ry="35" data-zone="cheeks"/>
-          <text class="zone-label" x="85" y="205">Cheeks</text>
-          <text class="zone-label" x="215" y="205">Cheeks</text>
-
-          <!-- Nasolabial folds (smile lines) -->
-          <path class="face-zone" id="zone-nasolabial" d="M120 185 Q115 220 125 255 L135 255 Q125 220 130 185 Z" data-zone="nasolabial"/>
-          <path class="face-zone" d="M180 185 Q185 220 175 255 L165 255 Q175 220 170 185 Z" data-zone="nasolabial"/>
-
-          <!-- Nose (just decorative) -->
-          <path d="M150 145 L150 195 M140 200 Q150 210 160 200" stroke="#E8E2D8" stroke-width="1.5" fill="none"/>
-
-          <!-- Lips -->
-          <ellipse class="face-zone" id="zone-lips" cx="150" cy="240" rx="35" ry="18" data-zone="lips"/>
-          <text class="zone-label" x="150" y="244">Lips</text>
-
-          <!-- Jawline & Chin -->
-          <path class="face-zone" id="zone-jawline" d="M60 230 Q50 280 100 310 L110 295 Q70 275 75 235 Z" data-zone="jawline"/>
-          <path class="face-zone" d="M240 230 Q250 280 200 310 L190 295 Q230 275 225 235 Z" data-zone="jawline"/>
-          <text class="zone-label" x="65" y="270">Jaw</text>
-          <text class="zone-label" x="235" y="270">Jaw</text>
-
-          <ellipse class="face-zone" id="zone-chin" cx="150" cy="285" rx="30" ry="20" data-zone="chin"/>
-          <text class="zone-label" x="150" y="290">Chin</text>
-
-          <!-- Neck -->
-          <rect class="face-zone" id="zone-neck" x="110" y="320" width="80" height="50" rx="10" data-zone="neck"/>
-          <text class="zone-label" x="150" y="350">Neck</text>
-        </svg>
+        <div class="face-wrapper">
+          <img
+            src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&h=1000&fit=crop&crop=faces&q=90"
+            alt="Face treatment zones"
+            class="face-photo"
+          />
+          <!-- Hotspot zones -->
+          <div class="face-zone zone-forehead" data-zone="forehead">
+            <span class="zone-label">Forehead</span>
+          </div>
+          <div class="face-zone zone-eyes zone-eyes-left" data-zone="eyes">
+            <span class="zone-label">Eyes</span>
+          </div>
+          <div class="face-zone zone-eyes zone-eyes-right" data-zone="eyes">
+            <span class="zone-label">Eyes</span>
+          </div>
+          <div class="face-zone zone-cheeks zone-cheeks-left" data-zone="cheeks">
+            <span class="zone-label">Cheeks</span>
+          </div>
+          <div class="face-zone zone-cheeks zone-cheeks-right" data-zone="cheeks">
+            <span class="zone-label">Cheeks</span>
+          </div>
+          <div class="face-zone zone-nasolabial zone-nasolabial-left" data-zone="nasolabial">
+            <span class="zone-label">Smile Lines</span>
+          </div>
+          <div class="face-zone zone-nasolabial zone-nasolabial-right" data-zone="nasolabial">
+            <span class="zone-label">Smile Lines</span>
+          </div>
+          <div class="face-zone zone-lips" data-zone="lips">
+            <span class="zone-label">Lips</span>
+          </div>
+          <div class="face-zone zone-jawline zone-jawline-left" data-zone="jawline">
+            <span class="zone-label">Jawline</span>
+          </div>
+          <div class="face-zone zone-jawline zone-jawline-right" data-zone="jawline">
+            <span class="zone-label">Jawline</span>
+          </div>
+          <div class="face-zone zone-chin" data-zone="chin">
+            <span class="zone-label">Chin</span>
+          </div>
+          <div class="face-zone zone-neck" data-zone="neck">
+            <span class="zone-label">Neck</span>
+          </div>
+        </div>
       </div>
 
       <!-- Treatment Panel -->
