@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Med Spa Lead Pages | POP-UP</title>
+  <meta name="description" content="Interactive treatment explorers for med spas. Let visitors build their own treatment plan — and capture their info when they're ready. Beautiful, transparent, converting.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Med Spa Lead Pages | POP-UP">
+  <meta property="og:description" content="Interactive treatment explorers for med spas. Let visitors build their own treatment plan.">
+  <meta property="og:site_name" content="POP-UP">
+  <meta property="og:url" content="https://www.popup.company/medspa">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=1200&h=630&fit=crop&q=80">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Med Spa Lead Pages | POP-UP">
+  <meta name="twitter:description" content="Interactive treatment explorers for med spas. Let visitors build their own treatment plan.">
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=1200&h=630&fit=crop&q=80">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 44'><path d='M0 14 C0 6, 6 2, 12 10 C18 2, 24 2, 24 10 C30 2, 36 6, 36 14 L36 18 L0 18 Z' fill='%23C4704C'/><rect x='0' y='18' width='36' height='2' fill='%23A85A3A'/><rect x='4' y='20' width='3' height='20' fill='%232D3B2D' rx='1'/><rect x='29' y='20' width='3' height='20' fill='%232D3B2D' rx='1'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    ::selection { background: #C9A87C; color: #FFFBF7; }
+
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      background: #FFFBF7;
+      color: #2D2926;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    .header {
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 14px;
+      font-weight: 600;
+      color: #2D2926;
+      text-decoration: none;
+    }
+    .header-cta {
+      font-size: 13px;
+      font-weight: 500;
+      color: #FFFBF7;
+      background: #C9A87C;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .header-cta:hover { background: #B8956A; }
+
+    /* Hero */
+    .hero {
+      padding: 80px 24px 60px;
+      text-align: center;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #C9A87C;
+      background: rgba(201,168,124,0.12);
+      padding: 8px 16px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(40px, 7vw, 64px);
+      font-weight: 400;
+      line-height: 1.05;
+      margin-bottom: 24px;
+    }
+    h1 em { font-style: italic; color: #C9A87C; }
+    .hero-sub {
+      font-size: 18px;
+      color: #7A746D;
+      max-width: 540px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      font-size: 15px;
+      font-weight: 500;
+      color: #FFFBF7;
+      background: #C9A87C;
+      padding: 16px 32px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: #B8956A; }
+    .btn-secondary {
+      font-size: 15px;
+      font-weight: 500;
+      color: #5C564F;
+      background: transparent;
+      padding: 16px 32px;
+      border-radius: 8px;
+      text-decoration: none;
+      border: 1px solid #D9D4CD;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { background: #5C564F; color: #FFFBF7; border-color: #5C564F; }
+
+    /* Problem */
+    .problem {
+      padding: 60px 24px;
+      background: #F7F3EE;
+    }
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 32px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .problem-item {
+      text-align: center;
+    }
+    .problem-icon {
+      font-size: 32px;
+      margin-bottom: 16px;
+      opacity: 0.4;
+    }
+    .problem-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .problem-text {
+      font-size: 14px;
+      color: #7A746D;
+      line-height: 1.6;
+    }
+
+    /* Demo Section */
+    .demo-section {
+      padding: 80px 24px;
+    }
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #C9A87C;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(28px, 5vw, 40px);
+      font-weight: 400;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .section-title em { font-style: italic; color: #C9A87C; }
+    .section-sub {
+      font-size: 16px;
+      color: #7A746D;
+      text-align: center;
+      max-width: 500px;
+      margin: 0 auto 48px;
+    }
+
+    .demo-card {
+      display: block;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 32px;
+      background: #fff;
+      border: 1px solid #E8E2D8;
+      border-radius: 16px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+    }
+    .demo-card:hover {
+      border-color: #C9A87C;
+      box-shadow: 0 8px 32px rgba(201,168,124,0.15);
+      transform: translateY(-2px);
+    }
+    .demo-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #C9A87C;
+      background: rgba(201,168,124,0.1);
+      padding: 6px 12px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+    }
+    .demo-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    .demo-meta {
+      font-size: 14px;
+      color: #A69E93;
+      margin-bottom: 20px;
+    }
+    .demo-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .demo-feature {
+      font-size: 12px;
+      color: #5C564F;
+      background: #F7F3EE;
+      padding: 6px 12px;
+      border-radius: 100px;
+    }
+    .demo-cta {
+      font-size: 14px;
+      font-weight: 500;
+      color: #C9A87C;
+    }
+
+    /* Features */
+    .features {
+      padding: 80px 24px;
+      background: linear-gradient(180deg, #5C564F 0%, #3D3935 100%);
+      color: #FFFBF7;
+    }
+    .features .section-label { color: rgba(255,251,247,0.5); }
+    .features .section-title { color: #FFFBF7; }
+    .features .section-sub { color: rgba(255,251,247,0.7); }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .feature-item {
+      padding: 28px;
+      background: rgba(255,251,247,0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(255,251,247,0.1);
+    }
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(201,168,124,0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .feature-icon svg { stroke: #C9A87C; }
+    .feature-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .feature-text {
+      font-size: 14px;
+      color: rgba(255,251,247,0.7);
+      line-height: 1.7;
+    }
+
+    /* Interactive Highlight */
+    .interactive-section {
+      padding: 80px 24px;
+    }
+    .explorer-box {
+      max-width: 700px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .explorer-content h3 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 32px;
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+    .explorer-content h3 em { font-style: italic; color: #C9A87C; }
+    .explorer-content p {
+      font-size: 15px;
+      color: #7A746D;
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+    .explorer-visual {
+      background: linear-gradient(180deg, #5C564F 0%, #3D3935 100%);
+      border-radius: 16px;
+      padding: 32px 24px;
+      text-align: center;
+      color: #FFFBF7;
+    }
+    .explorer-visual-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,251,247,0.5);
+      margin-bottom: 12px;
+    }
+    .explorer-visual-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+    .explorer-visual-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: #FFFBF7;
+      background: rgba(255,251,247,0.1);
+      border: 1px solid rgba(255,251,247,0.2);
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      text-align: left;
+    }
+    .explorer-visual-item.highlight {
+      background: #C9A87C;
+      border-color: #C9A87C;
+    }
+
+    /* Pricing */
+    .pricing {
+      padding: 80px 24px;
+      background: #F7F3EE;
+    }
+    .pricing-box {
+      max-width: 500px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 16px;
+      padding: 48px 40px;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+    .pricing-prefix {
+      font-size: 14px;
+      color: #7A746D;
+      margin-bottom: 4px;
+    }
+    .pricing-amount {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 56px;
+      font-weight: 400;
+      color: #2D2926;
+      margin-bottom: 8px;
+    }
+    .pricing-note {
+      font-size: 14px;
+      color: #A69E93;
+      margin-bottom: 32px;
+    }
+    .pricing-features {
+      text-align: left;
+      margin-bottom: 32px;
+    }
+    .pricing-feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #F7F3EE;
+      font-size: 15px;
+    }
+    .pricing-feature:last-child { border-bottom: none; }
+    .pricing-check {
+      color: #C9A87C;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .pricing-cta {
+      display: block;
+      width: 100%;
+      font-size: 16px;
+      font-weight: 500;
+      color: #FFFBF7;
+      background: #C9A87C;
+      padding: 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-bottom: 16px;
+      transition: background 0.2s;
+    }
+    .pricing-cta:hover { background: #B8956A; }
+    .pricing-alt {
+      font-size: 14px;
+      color: #A69E93;
+    }
+    .pricing-alt a {
+      color: #5C564F;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    /* FAQ */
+    .faq {
+      padding: 80px 24px;
+    }
+    .faq-grid {
+      max-width: 700px;
+      margin: 48px auto 0;
+    }
+    .faq-item {
+      padding: 24px 0;
+      border-bottom: 1px solid #E8E2D8;
+    }
+    .faq-q {
+      font-size: 17px;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+    .faq-a {
+      font-size: 15px;
+      color: #7A746D;
+      line-height: 1.7;
+    }
+
+    /* Final CTA */
+    .final-cta {
+      padding: 80px 24px;
+      background: linear-gradient(180deg, #5C564F 0%, #3D3935 100%);
+      text-align: center;
+      color: #FFFBF7;
+    }
+    .final-cta h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(28px, 5vw, 40px);
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+    .final-cta p {
+      font-size: 16px;
+      color: rgba(255,251,247,0.7);
+      margin-bottom: 32px;
+      max-width: 450px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .final-cta .btn-primary { background: #C9A87C; }
+    .final-cta .btn-primary:hover { background: #B8956A; }
+
+    /* Footer */
+    .footer {
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: #A69E93;
+    }
+    .footer a { color: #A69E93; }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      .explorer-box {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .explorer-visual { order: -1; }
+      .hero { padding: 60px 24px 40px; }
+      .pricing-box { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <a href="https://popup.company" class="logo">POP-UP</a>
+    <a href="#pricing" class="header-cta">Get started</a>
+  </header>
+
+  <section class="hero">
+    <div class="badge">For Med Spas</div>
+    <h1>Let them explore.<br />Then <em>capture</em> them.</h1>
+    <p class="hero-sub">
+      An interactive treatment explorer that lets visitors tap, learn, and build their own treatment plan — then gives you their info when they're ready.
+    </p>
+    <div class="hero-ctas">
+      <a href="/medspa/demo" class="btn-primary">See live demo</a>
+      <a href="#pricing" class="btn-secondary">View pricing</a>
+    </div>
+  </section>
+
+  <section class="problem">
+    <div class="problem-grid">
+      <div class="problem-item">
+        <div class="problem-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div class="problem-title">They don't know what to ask for</div>
+        <div class="problem-text">First-timers are curious but overwhelmed. They leave your site because they don't know where to start.</div>
+      </div>
+      <div class="problem-item">
+        <div class="problem-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div class="problem-title">Everyone hides pricing</div>
+        <div class="problem-text">90% of med spa websites say "call for pricing." Visitors Google instead — and find your competitor's Groupon.</div>
+      </div>
+      <div class="problem-item">
+        <div class="problem-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        </div>
+        <div class="problem-title">Your website is a brochure</div>
+        <div class="problem-text">Static pages with stock photos. No interaction, no education, no reason for them to give you their email.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="demo-section">
+    <div class="section-label">Live Demo</div>
+    <h2 class="section-title">See what makes them <em>stay and explore</em></h2>
+    <p class="section-sub">This is what we built for Lumière Aesthetics. Tap around the face. Build a plan. See why it converts.</p>
+
+    <a href="/medspa/demo" class="demo-card">
+      <div class="demo-badge">Live Example</div>
+      <div class="demo-title">Lumière Aesthetics</div>
+      <div class="demo-meta">Orlando · Visual Treatment Explorer · Full pricing transparency</div>
+      <div class="demo-features">
+        <span class="demo-feature">Tap-to-explore face diagram</span>
+        <span class="demo-feature">Treatment plan builder</span>
+        <span class="demo-feature">Transparent pricing</span>
+        <span class="demo-feature">Before/after gallery</span>
+        <span class="demo-feature">Provider profiles</span>
+        <span class="demo-feature">Lead capture</span>
+      </div>
+      <div class="demo-cta">Explore demo →</div>
+    </a>
+  </section>
+
+  <section class="features">
+    <div class="section-label">What's Included</div>
+    <h2 class="section-title">Everything you need to <em>convert</em> curious browsers</h2>
+    <p class="section-sub">Not a template. A fully interactive, custom-built experience for your med spa.</p>
+
+    <div class="feature-grid">
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M3 21v-2a7 7 0 0 1 7-7h4a7 7 0 0 1 7 7v2"/></svg>
+        </div>
+        <div class="feature-title">Visual Treatment Explorer</div>
+        <div class="feature-text">An elegant face diagram where visitors tap concern areas to discover treatments. Not a quiz — an exploratory tool where they're in control. Every tap educates and engages.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <div class="feature-title">Treatment Plan Builder</div>
+        <div class="feature-text">As they explore, they add treatments to their plan. A floating sidebar tracks selections, estimated cost, and suggested sequence. When they're ready, they submit — with intent.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div class="feature-title">Transparent Pricing</div>
+        <div class="feature-text">Price ranges for every treatment. No "call for quote." This alone differentiates you — and pre-qualifies leads who are serious, not just shopping.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </div>
+        <div class="feature-title">Before/After Gallery</div>
+        <div class="feature-text">Organized by concern area, not treatment name. "Fine lines & wrinkles" with 2-3 real client results. Social proof that sells without selling.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="feature-title">Provider Profiles</div>
+        <div class="feature-text">Real bios, not LinkedIn summaries. "Dr. Chen has performed 2,400+ treatments and specializes in natural-looking results." Human, warm, trustworthy.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </div>
+        <div class="feature-title">SEO-Ready</div>
+        <div class="feature-text">Targets real searches: "How much does Botox cost in Orlando?" "Does lip filler hurt?" When they Google, you show up with answers — and a lead capture.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="interactive-section">
+    <div class="container">
+      <div class="explorer-box">
+        <div class="explorer-content">
+          <h3>The face diagram is the <em>hook</em></h3>
+          <p>When someone taps on their forehead and sees "Botox · $250–400 · No downtime · Results in 3–5 days" — they understand immediately.</p>
+          <p>They add it to their plan. They tap another area. They explore at their own pace. No pressure, no phone call required.</p>
+          <p><strong>By the time they submit, they've educated themselves.</strong> Your team gets a warm lead with a specific treatment plan attached — not "just curious."</p>
+        </div>
+        <div class="explorer-visual">
+          <div class="explorer-visual-label">Visitors Explore</div>
+          <div class="explorer-visual-title">Face Zone → Treatment Info</div>
+          <div class="explorer-visual-item">
+            <span style="font-size: 18px;">👁️</span> Crow's feet → Botox, Under-eye filler
+          </div>
+          <div class="explorer-visual-item">
+            <span style="font-size: 18px;">💋</span> Lips → Lip filler, Lip flip
+          </div>
+          <div class="explorer-visual-item">
+            <span style="font-size: 18px;">✨</span> Cheeks → Dermal filler, Sculptra
+          </div>
+          <div class="explorer-visual-item highlight">
+            <span style="font-size: 18px;">📋</span> Build plan → Capture lead
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing" id="pricing">
+    <div class="section-label">Pricing</div>
+    <h2 class="section-title">One page. One price.</h2>
+    <p class="section-sub">No subscriptions. No hidden fees. You own it.</p>
+
+    <div class="pricing-box">
+      <div class="pricing-prefix">starting at</div>
+      <div class="pricing-amount">$1,500</div>
+      <div class="pricing-note">One-time · Delivered in 2 weeks</div>
+
+      <div class="pricing-features">
+        <div class="pricing-feature">
+          <svg class="pricing-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Visual Treatment Explorer with tappable face diagram</span>
+        </div>
+        <div class="pricing-feature">
+          <svg class="pricing-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Treatment plan builder with pricing</span>
+        </div>
+        <div class="pricing-feature">
+          <svg class="pricing-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Before/after gallery setup</span>
+        </div>
+        <div class="pricing-feature">
+          <svg class="pricing-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Provider profiles + FAQ section</span>
+        </div>
+        <div class="pricing-feature">
+          <svg class="pricing-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Lead capture with treatment plan attached</span>
+        </div>
+        <div class="pricing-feature">
+          <svg class="pricing-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Mobile-optimized + SEO-ready</span>
+        </div>
+        <div class="pricing-feature">
+          <svg class="pricing-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Source code — host it anywhere</span>
+        </div>
+      </div>
+
+      <a href="mailto:sam@popup.company?subject=Med%20Spa%20Treatment%20Explorer&body=Med%20Spa%20Name%3A%20%0AYour%20name%3A%20%0APhone%3A%20%0ALocation%3A%20" class="pricing-cta">Get started</a>
+      <div class="pricing-alt">Questions? <a href="mailto:sam@popup.company">Email us</a></div>
+    </div>
+  </section>
+
+  <section class="faq">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-title">Common questions</h2>
+
+    <div class="faq-grid">
+      <div class="faq-item">
+        <div class="faq-q">How long does it take?</div>
+        <div class="faq-a">2 weeks from kickoff. We spend time understanding your treatments, pricing, and brand — then build a fully custom page. Rush delivery available for additional cost.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What treatments can you include?</div>
+        <div class="faq-a">Injectables (Botox, fillers), skin treatments (peels, microneedling, IPL), body contouring — whatever you offer. We'll map each treatment to the appropriate face/body zone.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Where do the leads go?</div>
+        <div class="faq-a">Directly to your email (or your CRM). Each submission includes the visitor's name, contact info, and their complete treatment plan with estimated cost. High-intent leads, pre-qualified.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I update pricing later?</div>
+        <div class="faq-a">Yes. You get the source code. Any developer can update it — or you can, with basic HTML knowledge. We also offer a quarterly update package if you want us to handle it.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What about before/after photos?</div>
+        <div class="faq-a">You provide your own client photos (with consent). We design the gallery layout. Real results from your practice are the best social proof.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <h2>Ready to turn browsers into bookings?</h2>
+    <p>One Botox client pays for this. The question is how many you're losing to competitors with better websites.</p>
+    <a href="mailto:sam@popup.company?subject=Med%20Spa%20Treatment%20Explorer&body=Med%20Spa%20Name%3A%20%0AYour%20name%3A%20%0APhone%3A%20%0ALocation%3A%20" class="btn-primary">Get started — $1,500</a>
+  </section>
+
+  <footer class="footer">
+    <a href="https://popup.company">POP-UP</a> · Lead magnets as a service
+  </footer>
+  <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
