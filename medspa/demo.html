@@ -205,44 +205,103 @@
       opacity: 1;
       transform: translateY(0);
     }
-    /* Zone positions - precisely calibrated for this portrait */
-    .zone-forehead { top: 19%; left: 30%; width: 40%; height: 8%; border-radius: 50%; }
-    .zone-forehead .zone-label { top: 50%; left: 50%; transform: translate(-50%, -50%); }
-    .zone-forehead:hover .zone-label, .zone-forehead.active .zone-label { transform: translate(-50%, -50%); }
+    /* Zone positions - precisely calibrated for face.png (1024x1024)
+       Coordinates based on actual facial landmarks in the image:
+       - Forehead visible: y=195-295, x=345-680
+       - Eye outer corners: (360,340) and (665,340)
+       - Cheek apples: (340,450) and (685,450)
+       - Nasolabial: x=420,605 running y=440-530
+       - Lips center: (512,585)
+       - Chin: (512,680)
+       - Neck: y=780+ */
 
-    .zone-eyes { top: 29%; width: 16%; height: 8%; }
-    .zone-eyes-left { left: 24%; }
-    .zone-eyes-right { right: 24%; }
+    /* Forehead: wide ellipse spanning temple to temple, hairline to brows */
+    .zone-forehead {
+      top: 20%;
+      left: 34%;
+      width: 32%;
+      height: 10%;
+      border-radius: 50%;
+    }
+    .zone-forehead .zone-label { top: -28px; left: 50%; transform: translateX(-50%); }
+    .zone-forehead:hover .zone-label, .zone-forehead.active .zone-label { transform: translateX(-50%) translateY(0); }
+
+    /* Eyes/Crow's feet: small zones at outer eye corners */
+    .zone-eyes {
+      top: 30%;
+      width: 10%;
+      height: 7%;
+    }
+    .zone-eyes-left { left: 28%; }
+    .zone-eyes-right { right: 28%; }
     .zone-eyes .zone-label { top: -28px; left: 50%; transform: translateX(-50%); }
     .zone-eyes:hover .zone-label, .zone-eyes.active .zone-label { transform: translateX(-50%) translateY(0); }
 
-    .zone-cheeks { top: 42%; width: 16%; height: 14%; }
-    .zone-cheeks-left { left: 12%; }
-    .zone-cheeks-right { right: 12%; }
+    /* Cheeks: on the cheekbone apple, NOT at the edges of face */
+    .zone-cheeks {
+      top: 40%;
+      width: 14%;
+      height: 12%;
+    }
+    .zone-cheeks-left { left: 23%; }
+    .zone-cheeks-right { right: 23%; }
     .zone-cheeks .zone-label { top: 50%; left: 50%; transform: translate(-50%, -50%); }
     .zone-cheeks:hover .zone-label, .zone-cheeks.active .zone-label { transform: translate(-50%, -50%); }
 
-    .zone-nasolabial { top: 48%; width: 5%; height: 10%; border-radius: 30%; }
-    .zone-nasolabial-left { left: 37%; }
-    .zone-nasolabial-right { right: 37%; }
+    /* Nasolabial folds: thin vertical zones along nose-to-mouth lines */
+    .zone-nasolabial {
+      top: 44%;
+      width: 6%;
+      height: 12%;
+      border-radius: 40%;
+    }
+    .zone-nasolabial-left { left: 38%; }
+    .zone-nasolabial-right { right: 38%; }
     .zone-nasolabial .zone-label { top: -28px; left: 50%; transform: translateX(-50%); }
     .zone-nasolabial:hover .zone-label, .zone-nasolabial.active .zone-label { transform: translateX(-50%) translateY(0); }
 
-    .zone-lips { top: 56%; left: 35%; width: 30%; height: 8%; border-radius: 40%; }
+    /* Lips: centered on mouth */
+    .zone-lips {
+      top: 54%;
+      left: 38%;
+      width: 24%;
+      height: 9%;
+      border-radius: 45%;
+    }
     .zone-lips .zone-label { bottom: -32px; left: 50%; transform: translateX(-50%); top: auto; }
     .zone-lips:hover .zone-label, .zone-lips.active .zone-label { transform: translateX(-50%) translateY(0); }
 
-    .zone-jawline { top: 52%; width: 12%; height: 20%; border-radius: 40%; }
-    .zone-jawline-left { left: 8%; }
-    .zone-jawline-right { right: 8%; }
+    /* Jawline: following the jaw contour, closer to face edge */
+    .zone-jawline {
+      top: 55%;
+      width: 10%;
+      height: 18%;
+      border-radius: 50%;
+    }
+    .zone-jawline-left { left: 18%; }
+    .zone-jawline-right { right: 18%; }
     .zone-jawline .zone-label { top: 50%; left: 50%; transform: translate(-50%, -50%); }
     .zone-jawline:hover .zone-label, .zone-jawline.active .zone-label { transform: translate(-50%, -50%); }
 
-    .zone-chin { top: 65%; left: 38%; width: 24%; height: 9%; border-radius: 50%; }
+    /* Chin: centered on chin point */
+    .zone-chin {
+      top: 64%;
+      left: 40%;
+      width: 20%;
+      height: 8%;
+      border-radius: 50%;
+    }
     .zone-chin .zone-label { bottom: -32px; left: 50%; transform: translateX(-50%); top: auto; }
     .zone-chin:hover .zone-label, .zone-chin.active .zone-label { transform: translateX(-50%) translateY(0); }
 
-    .zone-neck { top: 80%; left: 25%; width: 50%; height: 15%; border-radius: 10%; }
+    /* Neck: below jawline, spanning visible neck area */
+    .zone-neck {
+      top: 76%;
+      left: 30%;
+      width: 40%;
+      height: 12%;
+      border-radius: 20%;
+    }
     .zone-neck .zone-label { bottom: -32px; left: 50%; transform: translateX(-50%); top: auto; }
     .zone-neck:hover .zone-label, .zone-neck.active .zone-label { transform: translateX(-50%) translateY(0); }
 
@@ -2234,6 +2293,30 @@
     document.querySelectorAll('.stat-number[data-count]').forEach(el => {
       statObserver.observe(el);
     });
+
+    // Debug mode: add ?debug=true to URL to see colored zones
+    const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
+    if (DEBUG) {
+      const colors = [
+        'rgba(255,0,0,0.25)',    // forehead - red
+        'rgba(0,255,0,0.25)',    // eyes left - green
+        'rgba(0,255,0,0.25)',    // eyes right - green
+        'rgba(0,0,255,0.25)',    // cheeks left - blue
+        'rgba(0,0,255,0.25)',    // cheeks right - blue
+        'rgba(255,255,0,0.25)',  // nasolabial left - yellow
+        'rgba(255,255,0,0.25)',  // nasolabial right - yellow
+        'rgba(255,0,255,0.25)',  // lips - magenta
+        'rgba(0,255,255,0.25)',  // jawline left - cyan
+        'rgba(0,255,255,0.25)',  // jawline right - cyan
+        'rgba(255,128,0,0.25)',  // chin - orange
+        'rgba(128,0,255,0.25)'   // neck - purple
+      ];
+      document.querySelectorAll('.face-zone').forEach((zone, i) => {
+        zone.style.background = colors[i % colors.length];
+        zone.style.border = '2px solid ' + colors[i % colors.length].replace('0.25', '0.8');
+      });
+      console.log('DEBUG MODE: Zone positions visible');
+    }
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
 </body>
