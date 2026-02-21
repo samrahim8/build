@@ -304,6 +304,16 @@
             letter-spacing: -0.02em;
         }
 
+        .pricing-prefix {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            letter-spacing: 0;
+            margin-bottom: 4px;
+        }
+
         .pricing-desc {
             color: var(--text-muted);
             font-size: 1rem;
@@ -717,7 +727,7 @@
             <div class="container">
                 <div class="pricing-card">
                     <p class="section-label">Pricing</p>
-                    <p class="pricing-price">$1,500</p>
+                    <p class="pricing-price"><span class="pricing-prefix">starting at</span>$1,500</p>
                     <p class="pricing-desc">One custom interactive game, designed and built for your business. Live in two weeks.</p>
                     <ul class="pricing-list">
                         <li>Strategy session</li>
