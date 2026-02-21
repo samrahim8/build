@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumière Aesthetics | Visual Treatment Explorer</title>
+  <meta name="description" content="Explore treatments for your skin concerns. Tap anywhere on the face to discover options, build your custom treatment plan, and get personalized pricing.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="POP-UP">
+  <meta property="og:title" content="Lumière Aesthetics | Visual Treatment Explorer">
+  <meta property="og:description" content="Explore treatments for your skin concerns. Build your custom treatment plan.">
+  <meta property="og:url" content="https://www.popup.company/medspa/demo">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=1200&h=630&fit=crop&q=80">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Lumière Aesthetics | Visual Treatment Explorer">
+  <meta name="twitter:description" content="Explore treatments for your skin concerns. Build your custom treatment plan.">
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=1200&h=630&fit=crop&q=80">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    ::selection { background: #C9A87C; color: #FFFBF7; }
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --bg: #FFFBF7;
+      --bg-alt: #F7F3EE;
+      --text: #2D2926;
+      --text-muted: #7A746D;
+      --accent: #C9A87C;
+      --accent-hover: #B8956A;
+      --border: #E8E2D8;
+      --card: #FFFFFF;
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 400;
+    }
+    h1 { font-size: clamp(36px, 6vw, 56px); line-height: 1.1; }
+    h2 { font-size: clamp(28px, 4vw, 40px); line-height: 1.15; }
+    h3 { font-size: clamp(22px, 3vw, 28px); }
+    em { font-style: italic; color: var(--accent); }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    .header {
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      background: rgba(255,251,247,0.95);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+    .header-cta {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--bg);
+      background: var(--accent);
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .header-cta:hover { background: var(--accent-hover); }
+
+    /* Hero */
+    .hero {
+      padding: 80px 24px 60px;
+      text-align: center;
+    }
+    .hero h1 { margin-bottom: 16px; }
+    .hero-sub {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 500px;
+      margin: 0 auto 32px;
+    }
+    .hero-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--accent);
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(4px); }
+    }
+
+    /* Explorer Section */
+    .explorer-section {
+      padding: 40px 24px 80px;
+    }
+    .explorer-container {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 48px;
+      max-width: 1000px;
+      margin: 0 auto;
+      align-items: start;
+    }
+
+    /* Face Diagram */
+    .face-container {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .face-svg {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+    }
+    .face-zone {
+      cursor: pointer;
+      transition: all 0.3s ease;
+      fill: transparent;
+      stroke: rgba(201,168,124,0.3);
+      stroke-width: 1;
+    }
+    .face-zone:hover {
+      fill: rgba(201,168,124,0.15);
+      stroke: var(--accent);
+      stroke-width: 2;
+    }
+    .face-zone.active {
+      fill: rgba(201,168,124,0.25);
+      stroke: var(--accent);
+      stroke-width: 2;
+    }
+    .zone-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      fill: var(--text-muted);
+      pointer-events: none;
+      text-anchor: middle;
+    }
+
+    /* Treatment Panel */
+    .treatment-panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      position: sticky;
+      top: 100px;
+    }
+    .panel-header {
+      margin-bottom: 24px;
+    }
+    .panel-zone {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .panel-concern {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+    .panel-cause {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .panel-placeholder {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+    }
+    .panel-placeholder-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+    .panel-placeholder h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    /* Treatment Cards */
+    .treatment-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .treatment-card {
+      background: var(--bg-alt);
+      border-radius: 12px;
+      padding: 20px;
+      transition: all 0.2s;
+    }
+    .treatment-card:hover {
+      background: #F0EBE4;
+    }
+    .treatment-name {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    .treatment-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .treatment-stat {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .treatment-stat span {
+      color: var(--text);
+      font-weight: 500;
+    }
+    .treatment-price {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .treatment-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      background: rgba(201,168,124,0.1);
+      border-radius: 6px;
+    }
+    .add-btn {
+      width: 100%;
+      padding: 12px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--bg);
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .add-btn:hover { background: var(--accent-hover); }
+    .add-btn.added {
+      background: #5C564F;
+    }
+    .add-btn.added::before {
+      content: '✓ ';
+    }
+
+    /* Plan Builder (Desktop Floating) */
+    .plan-builder {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      z-index: 90;
+      min-width: 280px;
+      display: none;
+    }
+    .plan-builder.visible { display: block; }
+    .plan-builder-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .plan-builder-title {
+      font-weight: 600;
+      font-size: 15px;
+    }
+    .plan-builder-count {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .plan-builder-total {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .plan-builder-total span {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .plan-builder-items {
+      max-height: 150px;
+      overflow-y: auto;
+      margin-bottom: 16px;
+    }
+    .plan-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .plan-item:last-child { border-bottom: none; }
+    .plan-item-remove {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 4px;
+    }
+    .plan-item-remove:hover { color: #c44; }
+    .view-plan-btn {
+      width: 100%;
+      padding: 14px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--bg);
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .view-plan-btn:hover { background: var(--accent-hover); }
+
+    /* Plan Overlay */
+    .plan-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(45,41,38,0.8);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow-y: auto;
+    }
+    .plan-overlay.visible { display: flex; }
+    .plan-modal {
+      background: var(--bg);
+      border-radius: 20px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    .plan-modal-header {
+      padding: 32px 32px 24px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 1;
+    }
+    .plan-modal-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .plan-modal-title {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    .plan-modal-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    .plan-modal-body {
+      padding: 24px 32px;
+    }
+    .plan-section {
+      margin-bottom: 32px;
+    }
+    .plan-section-title {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .plan-treatment-item {
+      padding: 16px;
+      background: var(--bg-alt);
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+    .plan-treatment-name {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .plan-treatment-zone {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .plan-treatment-details {
+      display: flex;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .plan-treatment-price {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .plan-summary {
+      background: linear-gradient(135deg, #5C564F 0%, #3D3935 100%);
+      color: var(--bg);
+      padding: 24px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+    .plan-summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    .plan-summary-row:last-child { margin-bottom: 0; }
+    .plan-summary-total {
+      font-size: 20px;
+      font-weight: 600;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      margin-top: 12px;
+    }
+    .plan-provider {
+      display: flex;
+      gap: 16px;
+      padding: 20px;
+      background: var(--bg-alt);
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+    .plan-provider-photo {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--border);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+    .plan-provider-name {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .plan-provider-bio {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Lead Form */
+    .lead-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 14px 16px;
+      font-family: inherit;
+      font-size: 15px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--card);
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .submit-btn {
+      padding: 18px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--bg);
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .submit-btn:hover { background: var(--accent-hover); }
+    .form-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* Stats Section */
+    .stats-section {
+      padding: 80px 24px;
+      background: var(--bg-alt);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .stat-item {
+      padding: 24px;
+    }
+    .stat-number {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 48px;
+      font-weight: 500;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* Gallery Section */
+    .gallery-section {
+      padding: 80px 24px;
+    }
+    .gallery-section h2 {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .gallery-sub {
+      text-align: center;
+      color: var(--text-muted);
+      margin-bottom: 48px;
+    }
+    .gallery-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+    .gallery-tab {
+      padding: 10px 20px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .gallery-tab:hover { border-color: var(--accent); color: var(--accent); }
+    .gallery-tab.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--bg);
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .gallery-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .gallery-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .gallery-image {
+      aspect-ratio: 1;
+      background: var(--bg-alt);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+      padding: 20px;
+    }
+    .gallery-image:first-child {
+      border-right: 1px solid var(--border);
+    }
+    .gallery-caption {
+      padding: 16px 20px;
+      font-size: 14px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* Menu Section */
+    .menu-section {
+      padding: 80px 24px;
+      background: var(--bg-alt);
+    }
+    .menu-section h2 {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .menu-category {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 28px;
+      border: 1px solid var(--border);
+    }
+    .menu-category-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 22px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .menu-item {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .menu-item:last-child { border-bottom: none; }
+    .menu-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+    }
+    .menu-item-name {
+      font-weight: 500;
+    }
+    .menu-item-price {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .menu-item-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Team Section */
+    .team-section {
+      padding: 80px 24px;
+    }
+    .team-section h2 {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .team-member {
+      text-align: center;
+    }
+    .team-photo {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: var(--bg-alt);
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+    }
+    .team-name {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+    .team-title {
+      font-size: 14px;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+    .team-bio {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* FAQ Section */
+    .faq-section {
+      padding: 80px 24px;
+      background: var(--bg-alt);
+    }
+    .faq-section h2 {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .faq-grid {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+    .faq-question {
+      width: 100%;
+      padding: 20px 0;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 500;
+      text-align: left;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text);
+    }
+    .faq-question::after {
+      content: '+';
+      font-size: 24px;
+      color: var(--accent);
+      transition: transform 0.2s;
+    }
+    .faq-item.open .faq-question::after {
+      transform: rotate(45deg);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 500px;
+    }
+    .faq-answer-inner {
+      padding: 0 0 20px;
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* Final CTA */
+    .final-cta {
+      padding: 100px 24px;
+      text-align: center;
+      background: linear-gradient(180deg, #5C564F 0%, #3D3935 100%);
+      color: var(--bg);
+    }
+    .final-cta h2 {
+      margin-bottom: 16px;
+    }
+    .final-cta p {
+      font-size: 18px;
+      color: rgba(255,251,247,0.7);
+      margin-bottom: 32px;
+      max-width: 450px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .final-cta-btn {
+      display: inline-block;
+      padding: 18px 40px;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      background: var(--bg);
+      border-radius: 8px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .final-cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .final-cta-info {
+      margin-top: 48px;
+      font-size: 14px;
+      color: rgba(255,251,247,0.5);
+    }
+    .final-cta-info a {
+      color: rgba(255,251,247,0.7);
+      text-decoration: none;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* Mobile Styles */
+    @media (max-width: 900px) {
+      .explorer-container {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .treatment-panel {
+        position: static;
+      }
+      .plan-builder {
+        bottom: 0;
+        right: 0;
+        left: 0;
+        border-radius: 16px 16px 0 0;
+        min-width: auto;
+      }
+    }
+    @media (max-width: 700px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+      .stat-number { font-size: 36px; }
+      .form-row { grid-template-columns: 1fr; }
+      .plan-modal { border-radius: 16px 16px 0 0; max-height: 95vh; }
+      .hero { padding: 60px 24px 40px; }
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-in {
+      animation: fadeInUp 0.5s ease forwards;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <a href="#" class="logo">Lumière Aesthetics</a>
+    <a href="#contact" class="header-cta">Book Consultation</a>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>Explore what's <em>possible</em></h1>
+      <p class="hero-sub">Tap anywhere you're curious about. Build your custom treatment plan. No pressure, no commitment.</p>
+      <div class="hero-hint">
+        <span>↓</span> Tap a zone to explore
+      </div>
+    </div>
+  </section>
+
+  <section class="explorer-section">
+    <div class="explorer-container">
+      <!-- Face Diagram -->
+      <div class="face-container">
+        <svg class="face-svg" viewBox="0 0 300 400" fill="none">
+          <!-- Face outline -->
+          <ellipse cx="150" cy="180" rx="100" ry="130" fill="#FAF5F0" stroke="#E8E2D8" stroke-width="2"/>
+
+          <!-- Hair suggestion -->
+          <path d="M50 140 Q50 60 150 50 Q250 60 250 140" fill="none" stroke="#E8E2D8" stroke-width="2"/>
+
+          <!-- Forehead zone -->
+          <ellipse class="face-zone" id="zone-forehead" cx="150" cy="100" rx="60" ry="30" data-zone="forehead"/>
+          <text class="zone-label" x="150" y="105">Forehead</text>
+
+          <!-- Crow's feet / Eye area -->
+          <ellipse class="face-zone" id="zone-eyes-left" cx="105" cy="155" rx="28" ry="18" data-zone="eyes"/>
+          <ellipse class="face-zone" id="zone-eyes-right" cx="195" cy="155" rx="28" ry="18" data-zone="eyes"/>
+          <text class="zone-label" x="150" y="155">Eyes</text>
+
+          <!-- Cheeks -->
+          <ellipse class="face-zone" id="zone-cheeks-left" cx="85" cy="200" rx="30" ry="35" data-zone="cheeks"/>
+          <ellipse class="face-zone" id="zone-cheeks-right" cx="215" cy="200" rx="30" ry="35" data-zone="cheeks"/>
+          <text class="zone-label" x="85" y="205">Cheeks</text>
+          <text class="zone-label" x="215" y="205">Cheeks</text>
+
+          <!-- Nasolabial folds (smile lines) -->
+          <path class="face-zone" id="zone-nasolabial" d="M120 185 Q115 220 125 255 L135 255 Q125 220 130 185 Z" data-zone="nasolabial"/>
+          <path class="face-zone" d="M180 185 Q185 220 175 255 L165 255 Q175 220 170 185 Z" data-zone="nasolabial"/>
+
+          <!-- Nose (just decorative) -->
+          <path d="M150 145 L150 195 M140 200 Q150 210 160 200" stroke="#E8E2D8" stroke-width="1.5" fill="none"/>
+
+          <!-- Lips -->
+          <ellipse class="face-zone" id="zone-lips" cx="150" cy="240" rx="35" ry="18" data-zone="lips"/>
+          <text class="zone-label" x="150" y="244">Lips</text>
+
+          <!-- Jawline & Chin -->
+          <path class="face-zone" id="zone-jawline" d="M60 230 Q50 280 100 310 L110 295 Q70 275 75 235 Z" data-zone="jawline"/>
+          <path class="face-zone" d="M240 230 Q250 280 200 310 L190 295 Q230 275 225 235 Z" data-zone="jawline"/>
+          <text class="zone-label" x="65" y="270">Jaw</text>
+          <text class="zone-label" x="235" y="270">Jaw</text>
+
+          <ellipse class="face-zone" id="zone-chin" cx="150" cy="285" rx="30" ry="20" data-zone="chin"/>
+          <text class="zone-label" x="150" y="290">Chin</text>
+
+          <!-- Neck -->
+          <rect class="face-zone" id="zone-neck" x="110" y="320" width="80" height="50" rx="10" data-zone="neck"/>
+          <text class="zone-label" x="150" y="350">Neck</text>
+        </svg>
+      </div>
+
+      <!-- Treatment Panel -->
+      <div class="treatment-panel" id="treatmentPanel">
+        <div class="panel-placeholder" id="panelPlaceholder">
+          <div class="panel-placeholder-icon">👆</div>
+          <h3>Tap a zone to explore</h3>
+          <p>Select an area on the face to see treatment options</p>
+        </div>
+        <div class="panel-content" id="panelContent" style="display: none;">
+          <div class="panel-header">
+            <div class="panel-zone" id="panelZone"></div>
+            <h3 class="panel-concern" id="panelConcern"></h3>
+            <p class="panel-cause" id="panelCause"></p>
+          </div>
+          <div class="treatment-cards" id="treatmentCards"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Plan Builder (floating) -->
+  <div class="plan-builder" id="planBuilder">
+    <div class="plan-builder-header">
+      <div class="plan-builder-title">Your Plan</div>
+      <div class="plan-builder-count" id="planCount">0 treatments</div>
+    </div>
+    <div class="plan-builder-total">Est. total: <span id="planTotal">$0</span></div>
+    <div class="plan-builder-items" id="planItems"></div>
+    <button class="view-plan-btn" onclick="showPlanOverlay()">View Your Plan</button>
+  </div>
+
+  <!-- Plan Overlay -->
+  <div class="plan-overlay" id="planOverlay">
+    <div class="plan-modal">
+      <div class="plan-modal-header">
+        <button class="plan-modal-close" onclick="hidePlanOverlay()">×</button>
+        <h2 class="plan-modal-title">Your Treatment Plan</h2>
+        <p class="plan-modal-subtitle">Lumière Aesthetics · Personalized for you</p>
+      </div>
+      <div class="plan-modal-body">
+        <div class="plan-section">
+          <div class="plan-section-title">Selected Treatments</div>
+          <div id="planTreatmentList"></div>
+        </div>
+
+        <div class="plan-summary" id="planSummary">
+          <div class="plan-summary-row">
+            <span>Estimated visits</span>
+            <span id="summaryVisits">1–2 visits</span>
+          </div>
+          <div class="plan-summary-row">
+            <span>Combined downtime</span>
+            <span id="summaryDowntime">Minimal</span>
+          </div>
+          <div class="plan-summary-row plan-summary-total">
+            <span>Total investment</span>
+            <span id="summaryTotal">$0</span>
+          </div>
+        </div>
+
+        <div class="plan-provider">
+          <div class="plan-provider-photo">👩‍⚕️</div>
+          <div>
+            <div class="plan-provider-name">Dr. Sarah Chen, MD</div>
+            <div class="plan-provider-bio">Board-certified with 2,400+ injectable treatments performed. Dr. Chen specializes in natural-looking results that enhance your features without looking "done."</div>
+          </div>
+        </div>
+
+        <div class="plan-section">
+          <div class="plan-section-title">Get Your Detailed Plan</div>
+          <form class="lead-form" id="leadForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="firstName">First name *</label>
+                <input type="text" id="firstName" required>
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last name *</label>
+                <input type="text" id="lastName" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone (optional)</label>
+              <input type="tel" id="phone">
+            </div>
+            <div class="form-group">
+              <label for="questions">Any questions for us?</label>
+              <textarea id="questions" placeholder="First-timer? Questions about a specific treatment? Let us know..."></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send My Plan</button>
+            <p class="form-note">We'll email your personalized plan with exact pricing, pre-visit prep, and available appointment times.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number" data-count="2400">0</div>
+        <div class="stat-label">Treatments performed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-count="97" data-suffix="%">0</div>
+        <div class="stat-label">Patient satisfaction</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-count="12">0</div>
+        <div class="stat-label">Years of experience</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-suffix="+">Board</div>
+        <div class="stat-label">Certified providers</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Before/After Gallery -->
+  <section class="gallery-section" id="gallery">
+    <h2>Real Results</h2>
+    <p class="gallery-sub">Before and after photos from our patients</p>
+
+    <div class="gallery-tabs">
+      <button class="gallery-tab active" data-category="all">All</button>
+      <button class="gallery-tab" data-category="wrinkles">Fine Lines</button>
+      <button class="gallery-tab" data-category="volume">Volume</button>
+      <button class="gallery-tab" data-category="skin">Skin Texture</button>
+    </div>
+
+    <div class="gallery-grid">
+      <div class="gallery-item" data-category="wrinkles">
+        <div class="gallery-images">
+          <div class="gallery-image">Before<br><small>(Client photo)</small></div>
+          <div class="gallery-image">After<br><small>(Client photo)</small></div>
+        </div>
+        <div class="gallery-caption">Botox for crow's feet — 2 weeks post-treatment</div>
+      </div>
+      <div class="gallery-item" data-category="volume">
+        <div class="gallery-images">
+          <div class="gallery-image">Before<br><small>(Client photo)</small></div>
+          <div class="gallery-image">After<br><small>(Client photo)</small></div>
+        </div>
+        <div class="gallery-caption">Cheek filler for volume restoration — Immediate results</div>
+      </div>
+      <div class="gallery-item" data-category="volume">
+        <div class="gallery-images">
+          <div class="gallery-image">Before<br><small>(Client photo)</small></div>
+          <div class="gallery-image">After<br><small>(Client photo)</small></div>
+        </div>
+        <div class="gallery-caption">Lip filler for natural enhancement — 1 week post-treatment</div>
+      </div>
+      <div class="gallery-item" data-category="skin">
+        <div class="gallery-images">
+          <div class="gallery-image">Before<br><small>(Client photo)</small></div>
+          <div class="gallery-image">After<br><small>(Client photo)</small></div>
+        </div>
+        <div class="gallery-caption">Chemical peel for sun damage — 2 weeks post-treatment</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Treatment Menu -->
+  <section class="menu-section">
+    <h2>Treatment Menu</h2>
+    <div class="menu-grid">
+      <div class="menu-category">
+        <h3 class="menu-category-title">Injectables</h3>
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <span class="menu-item-name">Botox / Dysport</span>
+            <span class="menu-item-price">$12–14/unit</span>
+          </div>
+          <p class="menu-item-desc">Smooths wrinkles on forehead, crow's feet, frown lines</p>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <span class="menu-item-name">Dermal Fillers</span>
+            <span class="menu-item-price">$650–1,200</span>
+          </div>
+          <p class="menu-item-desc">Restores volume to cheeks, lips, under-eyes, jawline</p>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <span class="menu-item-name">Kybella</span>
+            <span class="menu-item-price">$1,200–1,800</span>
+          </div>
+          <p class="menu-item-desc">Dissolves under-chin fat permanently</p>
+        </div>
+      </div>
+      <div class="menu-category">
+        <h3 class="menu-category-title">Skin Treatments</h3>
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <span class="menu-item-name">Chemical Peel</span>
+            <span class="menu-item-price">$150–350</span>
+          </div>
+          <p class="menu-item-desc">Resurfaces skin for brightness and clarity</p>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <span class="menu-item-name">Microneedling</span>
+            <span class="menu-item-price">$300–500</span>
+          </div>
+          <p class="menu-item-desc">Stimulates collagen for smoother texture</p>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <span class="menu-item-name">IPL Photofacial</span>
+            <span class="menu-item-price">$300–500</span>
+          </div>
+          <p class="menu-item-desc">Targets sun damage, redness, and brown spots</p>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <span class="menu-item-name">HydraFacial</span>
+            <span class="menu-item-price">$175–300</span>
+          </div>
+          <p class="menu-item-desc">Deep cleanse + hydration with immediate glow</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section class="team-section" id="team">
+    <h2>Meet Your Providers</h2>
+    <div class="team-grid">
+      <div class="team-member">
+        <div class="team-photo">👩‍⚕️</div>
+        <h3 class="team-name">Dr. Sarah Chen</h3>
+        <div class="team-title">Medical Director</div>
+        <p class="team-bio">Board-certified with 12+ years in aesthetic medicine. Dr. Chen fell in love with injectables because she believes everyone deserves to feel confident. She specializes in natural-looking results.</p>
+      </div>
+      <div class="team-member">
+        <div class="team-photo">👩‍⚕️</div>
+        <h3 class="team-name">Jessica Martinez, RN</h3>
+        <div class="team-title">Nurse Injector</div>
+        <p class="team-bio">Jessica brings 8 years of aesthetic nursing experience and an artist's eye. Known for her gentle technique and lip expertise. Patients say her injections are virtually painless.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section" id="faq">
+    <h2>Common Questions</h2>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <button class="faq-question">Does Botox hurt?</button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Most patients describe it as a tiny pinch — less than a mosquito bite. We use ultra-fine needles and can apply numbing cream for sensitive areas. The whole treatment takes about 10 minutes, and most people go right back to work.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">How long does filler last?</button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">It depends on the area and product. Lip filler typically lasts 6–12 months. Cheek and jawline filler can last 12–18 months. Under-eye filler often lasts even longer. We'll give you a realistic timeline during your consultation.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">What's the difference between Botox and Dysport?</button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Both are neuromodulators that relax muscles to smooth wrinkles. Dysport spreads a bit more, making it great for larger areas like the forehead. Botox is more precise for smaller areas. Results are similar — it often comes down to personal preference.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">How much does Botox cost in Orlando?</button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">At Lumière, Botox is $12–14 per unit. Most people need 20–30 units for the forehead and 10–15 units per eye area (crow's feet). A typical full treatment runs $250–450. We're transparent about pricing — no surprises.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">What age should I start getting Botox?</button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">There's no magic number. Some people start in their late 20s as prevention ("baby Botox"). Others wait until lines become more noticeable in their 40s or 50s. The best time is when it matters to you. We'll never pressure you.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Can I go back to work after filler?</button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Usually, yes. You might have some swelling or minor bruising, but most people return to normal activities immediately. We recommend avoiding intense exercise for 24 hours. If you have a big event, schedule your treatment 2 weeks before.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="final-cta" id="contact">
+    <h2>Ready to explore in person?</h2>
+    <p>Your first consultation is complimentary. No pressure — just honest advice about what's right for you.</p>
+    <a href="#" class="final-cta-btn" onclick="showPlanOverlay(); return false;">Book Your Consultation</a>
+    <div class="final-cta-info">
+      <p>Lumière Aesthetics · 123 Park Ave, Orlando FL · (407) 555-0123</p>
+      <p>Mon–Fri 9am–6pm · Sat 10am–4pm</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p><strong>Demo page</strong> — This is a sample for <a href="/medspa">POP-UP</a></p>
+    <p style="margin-top: 8px;">Want a page like this for your med spa? <a href="/medspa">Learn more →</a></p>
+  </footer>
+
+  <script>
+    // Treatment Data
+    const treatmentData = {
+      forehead: {
+        zone: 'Forehead',
+        concern: 'Horizontal lines & wrinkles',
+        cause: 'Repeated muscle movement and natural collagen loss over time create these lines across the forehead.',
+        treatments: [
+          {
+            id: 'forehead-botox',
+            name: 'Botox / Dysport',
+            results: '3–5 days',
+            downtime: 'None',
+            duration: '3–4 months',
+            priceMin: 250,
+            priceMax: 400,
+            note: "New to this? Most patients say it's much less than they expected."
+          },
+          {
+            id: 'forehead-microneedling',
+            name: 'Microneedling',
+            results: '2–4 weeks',
+            downtime: '24hr redness',
+            duration: '6–12 months',
+            priceMin: 300,
+            priceMax: 500,
+            note: null
+          }
+        ]
+      },
+      eyes: {
+        zone: 'Eye Area',
+        concern: "Crow's feet & under-eye hollows",
+        cause: "Delicate skin around the eyes shows aging first — fine lines from smiling and volume loss underneath.",
+        treatments: [
+          {
+            id: 'eyes-botox',
+            name: 'Botox for Crow\'s Feet',
+            results: '3–5 days',
+            downtime: 'None',
+            duration: '3–4 months',
+            priceMin: 200,
+            priceMax: 350,
+            note: 'Our most popular treatment — softens smile lines while keeping natural expression.'
+          },
+          {
+            id: 'eyes-filler',
+            name: 'Under-Eye Filler',
+            results: 'Immediate',
+            downtime: '2–3 days minor swelling',
+            duration: '12–18 months',
+            priceMin: 600,
+            priceMax: 900,
+            note: null
+          }
+        ]
+      },
+      cheeks: {
+        zone: 'Cheeks',
+        concern: 'Volume loss & flattening',
+        cause: 'As we age, we lose fat pads in the cheeks, causing a flatter, less lifted appearance.',
+        treatments: [
+          {
+            id: 'cheeks-filler',
+            name: 'Dermal Filler (Juvederm/Restylane)',
+            results: 'Immediate',
+            downtime: '2–5 days minor swelling',
+            duration: '12–18 months',
+            priceMin: 650,
+            priceMax: 1200,
+            note: null
+          },
+          {
+            id: 'cheeks-sculptra',
+            name: 'Sculptra',
+            results: '2–3 months (gradual)',
+            downtime: 'None',
+            duration: '2+ years',
+            priceMin: 800,
+            priceMax: 1200,
+            note: 'Stimulates your own collagen for the most natural-looking, long-lasting results.'
+          }
+        ]
+      },
+      nasolabial: {
+        zone: 'Smile Lines',
+        concern: 'Nasolabial folds',
+        cause: 'These lines from nose to mouth deepen with age as cheek fat descends and skin loses elasticity.',
+        treatments: [
+          {
+            id: 'nasolabial-filler',
+            name: 'Dermal Filler',
+            results: 'Immediate',
+            downtime: 'Minor swelling',
+            duration: '9–12 months',
+            priceMin: 500,
+            priceMax: 900,
+            note: null
+          }
+        ]
+      },
+      lips: {
+        zone: 'Lips',
+        concern: 'Volume, shape & fine lines',
+        cause: 'Lips naturally thin over time, and vertical lines can appear around the mouth.',
+        treatments: [
+          {
+            id: 'lips-filler',
+            name: 'Lip Filler (Juvederm/Restylane)',
+            results: 'Immediate',
+            downtime: '2–4 days swelling',
+            duration: '6–12 months',
+            priceMin: 500,
+            priceMax: 800,
+            note: 'We specialize in natural-looking lips — subtle enhancement, not overdone.'
+          },
+          {
+            id: 'lips-flip',
+            name: 'Lip Flip (Botox)',
+            results: '5–7 days',
+            downtime: 'None',
+            duration: '2–3 months',
+            priceMin: 150,
+            priceMax: 250,
+            note: 'A subtle option — relaxes the muscle to reveal more of your upper lip.'
+          }
+        ]
+      },
+      jawline: {
+        zone: 'Jawline',
+        concern: 'Definition & contouring',
+        cause: 'Bone resorption and skin laxity can soften the jawline over time.',
+        treatments: [
+          {
+            id: 'jaw-filler',
+            name: 'Jawline Filler',
+            results: 'Immediate',
+            downtime: 'Minor swelling',
+            duration: '12–18 months',
+            priceMin: 800,
+            priceMax: 1500,
+            note: null
+          },
+          {
+            id: 'jaw-kybella',
+            name: 'Kybella (Under-Chin Fat)',
+            results: '4–6 weeks',
+            downtime: '3–7 days swelling',
+            duration: 'Permanent (2–4 sessions)',
+            priceMin: 1200,
+            priceMax: 1800,
+            note: 'Dissolves fat cells permanently. Multiple sessions needed for best results.'
+          }
+        ]
+      },
+      chin: {
+        zone: 'Chin',
+        concern: 'Profile balance & projection',
+        cause: 'A recessed or undefined chin can affect facial harmony and profile.',
+        treatments: [
+          {
+            id: 'chin-filler',
+            name: 'Chin Filler',
+            results: 'Immediate',
+            downtime: 'Minor swelling',
+            duration: '12–18 months',
+            priceMin: 600,
+            priceMax: 1000,
+            note: null
+          }
+        ]
+      },
+      neck: {
+        zone: 'Neck',
+        concern: 'Bands & texture',
+        cause: 'Platysmal bands become more visible with age, and the neck often shows sun damage.',
+        treatments: [
+          {
+            id: 'neck-botox',
+            name: 'Botox (Nefertiti Lift)',
+            results: '5–7 days',
+            downtime: 'None',
+            duration: '3–4 months',
+            priceMin: 300,
+            priceMax: 500,
+            note: null
+          },
+          {
+            id: 'neck-microneedling',
+            name: 'Microneedling',
+            results: '2–4 weeks',
+            downtime: '24hr redness',
+            duration: '6–12 months',
+            priceMin: 350,
+            priceMax: 600,
+            note: null
+          }
+        ]
+      }
+    };
+
+    // State
+    let selectedZone = null;
+    let plan = [];
+
+    // DOM Elements
+    const panelPlaceholder = document.getElementById('panelPlaceholder');
+    const panelContent = document.getElementById('panelContent');
+    const panelZone = document.getElementById('panelZone');
+    const panelConcern = document.getElementById('panelConcern');
+    const panelCause = document.getElementById('panelCause');
+    const treatmentCards = document.getElementById('treatmentCards');
+    const planBuilder = document.getElementById('planBuilder');
+    const planCount = document.getElementById('planCount');
+    const planTotal = document.getElementById('planTotal');
+    const planItems = document.getElementById('planItems');
+    const planOverlay = document.getElementById('planOverlay');
+
+    // Zone click handlers
+    document.querySelectorAll('.face-zone').forEach(zone => {
+      zone.addEventListener('click', (e) => {
+        const zoneId = e.target.dataset.zone;
+        if (zoneId && treatmentData[zoneId]) {
+          selectZone(zoneId);
+        }
+      });
+    });
+
+    function selectZone(zoneId) {
+      // Clear previous selection
+      document.querySelectorAll('.face-zone').forEach(z => z.classList.remove('active'));
+
+      // Highlight new selection
+      document.querySelectorAll(`[data-zone="${zoneId}"]`).forEach(z => z.classList.add('active'));
+
+      selectedZone = zoneId;
+      showTreatments(zoneId);
+    }
+
+    function showTreatments(zoneId) {
+      const data = treatmentData[zoneId];
+
+      panelPlaceholder.style.display = 'none';
+      panelContent.style.display = 'block';
+
+      panelZone.textContent = data.zone;
+      panelConcern.textContent = data.concern;
+      panelCause.textContent = data.cause;
+
+      treatmentCards.innerHTML = data.treatments.map(t => `
+        <div class="treatment-card">
+          <div class="treatment-name">${t.name}</div>
+          <div class="treatment-stats">
+            <div class="treatment-stat">Results: <span>${t.results}</span></div>
+            <div class="treatment-stat">Downtime: <span>${t.downtime}</span></div>
+            <div class="treatment-stat">Lasts: <span>${t.duration}</span></div>
+          </div>
+          <div class="treatment-price">$${t.priceMin.toLocaleString()}–$${t.priceMax.toLocaleString()}</div>
+          ${t.note ? `<div class="treatment-note">${t.note}</div>` : ''}
+          <button class="add-btn ${plan.find(p => p.id === t.id) ? 'added' : ''}"
+                  onclick="toggleTreatment('${t.id}', '${t.name}', '${data.zone}', ${t.priceMin}, ${t.priceMax})">
+            ${plan.find(p => p.id === t.id) ? 'Added to plan' : 'Add to my plan'}
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function toggleTreatment(id, name, zone, priceMin, priceMax) {
+      const existing = plan.findIndex(p => p.id === id);
+
+      if (existing >= 0) {
+        plan.splice(existing, 1);
+      } else {
+        plan.push({ id, name, zone, priceMin, priceMax });
+      }
+
+      updatePlanBuilder();
+      if (selectedZone) showTreatments(selectedZone);
+    }
+
+    function removeTreatment(id) {
+      plan = plan.filter(p => p.id !== id);
+      updatePlanBuilder();
+      if (selectedZone) showTreatments(selectedZone);
+    }
+
+    function updatePlanBuilder() {
+      if (plan.length === 0) {
+        planBuilder.classList.remove('visible');
+        return;
+      }
+
+      planBuilder.classList.add('visible');
+      planCount.textContent = `${plan.length} treatment${plan.length > 1 ? 's' : ''}`;
+
+      const totalMin = plan.reduce((sum, p) => sum + p.priceMin, 0);
+      const totalMax = plan.reduce((sum, p) => sum + p.priceMax, 0);
+      planTotal.textContent = `$${totalMin.toLocaleString()}–$${totalMax.toLocaleString()}`;
+
+      planItems.innerHTML = plan.map(p => `
+        <div class="plan-item">
+          <span>${p.name}</span>
+          <button class="plan-item-remove" onclick="removeTreatment('${p.id}')">×</button>
+        </div>
+      `).join('');
+    }
+
+    function showPlanOverlay() {
+      if (plan.length === 0) {
+        alert('Add some treatments to your plan first!');
+        return;
+      }
+
+      // Update plan modal content
+      const treatmentList = document.getElementById('planTreatmentList');
+      treatmentList.innerHTML = plan.map(p => `
+        <div class="plan-treatment-item">
+          <div class="plan-treatment-name">${p.name}</div>
+          <div class="plan-treatment-zone">${p.zone}</div>
+          <div class="plan-treatment-details">
+            <span class="plan-treatment-price">$${p.priceMin.toLocaleString()}–$${p.priceMax.toLocaleString()}</span>
+          </div>
+        </div>
+      `).join('');
+
+      const totalMin = plan.reduce((sum, p) => sum + p.priceMin, 0);
+      const totalMax = plan.reduce((sum, p) => sum + p.priceMax, 0);
+      document.getElementById('summaryTotal').textContent = `$${totalMin.toLocaleString()}–$${totalMax.toLocaleString()}`;
+      document.getElementById('summaryVisits').textContent = plan.length <= 2 ? '1 visit' : '1–2 visits';
+
+      planOverlay.classList.add('visible');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function hidePlanOverlay() {
+      planOverlay.classList.remove('visible');
+      document.body.style.overflow = '';
+    }
+
+    // Close overlay on background click
+    planOverlay.addEventListener('click', (e) => {
+      if (e.target === planOverlay) hidePlanOverlay();
+    });
+
+    // Form submission
+    document.getElementById('leadForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const formData = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        questions: document.getElementById('questions').value,
+        treatments: plan
+      };
+
+      console.log('Lead captured:', formData);
+
+      // Show success
+      document.querySelector('.plan-modal-body').innerHTML = `
+        <div style="text-align: center; padding: 60px 20px;">
+          <div style="font-size: 48px; margin-bottom: 16px;">✨</div>
+          <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 28px; margin-bottom: 12px;">We'll be in touch!</h3>
+          <p style="color: var(--text-muted);">Your personalized treatment plan is on its way to ${formData.email}</p>
+        </div>
+      `;
+    });
+
+    // FAQ Accordion
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        const wasOpen = item.classList.contains('open');
+
+        // Close all
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+
+        // Open clicked (if wasn't already open)
+        if (!wasOpen) item.classList.add('open');
+      });
+    });
+
+    // Gallery Tabs
+    document.querySelectorAll('.gallery-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.gallery-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const category = tab.dataset.category;
+        document.querySelectorAll('.gallery-item').forEach(item => {
+          if (category === 'all' || item.dataset.category === category) {
+            item.style.display = 'block';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Stat counter animation
+    const observerOptions = { threshold: 0.5 };
+    const statObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.dataset.count);
+          const suffix = el.dataset.suffix || '';
+
+          if (!target) return;
+
+          let current = 0;
+          const increment = target / 50;
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+              current = target;
+              clearInterval(timer);
+            }
+            el.textContent = Math.floor(current).toLocaleString() + suffix;
+          }, 30);
+
+          statObserver.unobserve(el);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.stat-number[data-count]').forEach(el => {
+      statObserver.observe(el);
+    });
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
