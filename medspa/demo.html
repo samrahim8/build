@@ -972,6 +972,12 @@
       .form-row { grid-template-columns: 1fr; }
       .plan-modal { border-radius: 16px 16px 0 0; max-height: 95vh; }
       .hero { padding: 60px 24px 40px; }
+      .flow-overlay { padding: 16px; }
+      .flow-option { padding: 16px; gap: 12px; }
+      .flow-option-icon { width: 40px; height: 40px; font-size: 20px; }
+      .flow-title { font-size: 24px; }
+      .flow-subtitle { font-size: 15px; margin-bottom: 32px; }
+      .flow-back { top: -8px; left: -4px; }
     }
 
     /* Animations */
@@ -982,6 +988,233 @@
     .animate-in {
       animation: fadeInUp 0.5s ease forwards;
     }
+
+    /* Guided Flow Overlay */
+    .flow-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 1;
+      transition: opacity 0.4s ease;
+    }
+    .flow-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .flow-brand {
+      position: absolute;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+    .flow-container {
+      width: 100%;
+      max-width: 480px;
+    }
+    .flow-step {
+      display: none;
+      animation: fadeInUp 0.4s ease;
+    }
+    .flow-step.active {
+      display: block;
+    }
+    .flow-icon {
+      font-size: 48px;
+      margin-bottom: 24px;
+    }
+    .flow-title {
+      font-size: clamp(28px, 5vw, 36px);
+      margin-bottom: 12px;
+    }
+    .flow-subtitle {
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      line-height: 1.5;
+    }
+    .flow-btn {
+      display: inline-block;
+      padding: 18px 48px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--bg);
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .flow-btn:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+    }
+    .flow-skip {
+      margin-top: 20px;
+      font-size: 14px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .flow-skip:hover {
+      color: var(--accent);
+    }
+    .flow-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 8px 12px;
+      transition: color 0.2s;
+    }
+    .flow-back:hover {
+      color: var(--accent);
+    }
+    .flow-content {
+      position: relative;
+      text-align: center;
+    }
+    .flow-progress {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+    .flow-progress-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--border);
+      transition: all 0.3s;
+    }
+    .flow-progress-dot.active {
+      background: var(--accent);
+      transform: scale(1.2);
+    }
+    .flow-progress-dot.completed {
+      background: var(--accent);
+    }
+    .flow-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: left;
+    }
+    .flow-option {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+      font-family: inherit;
+    }
+    .flow-option:hover {
+      border-color: var(--accent);
+      background: rgba(201,168,124,0.05);
+    }
+    .flow-option.selected {
+      border-color: var(--accent);
+      background: rgba(201,168,124,0.1);
+    }
+    .flow-option-icon {
+      font-size: 24px;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-alt);
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+    .flow-option-text {
+      font-weight: 600;
+      font-size: 15px;
+      display: block;
+    }
+    .flow-option-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* Recommended zones highlight */
+    .face-zone.recommended {
+      border-color: rgba(201,168,124,0.8);
+      animation: recommendPulse 2s ease-in-out infinite;
+    }
+    @keyframes recommendPulse {
+      0%, 100% {
+        box-shadow: 0 0 15px rgba(201,168,124,0.3), 0 0 30px rgba(201,168,124,0.15);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 0 25px rgba(201,168,124,0.5), 0 0 50px rgba(201,168,124,0.25);
+        transform: scale(1.02);
+      }
+    }
+    .face-zone.recommended .zone-label {
+      opacity: 1;
+      transform: translateY(0);
+      background: var(--accent);
+    }
+
+    /* Personalized badge */
+    .personalized-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(201,168,124,0.15);
+      border-radius: 100px;
+      font-size: 13px;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+    .personalized-badge::before {
+      content: '✨';
+    }
+
+    /* First-timer friendly badge in panels */
+    .first-timer-badge {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      background: linear-gradient(135deg, rgba(201,168,124,0.12) 0%, rgba(201,168,124,0.06) 100%);
+      border-radius: 10px;
+      font-size: 13px;
+      color: var(--text);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .first-timer-badge::before {
+      content: '🌱';
+      font-size: 16px;
+      flex-shrink: 0;
+    }
   </style>
 </head>
 <body>
@@ -990,17 +1223,104 @@
     <a href="#contact" class="header-cta">Book Consultation</a>
   </header>
 
-  <section class="hero">
+  <!-- Guided Flow Overlay -->
+  <div class="flow-overlay" id="flowOverlay">
+    <div class="flow-brand">Lumière Aesthetics</div>
+    <div class="flow-container">
+      <!-- Step 1: Welcome -->
+      <div class="flow-step active" data-step="1">
+        <div class="flow-content">
+          <div class="flow-icon">✨</div>
+          <h2 class="flow-title">Let's find your perfect treatment</h2>
+          <p class="flow-subtitle">Answer 2 quick questions and we'll personalize your experience.</p>
+          <button class="flow-btn" onclick="nextStep()">Get Started</button>
+          <p class="flow-skip" onclick="skipFlow()">or skip and explore freely →</p>
+        </div>
+      </div>
+
+      <!-- Step 2: Main Concern -->
+      <div class="flow-step" data-step="2">
+        <div class="flow-content">
+          <button class="flow-back" onclick="prevStep()">← Back</button>
+          <div class="flow-progress">
+            <div class="flow-progress-dot active"></div>
+            <div class="flow-progress-dot"></div>
+          </div>
+          <h2 class="flow-title">What brings you in today?</h2>
+          <p class="flow-subtitle">Select what you're most curious about</p>
+          <div class="flow-options">
+            <button class="flow-option" data-concern="lines" onclick="selectConcern(this)">
+              <span class="flow-option-icon">〰️</span>
+              <span class="flow-option-text">Fine lines & wrinkles</span>
+              <span class="flow-option-desc">Forehead, crow's feet, frown lines</span>
+            </button>
+            <button class="flow-option" data-concern="volume" onclick="selectConcern(this)">
+              <span class="flow-option-icon">✦</span>
+              <span class="flow-option-text">Volume & contour</span>
+              <span class="flow-option-desc">Cheeks, lips, jawline definition</span>
+            </button>
+            <button class="flow-option" data-concern="skin" onclick="selectConcern(this)">
+              <span class="flow-option-icon">◯</span>
+              <span class="flow-option-text">Skin texture & tone</span>
+              <span class="flow-option-desc">Pores, dullness, sun damage</span>
+            </button>
+            <button class="flow-option" data-concern="lips" onclick="selectConcern(this)">
+              <span class="flow-option-icon">♥</span>
+              <span class="flow-option-text">Lips specifically</span>
+              <span class="flow-option-desc">Volume, shape, lip lines</span>
+            </button>
+            <button class="flow-option" data-concern="curious" onclick="selectConcern(this)">
+              <span class="flow-option-icon">👀</span>
+              <span class="flow-option-text">Just exploring</span>
+              <span class="flow-option-desc">Show me everything</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Experience Level -->
+      <div class="flow-step" data-step="3">
+        <div class="flow-content">
+          <button class="flow-back" onclick="prevStep()">← Back</button>
+          <div class="flow-progress">
+            <div class="flow-progress-dot completed"></div>
+            <div class="flow-progress-dot active"></div>
+          </div>
+          <h2 class="flow-title">Have you had treatments before?</h2>
+          <p class="flow-subtitle">This helps us tailor our recommendations</p>
+          <div class="flow-options experience-options">
+            <button class="flow-option" data-experience="first" onclick="selectExperience(this)">
+              <span class="flow-option-icon">🌱</span>
+              <span class="flow-option-text">First time</span>
+              <span class="flow-option-desc">I'm new to all of this</span>
+            </button>
+            <button class="flow-option" data-experience="some" onclick="selectExperience(this)">
+              <span class="flow-option-icon">✓</span>
+              <span class="flow-option-text">Tried a few things</span>
+              <span class="flow-option-desc">Facials, peels, maybe Botox once</span>
+            </button>
+            <button class="flow-option" data-experience="regular" onclick="selectExperience(this)">
+              <span class="flow-option-icon">⭐</span>
+              <span class="flow-option-text">Regular treatments</span>
+              <span class="flow-option-desc">I know what I like</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero" id="heroSection" style="display: none;">
     <div class="container">
       <h1>Explore what's <em>possible</em></h1>
-      <p class="hero-sub">Tap anywhere you're curious about. Build your custom treatment plan. No pressure, no commitment.</p>
+      <p class="hero-sub" id="heroSubtext">Tap anywhere you're curious about. Build your custom treatment plan. No pressure, no commitment.</p>
       <div class="hero-hint">
         <span>↓</span> Tap a zone to explore
       </div>
     </div>
   </section>
 
-  <section class="explorer-section">
+  <section class="explorer-section" id="explorerSection" style="display: none;">
     <div class="explorer-container">
       <!-- Face Photo with Hotspots -->
       <div class="face-container">
@@ -1054,8 +1374,8 @@
       <div class="treatment-panel" id="treatmentPanel">
         <div class="panel-placeholder" id="panelPlaceholder">
           <div class="panel-placeholder-icon">👆</div>
-          <h3>Tap a zone to explore</h3>
-          <p>Select an area on the face to see treatment options</p>
+          <h3 id="placeholderTitle">Tap a zone to explore</h3>
+          <p id="placeholderDesc">Select an area on the face to see treatment options</p>
         </div>
         <div class="panel-content" id="panelContent" style="display: none;">
           <div class="panel-header">
@@ -1558,6 +1878,125 @@
       }
     };
 
+    // Guided Flow State
+    let currentStep = 1;
+    let userConcern = null;
+    let userExperience = null;
+
+    // Concern to zones mapping
+    const concernZones = {
+      lines: ['forehead', 'eyes'],
+      volume: ['cheeks', 'jawline', 'chin'],
+      skin: ['forehead', 'cheeks', 'neck'],
+      lips: ['lips'],
+      curious: [] // show all equally
+    };
+
+    // Experience messaging
+    const experienceMessages = {
+      first: {
+        hero: "You're in good hands. We'll walk you through everything — tap any highlighted zone to learn more.",
+        showFirstTimerBadge: true
+      },
+      some: {
+        hero: "Let's build on what's worked. We've highlighted your areas of interest — explore at your pace.",
+        showFirstTimerBadge: false
+      },
+      regular: {
+        hero: "You know what you like. We've highlighted relevant zones — build your plan and let's get you scheduled.",
+        showFirstTimerBadge: false
+      }
+    };
+
+    function nextStep() {
+      const steps = document.querySelectorAll('.flow-step');
+      steps[currentStep - 1].classList.remove('active');
+      currentStep++;
+      steps[currentStep - 1].classList.add('active');
+    }
+
+    function prevStep() {
+      if (currentStep <= 1) return;
+      const steps = document.querySelectorAll('.flow-step');
+      steps[currentStep - 1].classList.remove('active');
+      currentStep--;
+      steps[currentStep - 1].classList.add('active');
+    }
+
+    function selectConcern(el) {
+      // Remove previous selection
+      document.querySelectorAll('.flow-option[data-concern]').forEach(opt => opt.classList.remove('selected'));
+      el.classList.add('selected');
+      userConcern = el.dataset.concern;
+
+      // Auto-advance after brief delay
+      setTimeout(() => nextStep(), 300);
+    }
+
+    function selectExperience(el) {
+      // Remove previous selection
+      document.querySelectorAll('.flow-option[data-experience]').forEach(opt => opt.classList.remove('selected'));
+      el.classList.add('selected');
+      userExperience = el.dataset.experience;
+
+      // Complete the flow
+      setTimeout(() => completeFlow(), 300);
+    }
+
+    function skipFlow() {
+      userConcern = 'curious';
+      userExperience = 'some';
+      completeFlow();
+    }
+
+    function completeFlow() {
+      // Show main content first (behind the overlay)
+      document.getElementById('heroSection').style.display = 'block';
+      document.getElementById('explorerSection').style.display = 'block';
+
+      // Fade out flow overlay
+      document.getElementById('flowOverlay').classList.add('hidden');
+
+      // Update hero text based on experience
+      const msg = experienceMessages[userExperience] || experienceMessages.some;
+      document.getElementById('heroSubtext').textContent = msg.hero;
+
+      // Highlight recommended zones
+      const zones = concernZones[userConcern] || [];
+      if (zones.length > 0) {
+        zones.forEach(zoneId => {
+          document.querySelectorAll(`[data-zone="${zoneId}"]`).forEach(el => {
+            el.classList.add('recommended');
+          });
+        });
+
+        // Update placeholder to reference highlighted zones
+        document.getElementById('placeholderTitle').textContent = 'Tap a glowing zone';
+        document.getElementById('placeholderDesc').textContent = "We've highlighted the most relevant areas for you";
+      }
+
+      // Add personalized badge if they did the flow
+      if (userConcern !== 'curious') {
+        const heroContainer = document.querySelector('.hero .container');
+        const badge = document.createElement('div');
+        badge.className = 'personalized-badge';
+        badge.textContent = 'Personalized for you';
+        heroContainer.insertBefore(badge, heroContainer.firstChild);
+      }
+
+      // Scroll to explorer after a beat
+      setTimeout(() => {
+        document.getElementById('explorerSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 500);
+
+      // Auto-select the first recommended zone after scroll
+      if (zones.length > 0) {
+        setTimeout(() => {
+          selectZone(zones[0]);
+        }, 1000);
+      }
+    }
+
     // State
     let selectedZone = null;
     let plan = [];
@@ -1606,7 +2045,15 @@
       panelConcern.textContent = data.concern;
       panelCause.textContent = data.cause;
 
-      treatmentCards.innerHTML = data.treatments.map(t => `
+      // Show first-timer message if user is new
+      const showFirstTimer = userExperience === 'first';
+      const firstTimerHTML = showFirstTimer ? `
+        <div class="first-timer-badge">
+          New to aesthetics? Don't worry — we'll explain everything at your consultation. Most treatments are gentler than you'd expect.
+        </div>
+      ` : '';
+
+      treatmentCards.innerHTML = firstTimerHTML + data.treatments.map(t => `
         <div class="treatment-card">
           <div class="treatment-name">${t.name}</div>
           <div class="treatment-stats">
